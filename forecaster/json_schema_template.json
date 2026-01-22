@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "data_version": "string",
+    "created": "string (YYYY-MM-DD)",
+    "revision": "integer"
+  },
+  "info": {
+    "balls_per_over": "integer (typically 6)",
+    "city": "string",
+    "dates": ["string (YYYY-MM-DD)"],
+    "gender": "string (e.g., 'male', 'female')",
+    "match_type": "string (e.g., 'T20')",
+    "match_type_number": "integer",
+    "officials": {
+      "match_referees": ["string"],
+      "tv_umpires": ["string"],
+      "umpires": ["string"],
+      "reserve_umpires": ["string (optional)"]
+    },
+    "outcome": {
+      "by": {
+        "runs": "integer (optional)",
+        "wickets": "integer (optional)"
+      },
+      "winner": "string (team name)"
+    },
+    "overs": "integer (typically 20 for T20)",
+    "player_of_match": ["string (optional)"],
+    "players": {
+      "TeamName1": ["string (player names)"],
+      "TeamName2": ["string (player names)"]
+    },
+    "registry": {
+      "people": {
+        "Player Name": "string (player ID)"
+      }
+    },
+    "season": "integer or string",
+    "team_type": "string (e.g., 'international', 'club')",
+    "teams": ["string (team names)"],
+    "toss": {
+      "decision": "string (e.g., 'bat', 'field')",
+      "winner": "string (team name)"
+    },
+    "venue": "string",
+    "event": {
+      "name": "string (optional)",
+      "match_number": "integer (optional)"
+    },
+    "missing": ["string (optional, e.g., 'umpires', 'player_of_match')"]
+  },
+  "innings": [
+    {
+      "team": "string (team name)",
+      "overs": [
+        {
+          "over": "integer (over number, 0-indexed)",
+          "deliveries": [
+            {
+              "batter": "string (player name)",
+              "bowler": "string (player name)",
+              "non_striker": "string (player name)",
+              "runs": {
+                "batter": "integer",
+                "extras": "integer",
+                "total": "integer"
+              },
+              "extras": {
+                "wides": "integer (optional)",
+                "noballs": "integer (optional)",
+                "byes": "integer (optional)",
+                "legbyes": "integer (optional)"
+              },
+              "wickets": [
+                {
+                  "kind": "string (e.g., 'caught', 'bowled', 'lbw', 'run out', 'stumped')",
+                  "player_out": "string (player name)",
+                  "fielders": [
+                    {
+                      "name": "string (fielder name)"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "powerplays": [
+        {
+          "from": "float (over number, e.g., 0.1)",
+          "to": "float (over number, e.g., 5.6)",
+          "type": "string (e.g., 'mandatory')"
+        }
+      ],
+      "target": {
+        "overs": "integer (optional, for second innings)",
+        "runs": "integer (optional, for second innings)"
+      }
+    }
+  ]
+}
+
