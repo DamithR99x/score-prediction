@@ -1,0 +1,7 @@
+# Ignore local environments
+.venv/
+
+# Ignore dataset and generated JSON files
+# Avoid committing all files in t20s_json
+# (both top-level and nested folders)
+t20s_json/
