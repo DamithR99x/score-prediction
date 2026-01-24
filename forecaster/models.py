@@ -1,63 +1,65 @@
 from typing import List, Dict, Optional, Any
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
+
+
+# Base model to ignore unused/unknown properties
+class ModelBase(BaseModel):
+    model_config = ConfigDict(extra='ignore')
 
 
 # Define Pydantic models for the JSON structure
-class Meta(BaseModel):
+class Meta(ModelBase):
     data_version: str
     created: str
     revision: int
 
 
-class Officials(BaseModel):
+class Officials(ModelBase):
     match_referees: List[str]
-    tv_umpires: List[str]
     umpires: List[str]
 
 
-class Outcome(BaseModel):
+class Outcome(ModelBase):
     by: Dict[str, Any]
     winner: str
 
 
-class Toss(BaseModel):
+class Toss(ModelBase):
     decision: str
     winner: str
 
 
-class MatchInfo(BaseModel):
+class MatchInfo(ModelBase):
     balls_per_over: int
-    city: str
     dates: List[str]
     gender: str
     match_type: str
     match_type_number: int
-    officials: Officials
-    outcome: Outcome
+    # officials: Officials
+    # outcome: Outcome
     overs: int
-    player_of_match: List[str]
     players: Dict[str, List[str]]
     registry: Dict[str, Dict[str, str]]
-    season: int
+    season: Any
     team_type: str
     teams: List[str]
     toss: Toss
     venue: str
 
 
-class Runs(BaseModel):
+class Runs(ModelBase):
     batter: int
     extras: int
     total: int
 
 
-class Wicket(BaseModel):
+class Wicket(ModelBase):
     kind: str
     player_out: str
-    fielders: Optional[List[Dict[str, str]]] = None
+    fielders: Optional[List[Dict[str, Any]]] = None
 
 
-class Delivery(BaseModel):
+class Delivery(ModelBase):
     batter: str
     bowler: str
     non_striker: str
@@ -66,32 +68,32 @@ class Delivery(BaseModel):
     wickets: Optional[List[Wicket]] = None
 
 
-class Over(BaseModel):
+class Over(ModelBase):
     over: int
     deliveries: List[Delivery]
 
 
-class Powerplay(BaseModel):
+class Powerplay(ModelBase):
     from_: float = Field(alias='from')
     to: float
     type: str
     
-    model_config = {"populate_by_name": True}
+    model_config = ConfigDict(extra='ignore', populate_by_name=True)
 
 
-class Target(BaseModel):
+class Target(ModelBase):
     overs: int
     runs: int
 
 
-class Innings(BaseModel):
+class Innings(ModelBase):
     team: str
     overs: List[Over]
-    powerplays: List[Powerplay]
-    target: Optional[Target] = None
+    # powerplays: List[Powerplay]
+    # target: Optional[Target] = None
 
 
-class MatchData(BaseModel):
+class MatchData(ModelBase):
     meta: Meta
     info: MatchInfo
     innings: List[Innings]
