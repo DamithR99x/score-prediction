@@ -20,8 +20,11 @@ class Officials(ModelBase):
 
 
 class Outcome(ModelBase):
-    by: Dict[str, Any]
-    winner: str
+    # Outcome can be expressed in multiple ways (e.g., {"result": "no result"})
+    # Make fields optional and tolerate variant keys.
+    result: Optional[str] = None
+    by: Optional[Dict[str, Any]] = None
+    winner: Optional[str] = None
 
 
 class Toss(ModelBase):
@@ -36,7 +39,8 @@ class MatchInfo(ModelBase):
     match_type: str
     match_type_number: int
     # officials: Officials
-    # outcome: Outcome
+    # Outcome is optional and flexible; ignore if absent or variant.
+    outcome: Optional[Outcome] = None
     overs: int
     players: Dict[str, List[str]]
     registry: Dict[str, Dict[str, str]]
