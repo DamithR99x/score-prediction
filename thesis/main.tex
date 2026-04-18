@@ -12,6 +12,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
 
 % Allow extra inter-word stretch as last resort to avoid overfull boxes
 \emergencystretch=2em
@@ -27,15 +28,25 @@
 \renewcommand{\headrulewidth}{0pt}
 
 % ==================== CHAPTER & SECTION STYLES ====================
-\titleformat{\chapter}{\normalfont\huge\bfseries}{\thechapter.}{1em}{}
+\titleformat{\chapter}[display]{\normalfont\huge\bfseries}{Chapter \thechapter}{0pt}{}
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
 \titleformat{\section}{\normalfont\large\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{1em}{}
+
+% Prefix chapter entries in TOC with "Chapter N"
+\renewcommand{\cftchappresnum}{Chapter }
+\renewcommand{\cftchapaftersnum}{: }
+\settowidth{\cftchapnumwidth}{\bfseries Chapter 9: }
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftchappagefont}{\normalfont}
 
 % ==================== TITLE PAGES & PRELIMINARIES ====================
 \begin{document}
 
+% Suppress page numbers on all pre-TOC pages
+\pagestyle{empty}
+
 % Blank first leaf (thick paper)
-\thispagestyle{empty}
 \newpage
 
 % ==================== OUTER COVER ====================
@@ -50,15 +61,21 @@
 % ==================== SUPERVISOR CERTIFICATION ====================
 \input{frontmatter/certification.tex}
 
-% Start Roman page numbering
+% Start Roman page numbering from Table of Contents
+\clearpage
+\pagestyle{fancy}
 \pagenumbering{roman}
+\setcounter{page}{1}
 
 % ==================== TABLE OF CONTENTS ====================
+\addcontentsline{toc}{chapter}{Contents}
 \tableofcontents
 \newpage
 
 % ==================== LISTS (if needed) ====================
+\addcontentsline{toc}{chapter}{List of Tables}
 \listoftables
+\addcontentsline{toc}{chapter}{List of Figures}
 \listoffigures
 
 % ==================== ACKNOWLEDGEMENT ====================
@@ -66,10 +83,6 @@
 
 % ==================== ABSTRACT ====================
 \input{frontmatter/abstract.tex}
-
-% Switch to Arabic numbering from Chapter 1
-\pagenumbering{arabic}
-\setcounter{page}{1}
 
 % ==================== CHAPTERS ====================
 \input{chapters/01_introduction.tex}
