@@ -1,0 +1,107 @@
+\chapter{Literature Review}
+
+\section{Introduction}
+
+This chapter reviews the body of knowledge relevant to the present research. The review is organised into five thematic areas. Section~2.2 examines the evolution of cricket score prediction, from early statistical frameworks to contemporary machine learning approaches. Section~2.3 surveys the development of transformer-based Large Language Models and the capabilities that underpin their use in structured prediction tasks. Section~2.4 discusses parameter-efficient fine-tuning methods, with particular attention to Low-Rank Adaptation (LoRA) and its quantised variant, QLoRA. Section~2.5 reviews the emerging literature on applying LLMs to sports analytics and numerical forecasting. Section~2.6 synthesises the reviewed work and identifies the gaps that the present study addresses.
+
+\section{Cricket Score Prediction}
+
+\subsection{Early Statistical Approaches}
+
+Quantitative analysis of cricket outcomes has a long history in the sports science literature. Among the earliest and most influential contributions is the resource-allocation framework developed by Duckworth and Lewis (1998), later revised by Stern (2016) to produce the Duckworth--Lewis--Stern (DLS) method \cite{duckworth1998fair, stern2016duckworth}. While the DLS method was designed principally to set revised targets in rain-interrupted limited-overs matches, it introduced the concept of \textit{resources} --- a joint function of overs remaining and wickets in hand --- as the fundamental currency of a batting innings. This conceptual framing has influenced much subsequent work, including the present study's treatment of remaining batting capacity as a primary predictive feature.
+
+Subsequent statistical work sought to model the run-scoring process more directly. Perera et al.\ (2012) proposed a Markov chain model of ball-by-ball outcomes, demonstrating that transitions between batting states (runs scored, wickets lost) could be captured by a set of transition probabilities estimated from historical data \cite{perera2012markov}. Such models offer interpretability but assume stationarity of the transition probabilities across venues, opposition, and match conditions --- an assumption that limits their applicability to the heterogeneous contexts of modern international T20 cricket.
+
+\subsection{Machine Learning Approaches to Score Prediction}
+
+The availability of ball-by-ball match data in structured formats, exemplified by repositories such as Cricsheet \cite{cricsheet}, has enabled a shift towards data-driven machine learning models. Sankaranarayanan et al.\ (2014) applied regression trees and support vector regression to predict ODI match outcomes, reporting improvements over linear baselines when non-linear feature interactions were exploited \cite{sankaranarayanan2014cricket}. Similar techniques were subsequently applied to T20 data, where the shorter format introduces greater variance in outcomes and makes mid-innings prediction particularly challenging.
+
+Kampakis and Thomas (2015) investigated machine learning classifiers for predicting IPL match outcomes, finding that ensemble methods such as random forests outperformed logistic regression, and that features encoding team strength and recent form were among the most discriminative \cite{kampakis2015using}. Their work highlighted the importance of incorporating qualitative team composition information alongside raw scoring statistics, a finding that directly motivates the player classification and batting strength features employed in the present study.
+
+Recurrent neural networks (RNNs) and long short-term memory (LSTM) networks have been applied to model the sequential nature of an innings. Predicting final scores from partial ball-by-ball sequences is a natural time-series completion task, and LSTMs can, in principle, capture long-range temporal dependencies within an innings. Iyer and Sharda (2009) were among the first to apply neural networks to cricket performance prediction, while more recent work has applied deep learning to predict over-by-over run tallies \cite{iyer2009prediction}. However, LSTM-based approaches require substantial volumes of aligned sequential data and are sensitive to the choice of sequence granularity, making them less straightforward to deploy than snapshot-based regression models.
+
+\subsection{Feature Engineering in T20 Analytics}
+
+A recurring theme in the cricket analytics literature is the importance of thoughtful feature engineering. Beyond raw cumulative statistics, researchers have identified several categories of features with strong predictive value.
+
+\textit{Venue characteristics} have been consistently shown to exert a significant influence on scoring patterns. Preston and Thomas (2000) demonstrated that the pitch and outfield conditions at different grounds produce systematic differences in run rates that persist across matches and are not fully explained by team-level factors \cite{preston2000batting}. The present study operationalises this insight through a per-venue par score derived from historical win percentages --- a measure of the typical score at which a batting-first team has an approximately equal chance of winning at a given ground.
+
+\textit{Batting depth and player quality} represent another critical dimension. Bailey and Clarke (2004) showed that remaining wickets are a stronger predictor of final innings totals than runs scored at a given point in an innings \cite{bailey2004predicting}. Extending this, the present study introduces a \textit{Remaining Batting Strength Score} that weights remaining players according to their classified role (specialist batter, all-rounder, utility player, or bowler), capturing not merely the quantity but the quality of the remaining batting resources.
+
+\textit{Powerplay dynamics} also play a distinctive role in T20 cricket. The mandatory fielding restrictions in the first six overs create a structurally different run-scoring environment compared to the middle and death overs \cite{bukiet2016evaluating}. Features that explicitly flag powerplay completion, as adopted in the present study, allow a model to condition its predictions on which phase of play the innings currently occupies.
+
+\subsection{Limitations of Conventional Approaches}
+
+A common limitation of the approaches reviewed above is their reliance on numeric feature vectors as inputs. This design choice, while computationally convenient, discards the contextual and semantic richness of match state. A numerical encoding of ``overs: 12, runs: 95, wickets: 3'' treats all matches with identical numeric profiles identically, regardless of whether the batting team possesses a world-class finisher yet to bat or a tail-end bowler. Language-based representations offer a more expressive medium in which such qualitative distinctions can be communicated naturally.
+
+\section{Large Language Models}
+
+\subsection{Transformer Architecture}
+
+The modern LLM ecosystem traces its origins to the transformer architecture introduced by Vaswani et al.\ (2017) \cite{vaswani2017attention}. The transformer replaces the recurrence of RNNs with a self-attention mechanism, enabling each token in a sequence to attend directly to every other token, irrespective of their relative positions. This architectural choice facilitates highly parallelisable training and has proven to scale effectively with model size, data volume, and compute budget.
+
+The transformer comprises an encoder and a decoder, though subsequent work has demonstrated the utility of encoder-only models (e.g., BERT \cite{devlin2019bert}) for classification and sequence labelling tasks, and decoder-only models (e.g., the GPT family \cite{brown2020language}) for generative language modelling. The present study employs decoder-only architectures, specifically LLaMA 3.2-3B and GPT-4.1-nano, as these models are trained to predict the next token in a sequence --- a capability directly applicable to the completion-style prediction task of generating a final score from a match-state prompt.
+
+\subsection{Pre-training and the Emergence of General Capabilities}
+
+Decoder-only LLMs are pre-trained on vast corpora of text using a next-token prediction objective. Brown et al.\ (2020) demonstrated with GPT-3 that models trained at sufficient scale exhibit \textit{emergent} capabilities: the ability to perform novel tasks from natural-language instructions or few-shot examples without any gradient-based task-specific adaptation \cite{brown2020language}. This phenomenon, termed \textit{in-context learning}, suggests that large pre-trained models acquire a form of general reasoning that can be directed towards structured prediction tasks through careful prompt engineering.
+
+Touvron et al.\ (2023) introduced LLaMA, demonstrating that carefully curated pre-training data could produce open-source models competitive with larger proprietary systems \cite{touvron2023llama}. The subsequent LLaMA 2 and LLaMA 3 releases further improved instruction-following capability and contextual reasoning. LLaMA 3.2, the base model used in the present study, is a 3-billion-parameter decoder-only model trained on a multilingual corpus and made publicly available under a permissive research licence, making it an accessible platform for domain-specific fine-tuning experiments.
+
+\subsection{LLMs for Numerical and Structured Reasoning}
+
+A prominent concern regarding the use of LLMs for quantitative prediction tasks is their inconsistent performance on arithmetic and numerical reasoning. Wei et al.\ (2022) showed that chain-of-thought prompting substantially improves multi-step mathematical reasoning in large models, though the improvement is less pronounced for smaller models below approximately 100 billion parameters \cite{wei2022chain}. For the present task --- which requires not multi-step arithmetic but rather pattern matching between a structured context and a plausible output range --- the relevant capability is associative memory: the ability to recognise that certain combinations of overs, wickets, and run rate are typically associated with specific final total ranges. Fine-tuning on domain data is expected to encode precisely this kind of associative knowledge.
+
+\section{Parameter-Efficient Fine-Tuning}
+
+\subsection{The Challenge of Full Fine-Tuning}
+
+While pre-training equips LLMs with broad general capabilities, adapting them to specific downstream tasks typically requires some form of supervised fine-tuning on task-labelled data. Full fine-tuning --- updating all model parameters with gradient descent on the target dataset --- is computationally expensive for multi-billion-parameter models and risks catastrophic forgetting of pre-trained knowledge when the fine-tuning corpus is small \cite{kirkpatrick2017overcoming}. These constraints motivate the development of parameter-efficient fine-tuning (PEFT) methods that achieve task adaptation by updating only a small subset of parameters while keeping the pre-trained weights frozen.
+
+\subsection{Low-Rank Adaptation (LoRA)}
+
+Hu et al.\ (2022) proposed Low-Rank Adaptation (LoRA), a PEFT method that injects trainable low-rank decomposition matrices into the frozen weight matrices of a pre-trained model \cite{hu2022lora}. Specifically, for a weight matrix $W \in \mathbb{R}^{d \times k}$, LoRA parameterises the update as:
+
+\begin{equation}
+    W' = W + \Delta W = W + BA
+\end{equation}
+
+where $B \in \mathbb{R}^{d \times r}$ and $A \in \mathbb{R}^{r \times k}$ are trainable matrices with rank $r \ll \min(d, k)$. Only $A$ and $B$ are updated during fine-tuning; $W$ is frozen. This approach reduces the number of trainable parameters by a factor of $d k / (r(d + k))$, which for typical transformer attention weight matrices represents a reduction of two to three orders of magnitude compared to full fine-tuning. Hu et al.\ demonstrated that LoRA-adapted models match or exceed the performance of fully fine-tuned baselines on a range of language understanding and generation benchmarks, with a fraction of the trainable parameter count.
+
+\subsection{Quantised Low-Rank Adaptation (QLoRA)}
+
+Dettmers et al.\ (2023) extended LoRA with quantisation to produce QLoRA, enabling fine-tuning of large models on consumer-grade hardware \cite{dettmers2023qlora}. QLoRA combines three techniques: (i) 4-bit NormalFloat (NF4) quantisation of the frozen pre-trained weights, which exploits the approximately normal distribution of pre-trained weight values to minimise quantisation error; (ii) double quantisation, which reduces memory overhead by quantising the quantisation constants themselves; and (iii) paged optimisers, which manage GPU memory spikes during gradient computation by offloading optimiser states to CPU memory as needed. Together, these techniques allow a 3-billion-parameter model to be fine-tuned on a single consumer-grade or free-tier cloud GPU (e.g., an NVIDIA T4 with 16~GB VRAM), which is the hardware configuration used in the present study.
+
+QLoRA has been widely adopted in the research community as a practical baseline for resource-efficient LLM adaptation, and its effectiveness has been validated across tasks including instruction tuning, summarisation, and code generation \cite{dettmers2023qlora}. Its application to domain-specific numerical prediction tasks such as that undertaken in the present study represents a natural extension of this prior work.
+
+\subsection{Supervised Fine-Tuning (SFT)}
+
+The fine-tuning paradigm employed in the present study is Supervised Fine-Tuning (SFT), in which the model is trained on a dataset of input--output pairs to maximise the likelihood of the correct output given the input under the standard causal language modelling objective. This approach is distinguished from reinforcement learning from human feedback (RLHF) \cite{ouyang2022training} and direct preference optimisation (DPO) \cite{rafailov2023direct}, which require preference-labelled data or reward models. SFT on labelled (prompt, completion) pairs is straightforward to implement using frameworks such as the Hugging Face TRL library \cite{vonwerra2022trl}, which provides the \texttt{SFTTrainer} class used in the present study.
+
+\section{LLMs in Sports Analytics and Forecasting}
+
+\subsection{Sports Analytics with Machine Learning}
+
+The application of machine learning to sports prediction has a rich and growing literature across football, basketball, baseball, and tennis \cite{haghighat2013review}. In cricket specifically, researchers have applied classification models to predict match outcomes \cite{ahmad2011predicting}, regression models to predict individual player performance \cite{iyer2009prediction}, and simulation models to generate distributional forecasts of innings totals \cite{davis2015markov}. These works collectively establish that historical match data, when appropriately processed, contains sufficient signal for useful predictive models.
+
+\subsection{Language Models for Structured and Tabular Data}
+
+A growing body of work investigates the use of LLMs as predictors for structured, tabular, or time-series data by serialising numerical records into natural-language representations. Hegselmann et al.\ (2023) showed that a fine-tuned GPT-style model could outperform gradient-boosted decision trees on tabular classification tasks when data were serialised as natural-language sentences, particularly in low-data regimes \cite{hegselmann2023tabllm}. Gruver et al.\ (2023) demonstrated that LLMs can serve as zero-shot time-series forecasters
+by encoding numerical sequences as token strings, achieving performance competitive with
+specialised forecasting models on standard benchmark datasets \cite{gruver2023large}.
+
+These results suggest that LLMs may possess latent numerical reasoning and pattern-matching capabilities that can be activated through appropriate input representations. Whether these capabilities transfer to the highly domain-specific context of in-game T20 score prediction is a central question of the present research.
+
+\subsection{LLMs Applied to Sports-Specific Tasks}
+
+Direct applications of LLMs to sports prediction tasks remain limited in the published literature, though interest in this area is growing. Huckerby et al.\ (2024) explored GPT-based models for football match outcome prediction using natural-language summaries of team statistics, finding modest but consistent improvements over baseline classifiers when the model was fine-tuned on domain-specific data \cite{huckerby2024llm}. In the context of cricket, Rajapaksha et al.\ (2024) applied transformer-based sequence models to ball-by-ball outcome prediction, reporting improved accuracy over conventional Markov chain models \cite{rajapaksha2024transformer}. However, to the best of the author's knowledge, no prior work has explicitly investigated the use of instruction-tuned or fine-tuned LLMs for in-game T20 score prediction using natural-language prompt representations.
+
+\section{Research Gap and Positioning of the Present Study}
+
+The literature reviewed in the preceding sections reveals a clear trajectory: from handcrafted statistical models, through classical machine learning with numeric feature vectors, to the emerging use of pre-trained language models for structured prediction tasks. Within this trajectory, several specific gaps are identifiable.
+
+First, existing cricket score prediction models treat match state as a numeric vector and do not exploit the semantic expressiveness of natural language as an input modality. Second, while LLMs have been applied to tabular data prediction and time-series forecasting in general domains, their application to in-game cricket score prediction has not been systematically investigated. Third, the comparative evaluation of a fine-tuned small open-source LLM against a large proprietary frontier model on a sports forecasting task has not, to the author's knowledge, been undertaken in the cricket analytics literature.
+
+\begin{sloppypar}
+The present study addresses these gaps by: (i) constructing a natural-language prompt schema that encodes rich in-game context; (ii) fine-tuning a compact, open-source LLM (Llama 3.2-3B) using QLoRA on a domain-specific dataset of historical T20 innings snapshots; and (iii) systematically benchmarking the fine-tuned model against both a zero-shot baseline and a frontier model (GPT-4.1-nano) on a held-out temporal test set. In doing so, this research makes a contribution to both the cricket analytics literature and the growing body of work on domain-specific LLM adaptation for quantitative prediction tasks.
+\end{sloppypar}

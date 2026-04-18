@@ -1,0 +1,236 @@
+% !TeX program = xelatex
+\documentclass[12pt, oneside]{report}
+
+% ==================== PACKAGES ====================
+\usepackage[paper=a4paper, left=4cm, right=2cm, top=3cm, bottom=3cm]{geometry}
+\usepackage{setspace}
+\usepackage{fontspec}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{tocloft}
+\usepackage{blindtext} % remove after testing
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{microtype}
+
+% Allow extra inter-word stretch as last resort to avoid overfull boxes
+\emergencystretch=2em
+
+% ==================== FONTS ====================
+\setmainfont{Times New Roman}
+
+% ==================== SPACING & PAGE STYLE ====================
+\doublespacing
+\pagestyle{fancy}
+\fancyhf{}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% ==================== CHAPTER & SECTION STYLES ====================
+\titleformat{\chapter}{\normalfont\huge\bfseries}{\thechapter.}{1em}{}
+\titleformat{\section}{\normalfont\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{1em}{}
+
+% ==================== TITLE PAGES & PRELIMINARIES ====================
+\begin{document}
+
+% Blank first leaf (thick paper)
+\thispagestyle{empty}
+\newpage
+
+% ==================== OUTER COVER ====================
+\input{frontmatter/title_outer.tex}
+
+% ==================== INNER COVER ====================
+\input{frontmatter/title_inner.tex}
+
+% ==================== DECLARATION ====================
+\input{frontmatter/declaration.tex}
+
+% ==================== SUPERVISOR CERTIFICATION ====================
+\input{frontmatter/certification.tex}
+
+% Start Roman page numbering
+\pagenumbering{roman}
+
+% ==================== TABLE OF CONTENTS ====================
+\tableofcontents
+\newpage
+
+% ==================== LISTS (if needed) ====================
+\listoftables
+\listoffigures
+
+% ==================== ACKNOWLEDGEMENT ====================
+\input{frontmatter/acknowledgement.tex}
+
+% ==================== ABSTRACT ====================
+\input{frontmatter/abstract.tex}
+
+% Switch to Arabic numbering from Chapter 1
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% ==================== CHAPTERS ====================
+\input{chapters/01_introduction.tex}
+\input{chapters/02_literature_review.tex}
+% ... add more chapters
+
+% ==================== REFERENCES ====================
+\clearpage
+\addcontentsline{toc}{chapter}{References}
+\begin{thebibliography}{99}
+
+\bibitem{ahmad2011predicting}
+Ahmad, H., Daud, A., Wang, L., Hong, H., Dawood, H. and Ahmad, W. (2011)
+`Prediction of winning team in one day international cricket matches using machine learning'.
+\textit{Journal of Computers}, 6(5), pp.~957--964.
+
+\bibitem{bailey2004predicting}
+Bailey, M. and Clarke, S.R. (2004)
+`Predicting the match outcome in one day international cricket matches, while the match is in progress'.
+\textit{Journal of Sports Science and Medicine}, 3(1), pp.~16--24.
+
+\bibitem{brown2020language}
+Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J.D., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G. and Askell, A. et al. (2020)
+`Language models are few-shot learners'.
+\textit{Advances in Neural Information Processing Systems}, 33, pp.~1877--1901.
+
+\bibitem{bukiet2016evaluating}
+Bukiet, B. and Harold, E.R. (2016)
+`A Markov chain approach to baseball'.
+\textit{Operations Research}, 45(1), pp.~14--23.
+
+\bibitem{cricsheet}
+Cricsheet (2024)
+\textit{Cricsheet: A cricketing archive} [online].
+Available at: \texttt{https://cricsheet.org} (Accessed: 18 April 2026).
+
+\bibitem{davis2015markov}
+Davis, J., Perera, H. and Swartz, T.B. (2015)
+`Player evaluation in Twenty20 cricket'.
+\textit{Journal of Sports Analytics}, 1(1), pp.~19--31.
+
+\bibitem{dettmers2023qlora}
+Dettmers, T., Pagnoni, A., Holtzman, A. and Zettlemoyer, L. (2023)
+`QLoRA: Efficient finetuning of quantized LLMs'.
+\textit{Advances in Neural Information Processing Systems}, 36, pp.~10088--10115.
+
+\bibitem{devlin2019bert}
+Devlin, J., Chang, M.W., Lee, K. and Toutanova, K. (2019)
+`BERT: Pre-training of deep bidirectional transformers for language understanding'.
+\textit{Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics}, pp.~4171--4186.
+
+\bibitem{duckworth1998fair}
+Duckworth, F.C. and Lewis, A.J. (1998)
+`A fair method for resetting the target in interrupted one-day cricket matches'.
+\textit{Journal of the Operational Research Society}, 49(3), pp.~220--227.
+
+\bibitem{gruver2023large}
+Gruver, N., Finzi, M., Qiu, S. and Wilson, A.G. (2023)
+`Large language models are zero-shot time series forecasters'.
+\textit{Advances in Neural Information Processing Systems}, 36.
+
+\bibitem{haghighat2013review}
+Haghighat, M., Rastegari, H. and Nourafza, N. (2013)
+`A review of data mining techniques for result prediction in sports'.
+\textit{ACSIJ Advances in Computer Science: an International Journal}, 2(5), pp.~7--12.
+
+\bibitem{hegselmann2023tabllm}
+Hegselmann, S., Buendia, A., Lang, H., Agrawal, M., Jiang, X. and Sontag, D. (2023)
+`TabLLM: Few-shot classification of tabular data with large language models'.
+\textit{Proceedings of the 26th International Conference on Artificial Intelligence and Statistics}, pp.~5549--5581.
+
+\bibitem{hu2022lora}
+Hu, E.J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., Wang, L. and Chen, W. (2022)
+`LoRA: Low-rank adaptation of large language models'.
+\textit{International Conference on Learning Representations}.
+
+\bibitem{huckerby2024llm}
+Huckerby, J., Whitworth, A. and Dhaliwal, R. (2024)
+`Leveraging large language models for football match outcome prediction'.
+\textit{Machine Learning and Data Mining for Sports Analytics Workshop, ECML PKDD}.
+
+\bibitem{iyer2009prediction}
+Iyer, S.R. and Sharda, R. (2009)
+`Prediction of athletes performance using neural networks: An application in cricket team selection'.
+\textit{Expert Systems with Applications}, 36(3), pp.~5510--5522.
+
+\bibitem{kampakis2015using}
+Kampakis, S. and Thomas, W. (2015)
+`Using machine learning to predict the outcome of English county twenty over cricket matches'.
+\textit{Journal of Sports Analytics}, 1(1), pp.~63--76.
+
+\bibitem{kirkpatrick2017overcoming}
+Kirkpatrick, J., Pascanu, R., Rabinowitz, N., Veness, J., Desjardins, G., Rusu, A.A., Milan, K., Quan, J., Ramalho, T. and Grabska-Barwinska, A. et al. (2017)
+`Overcoming catastrophic forgetting in neural networks'.
+\textit{Proceedings of the National Academy of Sciences}, 114(13), pp.~3521--3526.
+
+\bibitem{ouyang2022training}
+Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C., Mishkin, P., Zhang, C., Agarwal, S., Slama, K. and Ray, A. et al. (2022)
+`Training language models to follow instructions with human feedback'.
+\textit{Advances in Neural Information Processing Systems}, 35, pp.~27730--27744.
+
+\bibitem{perera2012markov}
+Perera, H. and Swartz, T.B. (2012)
+`Resource estimation in T20 cricket'.
+\textit{IMA Journal of Management Mathematics}, 24(3), pp.~337--347.
+
+\bibitem{preston2000batting}
+Preston, I. and Thomas, J. (2000)
+`Batting strategy in limited overs cricket'.
+\textit{Journal of the Royal Statistical Society: Series D (The Statistician)}, 49(1), pp.~95--106.
+
+\bibitem{rafailov2023direct}
+Rafailov, R., Sharma, A., Mitchell, E., Manning, C.D., Ermon, S. and Finn, C. (2023)
+`Direct preference optimization: Your language model is secretly a reward model'.
+\textit{Advances in Neural Information Processing Systems}, 36.
+
+\bibitem{rajapaksha2024transformer}
+Rajapaksha, P., Aponso, A.C. and Bhatt, C. (2024)
+`Transformer-based models for ball-by-ball outcome prediction in T20 cricket'.
+\textit{International Journal of Sports Science \& Coaching}.
+
+\bibitem{sankaranarayanan2014cricket}
+Sankaranarayanan, V.V., Sattar, J. and Lakshminarayanan, V. (2014)
+`Auto-play: A data mining approach to ODI cricket simulation and prediction'.
+\textit{Proceedings of the SIAM International Conference on Data Mining}, pp.~1064--1072.
+
+\bibitem{stern2016duckworth}
+Stern, S.E. (2016)
+`The Duckworth-Lewis-Stern method: Extending the Duckworth-Lewis methodology to deal with modern scoring rates'.
+\textit{Journal of the Operational Research Society}, 67(12), pp.~1469--1480.
+
+\bibitem{touvron2023llama}
+Touvron, H., Lavril, T., Izacard, G., Martinet, X., Lachaux, M.A., Lacroix, T., Rozi\`{e}re, B., Goyal, N., Hambro, E. and Azhar, F. et al. (2023)
+`LLaMA: Open and efficient foundation language models'.
+\textit{arXiv preprint arXiv:2302.13971}.
+
+\bibitem{vaswani2017attention}
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A.N., Kaiser, {\L}. and Polosukhin, I. (2017)
+`Attention is all you need'.
+\textit{Advances in Neural Information Processing Systems}, 30.
+
+\bibitem{vonwerra2022trl}
+von Werra, L., Belkada, Y., Tunstall, L., Beeching, E., Thrush, T. and Lambert, N. (2022)
+\textit{TRL: Transformer Reinforcement Learning} [online].
+Available at: \texttt{https://github.com/huggingface/trl} (Accessed: 18 April 2026).
+
+\bibitem{wei2022chain}
+Wei, J., Wang, X., Schuurmans, D., Bosma, M., Chi, E., Le, Q. and Zhou, D. (2022)
+`Chain-of-thought prompting elicits reasoning in large language models'.
+\textit{Advances in Neural Information Processing Systems}, 35, pp.~24824--24837.
+
+\end{thebibliography}
+
+% ==================== APPENDICES ====================
+\appendix
+\input{appendices/appendix_a.tex}
+% ... more appendices
+
+% Blank last leaf
+\clearpage
+\thispagestyle{empty}
+\newpage
+
+\end{document}

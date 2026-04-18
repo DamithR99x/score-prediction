@@ -1,0 +1,45 @@
+\chapter{Introduction}
+
+\section{Background}
+
+Cricket, one of the world's most widely followed team sports, has undergone a transformative evolution with the advent of the Twenty20 (T20) format. Introduced at the international level in 2005, T20 cricket condenses each team's innings to a maximum of twenty overs, producing a high-intensity contest that typically concludes within three hours. The format has experienced extraordinary growth in popularity, with tournaments such as the Indian Premier League (IPL), the ICC Men's T20 World Cup, and the Big Bash League attracting hundreds of millions of viewers globally. This widespread appeal has simultaneously stimulated a thriving market for sports analytics, where accurate and timely predictions can serve broadcasters, team management, fantasy gaming platforms, and betting markets alike.
+
+At the heart of T20 analytics lies the problem of score prediction: given the current state of a batting team's innings, how many runs are they likely to score in total? This question is deceptively difficult. A T20 innings is a highly dynamic, non-linear process in which scoring momentum can shift dramatically within a single over. Factors such as the number of wickets in hand, the calibre of batters yet to bat, the characteristics of the venue, the run rate established in the powerplay, and the frequency of boundaries all interact in complex, context-dependent ways. A reliable in-game prediction system must be sensitive to all of these dimensions simultaneously.
+
+\section{Problem Statement}
+
+Traditional approaches to T20 score prediction have largely relied on statistical models and handcrafted regression techniques that capture only a subset of the relevant in-game dynamics. Methods such as the Duckworth--Lewis--Stern (DLS) method, while operationally robust for rain-interrupted matches, were designed to set revised targets rather than to predict absolute first-innings totals from live match states. Machine learning approaches, including linear regression, random forests, and neural networks, have improved predictive accuracy but require careful feature selection and are generally constrained to numeric representations of match state, losing the rich contextual semantics of an evolving game situation.
+
+A fundamental limitation shared by these approaches is that they treat match state as a purely numerical vector. In reality, a cricket analyst communicating match context would naturally describe it in language: \textit{``the batting side has scored 95 runs in 12 overs for the loss of 3 wickets, with their best two batters yet to come, at a ground where the average first-innings total is 165 runs.''} This observation motivates the exploration of Large Language Models (LLMs) as an alternative prediction paradigm --- one that operates natively over natural-language representations of game state and may benefit from broad world knowledge about teams, venues, and playing conditions acquired during pre-training.
+
+\section{Research Motivation}
+
+The emergence of transformer-based LLMs has produced models with remarkable capabilities across a wide variety of tasks, including question answering, structured prediction, and numerical reasoning. Models such as OpenAI's GPT series and Meta's LLaMA family have demonstrated that a single pre-trained model, when appropriately prompted or fine-tuned, can adapt to highly specific downstream tasks with minimal additional supervision. However, the application of LLMs to quantitative sports forecasting tasks --- particularly in-game prediction under partial observability --- remains an underexplored frontier.
+
+Two complementary questions motivate this research. First, can a large, instruction-tuned frontier model leverage its general world knowledge to make competent T20 score predictions from natural-language match-state descriptions in a zero-shot setting? Second, can a substantially smaller, open-source LLM be elevated to comparable or superior performance through domain-specific supervised fine-tuning on a curated dataset of historical T20 innings data? The answers have practical implications: a small fine-tuned model is orders of magnitude cheaper to deploy and run than a frontier API, making it viable for real-time, resource-constrained applications.
+
+\section{Research Objectives}
+
+The primary objective of this research is to investigate the efficacy of Large Language Models for in-game first-innings score prediction in international men's T20 cricket. The specific objectives are as follows:
+
+\begin{enumerate}
+    \item To construct a comprehensive, temporally ordered dataset of in-game state snapshots from international men's T20 matches, drawn from the Cricsheet repository, and to engineer a set of contextual features --- including a novel \textit{Remaining Batting Strength Score} --- that encode the scoring potential of the remaining batting lineup.
+
+    \item To design a natural-language prompt schema that faithfully serialises each in-game state snapshot into a structured textual representation suitable for LLM input, and to build a labelled training corpus of prompt--completion pairs where the completion is the actual final first-innings total.
+
+    \item To establish a zero-shot baseline by evaluating the untuned \textit{Llama 3.2-3B} model on the prediction task, thereby quantifying the extent of domain knowledge present in the pre-trained model without any task-specific supervision.
+
+    \item To fine-tune the \textit{Llama 3.2-3B} model on the domain-specific dataset using Supervised Fine-Tuning (SFT) with Quantised Low-Rank Adaptation (QLoRA), and to evaluate whether fine-tuning yields a statistically meaningful improvement in prediction accuracy over the zero-shot baseline.
+
+    \item To evaluate the frontier model \textit{GPT-4.1-nano} in a zero-shot setting on the same test set, providing an upper-bound reference point from a state-of-the-art proprietary system, and to compare its performance against both the zero-shot and fine-tuned variants of the smaller open-source model.
+\end{enumerate}
+
+\section{Scope and Limitations}
+
+This research is scoped to the prediction of first-innings totals in international men's T20 cricket. Only completed first innings --- those reaching twenty overs or concluding with ten wickets fallen --- are considered, thereby excluding rain-reduced or otherwise interrupted matches. The study does not address second-innings target chasing, live win probability estimation, or player-level performance prediction.
+
+The dataset is restricted to international-level men's T20 matches available through the Cricsheet data repository. Domestic T20 franchise competitions (e.g., the IPL, BBL, or CPL) are not included, which may limit the generalisability of the fine-tuned model to those playing environments. Furthermore, the fine-tuning experiments are conducted using a parameter-efficient adapter-based approach (QLoRA) rather than full-parameter fine-tuning, owing to the computational constraints of the training infrastructure available.
+
+\section{Thesis Organisation}
+
+The remainder of this thesis is structured as follows. Chapter~2 reviews the existing literature on cricket score prediction, sports analytics using machine learning, and the application of Large Language Models to structured prediction tasks. Chapter~3 describes the data collection, pre-processing, and feature engineering pipeline, including the construction of the in-game state dataset and the design of the prompt schema. Chapter~4 presents the experimental methodology, detailing the model architectures, fine-tuning procedure, and evaluation framework. Chapter~5 reports and analyses the experimental results across all three model conditions. Chapter~6 discusses the broader implications of the findings, acknowledges the limitations of the study, and proposes directions for future work. Chapter~7 provides the concluding remarks.

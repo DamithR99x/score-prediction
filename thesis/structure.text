@@ -1,0 +1,22 @@
+thesis/
+├── main.tex
+├── COPILOT_GUIDELINES.md
+├── chapters/
+│   ├── 01_introduction.tex
+│   ├── 02_literature_review.tex
+│   ├── 03_materials_methods.tex
+│   ├── 04_results.tex
+│   ├── 05_discussion.tex
+│   ├── 06_conclusions_recommendations.tex
+│   └── ...
+├── frontmatter/
+│   ├── title_outer.tex
+│   ├── title_inner.tex
+│   ├── declaration.tex
+│   ├── certification.tex
+│   ├── abstract.tex
+│   └── acknowledgement.tex
+├── appendices/
+├── figures/
+├── bibliography.bib
+└── settings.sty          (optional – packages)
