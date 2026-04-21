@@ -26,10 +26,11 @@
 \contentsline {subsection}{\numberline {2.4.2}Low-Rank Adaptation (LoRA)}{11}{subsection.2.4.2}%
 \contentsline {subsection}{\numberline {2.4.3}Quantised Low-Rank Adaptation (QLoRA)}{12}{subsection.2.4.3}%
 \contentsline {subsection}{\numberline {2.4.4}Supervised Fine-Tuning (SFT)}{12}{subsection.2.4.4}%
-\contentsline {section}{\numberline {2.5}LLMs in Sports Analytics and Forecasting}{13}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}Sports Analytics with Machine Learning}{13}{subsection.2.5.1}%
-\contentsline {subsection}{\numberline {2.5.2}Language Models for Structured and Tabular Data}{13}{subsection.2.5.2}%
-\contentsline {subsection}{\numberline {2.5.3}LLMs Applied to Sports-Specific Tasks}{13}{subsection.2.5.3}%
-\contentsline {section}{\numberline {2.6}Research Gap and Positioning of the Present Study}{14}{section.2.6}%
-\contentsline {chapter}{References}{15}{section.2.6}%
-\contentsline {chapter}{\numberline {A}Appendix A}{19}{appendix.A}%
+\contentsline {subsection}{\numberline {2.4.5}Checkpoint Selection and Early Stopping}{13}{subsection.2.4.5}%
+\contentsline {section}{\numberline {2.5}LLMs in Sports Analytics and Forecasting}{14}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Sports Analytics with Machine Learning}{14}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Language Models for Structured and Tabular Data}{14}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}LLMs Applied to Sports-Specific Tasks}{14}{subsection.2.5.3}%
+\contentsline {section}{\numberline {2.6}Research Gap and Positioning of the Present Study}{15}{section.2.6}%
+\contentsline {chapter}{References}{17}{section.2.6}%
+\contentsline {chapter}{\numberline {A}Appendix A}{21}{appendix.A}%

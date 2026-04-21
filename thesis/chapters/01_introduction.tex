@@ -33,6 +33,8 @@ The primary objective of this research is to investigate the efficacy of Large L
 
     \item To fine-tune the \textit{Llama 3.2-3B} model on the domain-specific dataset using Supervised Fine-Tuning (SFT) with Quantised Low-Rank Adaptation (QLoRA), and to evaluate whether fine-tuning yields a statistically meaningful improvement in prediction accuracy over the zero-shot baseline.
 
+    \item To investigate the effect of checkpoint selection on generalisation performance by comparing the minimum validation-loss checkpoint against the final training checkpoint, and to determine which selection strategy produces superior out-of-sample prediction accuracy on the held-out test set.
+
     \item To evaluate the frontier model \textit{GPT-4.1-nano} in a zero-shot setting on the same test set, providing an upper-bound reference point from a state-of-the-art proprietary system, and to compare its performance against both the zero-shot and fine-tuned variants of the smaller open-source model.
 \end{enumerate}
 
