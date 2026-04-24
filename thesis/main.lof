@@ -1,3 +1,9 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Training loss (\texttt {train/loss}) — W\&B run \texttt {v64wpa10}}}{26}{figure.caption.10}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Validation loss (\texttt {eval/loss}) — W\&B run \texttt {v64wpa10}}}{26}{figure.caption.11}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Cumulative evaluation runtime (\texttt {eval/runtime}) — W\&B run \texttt {v64wpa10}}}{27}{figure.caption.12}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }

@@ -12,6 +12,9 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\graphicspath{{figures/}}
 \usepackage[hidelinks]{hyperref}
 
 % Allow extra inter-word stretch as last resort to avoid overfull boxes
@@ -87,6 +90,9 @@
 % ==================== CHAPTERS ====================
 \input{chapters/01_introduction.tex}
 \input{chapters/02_literature_review.tex}
+\input{chapters/03_materials_and_methods.tex}
+\input{chapters/04_results.tex}
+\input{chapters/05_discussion.tex}
 % ... add more chapters
 
 % ==================== REFERENCES ====================
@@ -179,6 +185,11 @@ Kirkpatrick, J., Pascanu, R., Rabinowitz, N., Veness, J., Desjardins, G., Rusu, 
 `Overcoming catastrophic forgetting in neural networks'.
 \textit{Proceedings of the National Academy of Sciences}, 114(13), pp.~3521--3526.
 
+\bibitem{litellm2023}
+BerriAI (2023)
+\textit{LiteLLM: Call all LLM APIs using the OpenAI format} [online].
+Available at: \texttt{https://github.com/BerriAI/litellm} (Accessed: 21 April 2026).
+
 \bibitem{loshchilov2019decoupled}
 Loshchilov, I. and Hutter, F. (2019)
 `Decoupled weight decay regularization'.
@@ -234,6 +245,11 @@ Touvron, H., Lavril, T., Izacard, G., Martinet, X., Lachaux, M.A., Lacroix, T., 
 Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A.N., Kaiser, {\L}. and Polosukhin, I. (2017)
 `Attention is all you need'.
 \textit{Advances in Neural Information Processing Systems}, 30.
+
+\bibitem{pedregosa2011scikit}
+Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V. et al. (2011)
+`Scikit-learn: Machine learning in Python'.
+\textit{Journal of Machine Learning Research}, 12, pp.~2825--2830.
 
 \bibitem{vonwerra2022trl}
 von Werra, L., Belkada, Y., Tunstall, L., Beeching, E., Thrush, T. and Lambert, N. (2022)

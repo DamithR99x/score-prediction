@@ -1,0 +1,304 @@
+\chapter{Materials and Methods}
+
+\section{Introduction}
+
+This chapter describes the complete pipeline employed in the present study, from raw data acquisition through to the evaluation framework used to assess model performance. The pipeline comprises five stages: (i) data collection and preprocessing; (ii) feature engineering; (iii) prompt schema design and dataset construction; (iv) model architecture and fine-tuning; and (v) evaluation. Each stage is described in sufficient detail to support reproducibility.
+
+\section{Data Collection and Preprocessing}
+
+\subsection{Source Dataset}
+
+Match data were obtained from Cricsheet \cite{cricsheet}, a publicly accessible repository that distributes structured ball-by-ball records of international cricket matches in JSON format. The full dataset of international men's T20 matches was downloaded as a ZIP archive from \texttt{https://cricsheet.org/downloads/t20s\_json.zip}. After extraction, the male match directory contained \textbf{3,113 JSON files}, covering matches from approximately 2005 through January 2026.
+
+Each JSON file represents a single match and adheres to Cricsheet schema versions 1.0.0 or 1.1.0. The top-level structure contains three keys: \texttt{meta} (schema version and file creation date), \texttt{info} (match-level metadata including teams, venue, date, toss, and outcome), and \texttt{innings} (an ordered list of innings objects, each comprising an ordered list of overs, and each over containing an ordered list of deliveries with batter, bowler, runs, extras, and wicket information). The JSON files were parsed into typed Python objects using a set of Pydantic v2 data models defined in \texttt{forecaster/models.py}, providing automatic schema validation and convenient attribute access.
+
+\subsection{Filtering Criteria}
+
+Two sequential filtering steps were applied before any features were extracted.
+
+\textbf{Step 1 — Exclusion of no-result matches.} Matches where the \texttt{info.outcome.result} field equals \texttt{"no result"} were excluded. Such matches are those abandoned due to weather or other circumstances before a result could be determined, and they do not produce a complete or meaningful first-innings score.
+
+\textbf{Step 2 — Exclusion of incomplete first innings.} Matches where the first innings had fewer than 20 overs bowled \textit{and} fewer than 10 wickets fallen were excluded. This filter removes innings that were reduced by Duckworth--Lewis--Stern adjustments or prematurely terminated by agreement, retaining only innings that represent a natural T20 conclusion (either all twenty overs bowled or the batting side dismissed). After both filters, approximately \textbf{2,895 matches} were retained, yielding approximately \textbf{28,954 labelled training rows} at ten snapshots per match.
+
+\section{Feature Engineering}
+
+\subsection{Innings Segmentation}
+
+Each qualifying first innings was partitioned into ten non-overlapping two-over sections. Section $k$ ($k = 1, 2, \ldots, 10$) corresponds to the completion of overs $2k-2$ and $2k-1$ (zero-indexed). A feature snapshot is captured at the end of each section, so a single match contributes ten rows to the dataset, each representing a distinct in-game state from which the final innings total is to be predicted.
+
+\subsection{Per-Section Features}
+
+Twenty features were extracted at the end of each two-over section, as summarised in Table~\ref{tab:features}. Cumulative features are computed over the entire innings up to the end of the section; section-level features are computed over the two overs of the section only.
+
+\begin{table}[ht]
+\centering
+\caption{Features extracted per two-over section}
+\label{tab:features}
+\begin{tabular}{p{5.5cm} p{8.5cm}}
+\hline
+\textbf{Feature} & \textbf{Definition} \\
+\hline
+\texttt{section} & Section index (1–10) \\
+\texttt{overs\_completed} & Total integer overs elapsed \\
+\texttt{balls\_remaining} & $(20 - \texttt{overs\_completed}) \times 6$ \\
+\texttt{cumulative\_runs} & Total runs scored up to end of section \\
+\texttt{cumulative\_wickets} & Total wickets lost up to end of section \\
+\texttt{cumulative\_run\_rate} & $\texttt{cumulative\_runs} / \texttt{overs\_completed}$ \\
+\texttt{runs\_in\_section} & Runs scored in this two-over section \\
+\texttt{dot\_balls\_so\_far} & Cumulative deliveries on which no runs were scored \\
+\texttt{dot\_balls\_last\_2\_overs} & Dot balls in this section \\
+\texttt{fours\_hit} & Cumulative count of batting fours \\
+\texttt{sixes\_hit} & Cumulative count of batting sixes \\
+\texttt{boundaries\_last\_2\_overs} & Fours plus sixes in this section \\
+\texttt{powerplay\_completed} & Boolean: True if \texttt{overs\_completed} $> 6$ \\
+\texttt{avg\_score} & Venue historical average first-innings total \\
+\texttt{par\_score\_filled} & Venue par score (see Section~3.3.3) \\
+\texttt{remaining\_batting\_} \texttt{strength\_score} & Weighted sum of remaining players (see Section~3.3.5) \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Venue Par Score}
+
+A per-venue par score was computed as a proxy for the typical winning total at each ground. For venues with ten or more historical matches in the dataset, the par score was defined as the 52nd percentile of first-innings totals across all qualifying matches at that venue:
+
+\begin{equation}
+    \text{par\_score}_{v} = Q_{0.52}\bigl(\{s_i : \text{venue}(i) = v\}\bigr)
+\end{equation}
+
+where $s_i$ denotes the first-innings total of match $i$. The 52nd percentile was selected as it corresponds approximately to the score at which a batting-first team achieves an even chance of winning, consistent with the resource-allocation interpretation underlying the DLS method \cite{duckworth1998fair}. For venues with fewer than ten historical matches (136 out of 235 unique venues in the dataset), the par score was set equal to the rounded historical average first-innings total at that venue as a fallback. The resulting \texttt{par\_score\_filled} column was stored in a SQLite database and joined to the section-level feature table.
+
+\subsection{Player Batting and Bowling Statistics}
+
+Per-player career statistics were aggregated across all qualifying first innings in the dataset prior to classification. The following statistics were recorded for each player:
+
+\textbf{Batting:} total runs, balls faced (excluding wide deliveries), fours, sixes, dismissal count, dot balls faced (deliveries on which no runs were scored, excluding wides), batting average ($\bar{r}_\text{bat} = \text{total runs} / \text{dismissals}$), and batting strike rate ($\text{SR}_\text{bat} = 100 \times \text{total runs} / \text{balls faced}$).
+
+\textbf{Bowling:} legal deliveries bowled (excluding wides and no-balls for ball count, but including them for run count), runs conceded (including all extras), wickets taken (run-outs excluded), wides, no-balls, dot balls bowled, bowling average ($\bar{r}_\text{bowl} = \text{runs conceded} / \text{wickets}$), and economy rate ($\text{econ} = \text{runs conceded} / \text{overs bowled}$).
+
+All statistics were stored in a SQLite database table (\texttt{first\_innings\_player\_stats}) and accessed by the player classification module.
+
+\subsection{Player Classification}
+
+Each player in the dataset was assigned one of five role classifications based on their career-aggregated statistics, using the function \texttt{classify\_t20i\_player} defined in \texttt{forecaster/player\_classification.py}. A player was assigned the label \texttt{INSUFFICIENT\_DATA} if they had appeared in fewer than 15 matches, or if their total runs were below 250 and their total wickets were below 10. For all other players, the following rules were applied in priority order (first matching rule determines the classification):
+
+\begin{enumerate}
+    \item \textbf{BOWLER:} overs per match $\geq 3$, economy $\leq 8.2$, bowling average $\leq 26$, batting average $< 20$.
+    \item \textbf{ALL\_ROUNDER (bowling-dominant):} overs per match $\geq 2$, total wickets $\geq 25$, batting average $\geq 20$, batting strike rate $\geq 120$, economy $\leq 8.8$.
+    \item \textbf{ALL\_ROUNDER (batting-dominant):} overs per match $\geq 1$, total wickets $\geq 20$, batting average $\geq 25$, batting strike rate $\geq 130$.
+    \item \textbf{BATTER:} batting average $\geq 28$, batting strike rate $\geq 125$, overs per match $< 0.5$.
+    \item \textbf{UTILITY\_PLAYER:} all remaining players who meet the minimum data threshold.
+\end{enumerate}
+
+\subsection{Remaining Batting Strength Score}
+
+At the end of each two-over section, the set of players from the batting team's eleven-player lineup who had not yet been dismissed was identified from the delivery records. The \textit{Remaining Batting Strength Score} (RBSS) was defined as a weighted sum over this set:
+
+\begin{equation}
+    \text{RBSS} = \sum_{p \,\in\, \mathcal{R}} w\bigl(\text{class}(p)\bigr)
+\end{equation}
+
+where $\mathcal{R}$ is the set of undismissed players at the end of the section, $\text{class}(p)$ is the player's assigned classification, and the weight function $w$ is defined in Table~\ref{tab:rbss_weights}. The score was rounded to two decimal places.
+
+\begin{table}[ht]
+\centering
+\caption{Player classification weights used in the Remaining Batting Strength Score}
+\label{tab:rbss_weights}
+\begin{tabular}{lc}
+\hline
+\textbf{Classification} & \textbf{Weight} \\
+\hline
+BATTER              & 1.00 \\
+ALL\_ROUNDER        & 0.80 \\
+UTILITY\_PLAYER     & 0.65 \\
+INSUFFICIENT\_DATA  & 0.45 \\
+BOWLER              & 0.30 \\
+\hline
+\end{tabular}
+\end{table}
+
+The RBSS encodes not merely the number of wickets remaining but the batting quality of the players yet to bat, providing the model with a quantitative estimate of the residual scoring capacity of the innings.
+
+\section{Prompt Schema and Dataset Construction}
+
+\subsection{Natural-Language Prompt Design}
+
+Each in-game state snapshot was serialised into a structured natural-language prompt. The prompt template is shown below, with placeholders in braces:
+
+\begin{verbatim}
+Match type: T20
+Venue: {venue}
+Venue par score: {par_score_filled}
+Batting team: {team}
+
+Overs completed: {overs_completed}
+Balls remaining: {balls_remaining}
+Runs scored: {cumulative_runs}
+Wickets lost: {cumulative_wickets}
+Current run rate: {cumulative_run_rate}
+
+Runs in last 2 overs: {runs_in_section}
+Dot balls so far: {dot_balls_so_far}
+Dot balls in last 2 overs: {dot_balls_last_2_overs}
+
+Fours hit: {fours_hit}
+Sixes hit: {sixes_hit}
+
+Powerplay completed: {Yes|No}
+
+Remaining Batting Strength Score: {RBSS}
+
+Final 1st innings score:
+\end{verbatim}
+
+The completion (target output) is the actual final first-innings total as a plain integer string (e.g., \texttt{"173"}). This design frames the prediction task as a text completion problem: given the in-game state description, the model must continue the prompt with a plausible score. Prompts were tokenised using the \texttt{meta-llama/Llama-3.2-3B} tokenizer; the maximum observed prompt length was 148 tokens, and the maximum sequence length used during training was set to 256 tokens to provide sufficient headroom for the prompt and completion combined.
+
+A second prompt variant, used exclusively for frontier model evaluation, omits the final line \texttt{"Final 1st innings score:"}, instead presenting the match state as a self-contained paragraph (the \texttt{summary} field). The frontier model receives an explicit system instruction to respond with a number only, and its response is therefore not a continuation but a standalone prediction.
+
+\subsection{Dataset Split}
+
+The dataset was partitioned chronologically by match date to prevent any form of data leakage and to simulate realistic deployment conditions, in which the model is evaluated on matches it could not have encountered during training. The partitioning boundaries and approximate sizes are given in Table~\ref{tab:split}.
+
+\begin{table}[ht]
+\centering
+\caption{Temporal train/validation/test split}
+\label{tab:split}
+\begin{tabular}{llrr}
+\hline
+\textbf{Split} & \textbf{Date range} & \textbf{Approx.\ matches} & \textbf{Approx.\ rows} \\
+\hline
+Train      & Up to 2024-12-31          & 2,408 & 24,080 \\
+Validation & 2025-01-01 -- 2025-06-30 & 237   & 2,370  \\
+Test       & 2025-07-01 onwards        & 250   & 2,500  \\
+\hline
+Total      &                           & 2,895 & 28,950 \\
+\hline
+\end{tabular}
+\end{table}
+
+The resulting datasets were published to the Hugging Face Hub under the identifiers \texttt{ratnayakatilanka/t20\_score\_prediction\_prompts} (prompt/completion pairs for fine-tuning and fine-tuned model evaluation) and \texttt{ratna\-yaka\-tilanka/t20\_score\_pre\-diction\_summary} (summary/score pairs for frontier model evaluation).
+
+\section{Model Architecture and Fine-Tuning}
+
+\subsection{Base Model}
+
+The base model selected for this study is \textit{Llama 3.2-3B} (\texttt{meta-llama/Llama-3.2-3B}), a 3-billion-parameter decoder-only transformer released by Meta AI \cite{touvron2023llama}. This model was chosen for three reasons: (i) its parameter count is sufficiently small to permit fine-tuning on consumer-grade hardware using quantisation; (ii) it is publicly available under a permissive research licence; and (iii) its scale is representative of the class of resource-efficient models that would be considered for practical deployment in resource-constrained settings.
+
+To reduce GPU memory requirements, the model was loaded with 4-bit quantisation using the \texttt{BitsAndBytesConfig} configuration. Specifically, NormalFloat 4-bit (NF4) quantisation was applied to all frozen base model weights, together with double quantisation (quantising the quantisation constants themselves to further reduce memory overhead) \cite{dettmers2023qlora}. The compute dtype was set to \texttt{float16} on NVIDIA T4 hardware.
+
+\subsection{LoRA Adapter Configuration}
+
+Low-Rank Adaptation (LoRA) adapter layers \cite{hu2022lora} were injected into the four attention projection matrices of every transformer layer: \texttt{q\_proj}, \texttt{v\_proj}, \texttt{k\_proj}, and \texttt{o\_proj}. The adapter configuration used for the training run reported in this study (LITE mode, Kaggle T4 GPU) is given in Table~\ref{tab:lora}.
+
+\begin{table}[ht]
+\centering
+\caption{LoRA adapter configuration (LITE mode)}
+\label{tab:lora}
+\begin{tabular}{lc}
+\hline
+\textbf{Parameter} & \textbf{Value} \\
+\hline
+Rank ($r$)             & 16 \\
+Alpha ($\alpha$)       & 32 \\
+Dropout                & 0.1 \\
+Bias                   & none \\
+Task type              & CAUSAL\_LM \\
+Target modules         & \texttt{q\_proj, v\_proj, k\_proj, o\_proj} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Training Procedure}
+
+Fine-tuning was conducted using the Supervised Fine-Tuning (SFT) paradigm with the \texttt{SFTTrainer} class from the Hugging Face TRL library \cite{vonwerra2022trl}. The training objective is the standard causal language modelling loss computed over the completion tokens only. Training was performed on the \textbf{Kaggle} free-tier platform using an NVIDIA T4 GPU (16 GB VRAM). The key hyperparameters are listed in Table~\ref{tab:hyperparams}. Training progress was logged to \textbf{Weights \& Biases} under the project name \texttt{t20\_score\_prediction}. The resulting LoRA adapter weights were saved to the private Hugging Face repository \texttt{ratnayakatilanka/t20\_score\_prediction\-\_keggle-2026-04-18\_04.16.40-lite}.
+
+\begin{table}[ht]
+\centering
+\caption{Training hyperparameters (LITE mode, Kaggle T4)}
+\label{tab:hyperparams}
+\begin{tabular}{lc}
+\hline
+\textbf{Hyperparameter} & \textbf{Value} \\
+\hline
+Epochs                         & 1 \\
+Per-device batch size          & 4 \\
+Gradient accumulation steps    & 2 \\
+Effective batch size           & 8 \\
+Learning rate                  & $2 \times 10^{-4}$ \\
+LR scheduler                   & cosine \\
+Warmup ratio                   & 0.03 \\
+Weight decay                   & 0.001 \\
+Max gradient norm              & 0.3 \\
+Max sequence length (tokens)   & 256 \\
+Optimizer                      & \texttt{paged\_adamw\_8bit} \\
+Evaluation interval            & every 100 steps \\
+Checkpoint save limit          & 10 \\
+Precision                      & fp16 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Checkpoint Selection}
+
+The training curves recorded by Weights \& Biases for the Kaggle fine-tuning run are shown in Figures~\ref{fig:wandb_train_loss}--\ref{fig:wandb_eval_runtime}. Figure~\ref{fig:wandb_train_loss} shows the training loss (\texttt{train/loss}), which decreases steadily across the training steps. Figure~\ref{fig:wandb_eval_loss} shows the validation loss (\texttt{eval/loss}), which reaches its minimum of \textbf{1.856} at step 800 before showing a marginal upturn, indicating the onset of overfitting. Figure~\ref{fig:wandb_eval_runtime} shows the cumulative evaluation runtime (\texttt{eval/runtime}), confirming that validation was conducted at regular 100-step intervals throughout training.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\textwidth]{wandb_train_loss}
+    \caption[Training loss (\texttt{train/loss}) — W\&B run \texttt{v64wpa10}]{Training loss (\texttt{train/loss}) over training steps recorded by Weights \& Biases for the Kaggle fine-tuning run (\texttt{t20\_score\_prediction\_keggle}, run ID: \texttt{v64wpa10}).}
+    \label{fig:wandb_train_loss}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\textwidth]{wandb_eval_loss}
+    \caption[Validation loss (\texttt{eval/loss}) — W\&B run \texttt{v64wpa10}]{Validation loss (\texttt{eval/loss}) over training steps. The minimum validation loss of 1.856 is achieved at step~800, which is selected as the best checkpoint.}
+    \label{fig:wandb_eval_loss}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\textwidth]{wandb_eval_runtime}
+    \caption[Cumulative evaluation runtime (\texttt{eval/runtime}) — W\&B run \texttt{v64wpa10}]{Cumulative evaluation runtime (\texttt{eval/runtime}) over training steps, confirming that validation was conducted at regular 100-step intervals throughout training.}
+    \label{fig:wandb_eval_runtime}
+\end{figure}
+
+Validation loss was monitored at every 100 training steps using a held-out set of 50 randomly selected validation rows. The checkpoint at \textbf{step 800} achieved the minimum observed validation loss of \textbf{1.856} and was identified as the best checkpoint. Its Hugging Face Hub revision SHA is \texttt{00be3f3f2cb4af3cd727c68284ca3dcbad7656a4}. The fine-tuned model was evaluated at both this checkpoint and at the final checkpoint (end of epoch) to determine which should be used for the primary evaluation. The comparison is reported in Chapter~5.
+
+\section{Evaluation Framework}
+
+\subsection{Experimental Conditions}
+
+Three experimental conditions were evaluated on the held-out test set:
+
+\begin{enumerate}
+    \item \textbf{Zero-shot LLaMA 3.2-3B (baseline):} The unmodified base model was prompted with the full in-game-state prompt and asked to generate a continuation. No domain-specific training was applied.
+    \item \textbf{Fine-tuned LLaMA 3.2-3B:} The QLoRA-adapted model was loaded with the step-800 checkpoint adapter and evaluated on the same test set under identical inference conditions.
+    \item \textbf{Zero-shot GPT-4.1-nano (frontier reference):} The \texttt{openai/gpt-4.1-nano} model was queried via the LiteLLM Python library \cite{litellm2023} using the summary prompt variant. The system instruction was: \textit{``Predict the final T20 first-innings score in runs. Respond with the number only, no explanation.''}
+\end{enumerate}
+
+\subsection{Inference Configuration}
+
+For both LLaMA-based conditions, inference was performed using greedy decoding (\texttt{do\_sample=False}) with a maximum of 8 new tokens generated beyond the prompt. Only the tokens generated after the end of the input prompt were decoded; the prompt tokens themselves were excluded from the output. For GPT-4.1-nano, the API was called with default sampling settings, and the raw text response was processed identically to the LLaMA output.
+
+\subsection{Output Post-processing}
+
+Raw model outputs were processed with a two-step regex extraction procedure to isolate the predicted score:
+
+\begin{enumerate}
+    \item \textbf{Primary pattern:} Extract the first standalone 2-or-3-digit number matching \texttt{\textbackslash b\textbackslash d\{2,3\}\textbackslash b}. This targets the typical range of T20 first-innings totals (roughly 60–250 runs).
+    \item \textbf{Fallback pattern:} If no match is found, extract any numeric value (integer or decimal) using \texttt{[-+]?\textbackslash d*\textbackslash.\textbackslash d+|\textbackslash d+}.
+    \item \textbf{Default:} If neither pattern yields a result, the predicted score is set to 0.
+\end{enumerate}
+
+\subsection{Performance Metrics}
+
+Model performance was assessed using three standard regression metrics computed over the test set:
+
+\begin{itemize}
+    \item \textbf{Mean Absolute Error (MAE):} $\text{MAE} = \frac{1}{n}\sum_{i=1}^{n}|{\hat{y}_i - y_i}|$, reported in runs. This is the primary metric, reflecting the average prediction error in the natural unit of the task.
+    \item \textbf{Mean Squared Error (MSE):} $\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(\hat{y}_i - y_i)^2$, penalising large individual errors more heavily than MAE.
+    \item \textbf{Coefficient of Determination ($R^2$):} $R^2 = 1 - \frac{\sum(\hat{y}_i - y_i)^2}{\sum(y_i - \bar{y})^2}$, reported as a percentage. A value of 100\% indicates perfect prediction; a value of 0\% indicates a model no better than predicting the mean; negative values indicate a model worse than the mean predictor.
+\end{itemize}
+
+All metrics were computed using the \texttt{scikit-learn} library \cite{pedregosa2011scikit}. Evaluations were conducted on 200 datapoints (the default LITE-mode setting) and on 500 datapoints for the fine-tuned model checkpoint comparison. The larger evaluation set provides a more reliable estimate of generalisation performance by reducing the influence of the chronological ordering of the test set.

@@ -1,8 +1,8 @@
 \contentsline {chapter}{Contents}{i}{chapter*.2}%
-\contentsline {chapter}{List of Tables}{iii}{chapter*.2}%
-\contentsline {chapter}{List of Figures}{iii}{chapter*.2}%
-\contentsline {chapter}{Acknowledgements}{iv}{chapter*.3}%
-\contentsline {chapter}{Abstract}{v}{chapter*.4}%
+\contentsline {chapter}{List of Tables}{v}{chapter*.2}%
+\contentsline {chapter}{List of Figures}{v}{chapter*.2}%
+\contentsline {chapter}{Acknowledgements}{vi}{chapter*.3}%
+\contentsline {chapter}{Abstract}{vii}{chapter*.4}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Background}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Problem Statement}{2}{section.1.2}%
@@ -32,5 +32,48 @@
 \contentsline {subsection}{\numberline {2.5.2}Language Models for Structured and Tabular Data}{14}{subsection.2.5.2}%
 \contentsline {subsection}{\numberline {2.5.3}LLMs Applied to Sports-Specific Tasks}{14}{subsection.2.5.3}%
 \contentsline {section}{\numberline {2.6}Research Gap and Positioning of the Present Study}{15}{section.2.6}%
-\contentsline {chapter}{References}{17}{section.2.6}%
-\contentsline {chapter}{\numberline {A}Appendix A}{21}{appendix.A}%
+\contentsline {chapter}{\numberline {3}Materials and Methods}{17}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Introduction}{17}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Data Collection and Preprocessing}{17}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Source Dataset}{17}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Filtering Criteria}{18}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Feature Engineering}{18}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Innings Segmentation}{18}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Per-Section Features}{19}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Venue Par Score}{19}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Player Batting and Bowling Statistics}{20}{subsection.3.3.4}%
+\contentsline {subsection}{\numberline {3.3.5}Player Classification}{20}{subsection.3.3.5}%
+\contentsline {subsection}{\numberline {3.3.6}Remaining Batting Strength Score}{21}{subsection.3.3.6}%
+\contentsline {section}{\numberline {3.4}Prompt Schema and Dataset Construction}{22}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Natural-Language Prompt Design}{22}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Dataset Split}{23}{subsection.3.4.2}%
+\contentsline {section}{\numberline {3.5}Model Architecture and Fine-Tuning}{24}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Base Model}{24}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}LoRA Adapter Configuration}{24}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Training Procedure}{25}{subsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.5.4}Checkpoint Selection}{25}{subsection.3.5.4}%
+\contentsline {section}{\numberline {3.6}Evaluation Framework}{27}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Experimental Conditions}{27}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Inference Configuration}{28}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}Output Post-processing}{28}{subsection.3.6.3}%
+\contentsline {subsection}{\numberline {3.6.4}Performance Metrics}{28}{subsection.3.6.4}%
+\contentsline {chapter}{\numberline {4}Results}{30}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction}{30}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Zero-Shot Baseline: Llama 3.2-3B}{30}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Fine-Tuned Llama 3.2-3B: Checkpoint Comparison}{31}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Overview}{31}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Effect of Checkpoint Selection at 200 Datapoints}{31}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Effect of Checkpoint Selection at 500 Datapoints}{32}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Prediction Accuracy at 500 Datapoints}{32}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}Zero-Shot Frontier Model: GPT-4.1-nano}{33}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Cross-Condition Comparison}{34}{section.4.5}%
+\contentsline {chapter}{\numberline {5}Discussion}{36}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Introduction}{36}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Effectiveness of Fine-Tuning for Score Prediction}{36}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Role of Feature Engineering and Prompt Schema}{37}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Checkpoint Selection and Generalisation}{38}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Positioning Against the Literature}{39}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Limitations}{40}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Future Work}{41}{section.5.7}%
+\contentsline {chapter}{References}{43}{section.5.7}%
+\contentsline {chapter}{\numberline {A}Appendix A}{47}{appendix.A}%

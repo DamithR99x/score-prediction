@@ -1,0 +1,73 @@
+\chapter{Discussion}
+
+\section{Introduction}
+
+This chapter interprets the experimental results presented in Chapter~4 in the context of the research objectives stated in Section~1.4. Section~5.2 discusses the effectiveness of fine-tuning relative to both the zero-shot LLaMA baseline and the frontier model. Section~5.3 examines the role of the engineered features and prompt schema in enabling model learning. Section~5.4 interprets the checkpoint selection findings. Section~5.5 positions the results relative to the existing literature. Section~5.6 discusses the limitations of the study, and Section~5.7 proposes directions for future research.
+
+\section{Effectiveness of Fine-Tuning for Score Prediction}
+
+The most prominent finding of this study is the large and consistent performance gap between the fine-tuned \textit{Llama 3.2-3B} model and the two zero-shot baselines. The fine-tuned model achieves an MAE of 16.51 runs and an $R^2$ of 68.3\%, whereas the zero-shot \textit{Llama 3.2-3B} baseline achieves an MAE of 71.31 runs and an $R^2$ of $-$317.4\%. This 76.8\% reduction in MAE and the shift from strongly negative to positive $R^2$ upon fine-tuning makes clear that the base pre-trained model possesses no useful prior knowledge for this task in the zero-shot setting.
+
+This outcome is consistent with the theoretical motivation for supervised fine-tuning of LLMs on specialised tasks \cite{ouyang2022training}. Cricket scoring dynamics --- especially the non-linear relationship between early-innings run rate, wickets in hand, over count, venue characteristics, and final total --- are not the subject of large-scale structured training data in general pre-training corpora. Prose commentary, match reports, and encyclopaedic articles about cricket are abundant on the internet, but they do not encode the kind of quantitative, conditional distribution that a model needs to learn for score prediction from a mid-innings state. Fine-tuning on 6,095 structured examples of the form ``here is the current match state; the final score was $X$'' directly provides this mapping.
+
+The comparison with \textit{GPT-4.1-nano} is equally illuminating. Despite \textit{GPT-4.1-nano} being trained on a substantially larger corpus with vastly more parameters, it achieves an MAE of 30.02 runs and an $R^2$ of only 14.0\% --- substantially worse than the fine-tuned model. This supports a key premise of the study: that scale alone does not compensate for the absence of domain-specific fine-tuning on structured quantitative data. The qualitative observation that \textit{GPT-4.1-nano} tends to underestimate final totals from early-innings states --- for example, predicting 89 runs when 14 runs have been scored in 2 overs at a high-scoring venue --- suggests that the frontier model applies a rough proportional scaling heuristic (``14 runs in 2 overs projects to around 90 runs in 20 overs'') without accounting for the empirically observed acceleration in run-scoring that characterises T20 cricket. In contrast, the fine-tuned model has learned from thousands of examples in which a 7-run-per-over early rate at a 160-par venue results in a final total well above the raw projection.
+
+\section{Role of Feature Engineering and Prompt Schema}
+
+The strong performance of the fine-tuned model cannot be attributed to fine-tuning alone. A key design decision in this work is the translation of raw ball-by-ball match data into a richly contextualised natural-language prompt that encodes features not recoverable from a bare score-and-wickets description. Three engineered features are particularly significant.
+
+\textbf{Venue par score} normalises the prediction target relative to the ground's historical scoring environment. A model trained without this feature would need to learn venue-specific scoring rates implicitly from the venue name, which is a substantially harder problem. By encoding the par score directly in the prompt (e.g., ``venue par score: 162''), the model is given an explicit reference point around which to calibrate its prediction.
+
+\textbf{Role-Based Scoring System (RBSS)} captures the batting depth remaining beyond the current over, weighted by the expected contributions of the remaining batters' roles. Without this feature, two match states with identical over-counts and scores but very different batting line-ups would be indistinguishable to the model. The inclusion of RBSS allows the model to infer, for example, that a tail-heavy batting lineup is unlikely to sustain the current scoring rate into the final overs.
+
+\textbf{Player classification} (batter type, bowler tier) provides role information for the active batters and the bowling attack, enabling the model to contextualise individual over performance within the broader quality of the players involved.
+
+The verbatim prompt template was designed to be both human-readable and machine-parseable, allowing the LLM to directly associate the structured field values with the prediction target during supervised fine-tuning. The segment-based construction of one prompt per over boundary, rather than per match, amplifies the effective training set size and presents the model with diverse in-progress states from across each innings.
+
+\section{Checkpoint Selection and Generalisation}
+
+The checkpoint selection analysis provides empirical support for early-stopping based on minimum validation loss as the preferred model selection criterion \cite{prechelt1998early}. At 200 test datapoints, the final epoch checkpoint appears to outperform step-800 (MAE 16.12 vs.\ 17.05), but the MSE comparison contradicts this ordering (601 vs.\ 618), indicating that the 200-point evaluation is subject to sample noise. At 500 datapoints, the step-800 checkpoint outperforms the final checkpoint on all three metrics consistently, albeit by a narrow margin.
+
+This pattern is characteristic of mild overfitting: continued training beyond the validation-loss minimum improves performance on the training distribution but introduces a small generalisation penalty on the unseen test set. In the context of this study, the effect is modest --- the difference between checkpoints is less than 0.03 runs in MAE at 500 datapoints --- because QLoRA fine-tuning with low-rank adapters is inherently regularised. Full fine-tuning of all model weights would be expected to exhibit a larger and earlier divergence between the minimum-validation-loss checkpoint and the final checkpoint.
+
+The reversal of checkpoint ordering between the 200- and 500-point evaluations also highlights the practical importance of test-set size in evaluating generative prediction models. A 200-point temporally contiguous evaluation window can be dominated by a cluster of matches at a particular venue or tournament stage, distorting the apparent relative performance of two otherwise comparable models. The larger 500-point evaluation is more representative of the full test distribution and therefore a more reliable basis for model selection.
+
+\section{Positioning Against the Literature}
+
+The MAE of 16.51 runs achieved by the fine-tuned model compares favourably with prior cricket score prediction work. Traditional machine learning approaches applied to T20 data have typically reported MAE values in the range of 10--25 runs depending on the over at which the prediction is made and the features available \cite{iyer2009prediction,kampakis2015using}. The present model predicts the final score at each over boundary from the first over through the 19th, covering a wider range of innings states than many prior systems that restrict prediction to later-innings states where uncertainty is lower.
+
+Regression-based and Markov chain approaches \cite{bailey2004predicting,perera2012markov} achieve higher accuracy in constrained settings (e.g., predicting from over 10 onwards) but require explicit stochastic models of ball-outcome transition probabilities that must be estimated per venue and per match-up. The present approach requires no such hand-crafted probabilistic model: the LLM learns the scoring distribution implicitly from the fine-tuning data, with domain knowledge injected through engineered features.
+
+The broader literature on LLMs applied to numerical and tabular prediction tasks has shown that fine-tuned small LLMs can match or exceed larger zero-shot models on domain-specific tasks when provided with structured, informative prompts \cite{hegselmann2023tabllm,gruver2023large}. The results of this study are consistent with this emerging finding, and extend it to a real-world sports analytics setting characterised by high within-match stochasticity.
+
+\section{Limitations}
+
+Several limitations of the present study should be acknowledged.
+
+\textbf{Match data scope.} The training and evaluation data are restricted to international men's T20 matches sourced from Cricsheet. Domestic T20 leagues (Indian Premier League, Big Bash League, Pakistan Super League, and others) account for the majority of professional T20 cricket played globally and may exhibit markedly different scoring dynamics due to ground dimensions, match conditions, and player composition. The model trained in this study cannot be assumed to generalise to domestic league contexts without retraining on league-specific data.
+
+\textbf{Quantisation and hardware.} Both the zero-shot baseline and the fine-tuned model were evaluated using 4-bit NF4 quantisation on a Kaggle T4 GPU, which is a consumer-grade accelerator. Full-precision inference on a larger accelerator could yield modestly different predictions. Similarly, the fine-tuning was performed with QLoRA adapters rather than full fine-tuning of all model weights. Full fine-tuning on a larger GPU cluster may yield further performance improvements, though at substantially higher computational cost.
+
+\textbf{Base model size.} The study uses \textit{Llama 3.2-3B} as the base model. Larger open-source models (e.g., \textit{Llama 3.2-8B} or \textit{Llama 3.1-70B}) may achieve better performance in both the zero-shot and fine-tuned settings. The choice of a 3B model was governed by the available Kaggle T4 GPU memory budget. The relative improvement from fine-tuning may differ for larger base models.
+
+\textbf{Evaluation on a single fine-tuning run.} The fine-tuned model results are from a single training run on Kaggle. Variation in model performance across multiple fine-tuning runs with different random seeds has not been quantified. The reported results should therefore be interpreted as point estimates rather than stable averages.
+
+\textbf{Zero-shot LLaMA re-run.} The zero-shot \textit{Llama 3.2-3B} evaluation was conducted on Google Colab in a single session. While the results are internally consistent and align with theoretical expectations, independent replication of the zero-shot baseline was not performed.
+
+\textbf{Temporal test split and distribution shift.} The temporal test split ensures that test matches postdate all training matches, providing a realistic evaluation scenario. However, international cricket schedules are not uniformly distributed in time: test matches may cluster around major tournaments, which could introduce venue and team-composition biases not present in the training data. This risk was partially mitigated by the large size of the test set (up to 500 datapoints), but a stratified analysis by tournament or time period was beyond the scope of the present work.
+
+\section{Future Work}
+
+Several directions for future research follow naturally from the present findings.
+
+\textbf{Extension to domestic T20 leagues.} The most immediately impactful extension would be to incorporate ball-by-ball data from major domestic leagues into the training pipeline. The Cricsheet archive includes IPL, BBL, and PSL data that could be processed through the same feature-engineering and prompt-generation pipeline developed in this work, enabling a model trained on a substantially broader and more commercially relevant distribution of matches.
+
+\textbf{Larger and more recent base models.} Testing the fine-tuning pipeline with more recent and larger open-source models --- such as \textit{Llama 3.1-8B} or \textit{Mistral-7B-Instruct} --- would determine whether the performance gains from fine-tuning are robust to the choice of base model and whether larger models exhibit steeper improvement curves with the same training data volume.
+
+\textbf{Second-innings prediction.} The current study is restricted to first-innings prediction. Extending the framework to second-innings prediction, where the target (winning or losing by a given margin) is a dynamic chase target rather than an open final total, would substantially broaden the practical applicability of the approach. Second-innings states also provide richer contextual features (current chase target, required run rate, resources remaining) that may be well-suited to natural-language prompt encoding.
+
+\textbf{Live deployment and real-time inference.} The inference pipeline developed in this study evaluates pre-generated prompts from stored match data. Integrating the pipeline with a live data feed --- such as the ESPN Cricinfo API or Cricsheet's near-real-time updates --- would enable evaluation of the model in a true live prediction setting, where the prompt is generated from ball-by-ball updates as the innings progresses.
+
+\textbf{Reinforcement learning from human feedback.} The current fine-tuning objective is supervised regression over the predicted final score. An alternative approach would be to frame the prediction task as a generation problem optimised with direct preference optimisation (DPO) \cite{rafailov2023direct} or a custom reward signal that penalises large errors more strongly than small ones, potentially improving calibration in high-variance early-innings states.
+
+\textbf{Uncertainty quantification.} The model currently produces a single point prediction. Generating a prediction interval or probability distribution over final scores --- for example, by sampling multiple completions with non-zero temperature and summarising the distribution --- would be more informative for downstream applications such as in-play betting markets or broadcast commentary tools, where quantification of prediction uncertainty is valuable.

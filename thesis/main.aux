@@ -4,11 +4,11 @@
 \HyPL@Entry{0<</S/D>>}
 \HyPL@Entry{4<</S/r>>}
 \@writefile{toc}{\contentsline {chapter}{Contents}{i}{chapter*.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{List of Tables}{iii}{chapter*.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{List of Figures}{iii}{chapter*.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{Acknowledgements}{iv}{chapter*.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{Abstract}{v}{chapter*.4}\protected@file@percent }
-\HyPL@Entry{10<</S/D>>}
+\@writefile{toc}{\contentsline {chapter}{List of Tables}{v}{chapter*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{List of Figures}{v}{chapter*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Acknowledgements}{vi}{chapter*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Abstract}{vii}{chapter*.4}\protected@file@percent }
+\HyPL@Entry{12<</S/D>>}
 \@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -76,6 +76,98 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5.2}Language Models for Structured and Tabular Data}{14}{subsection.2.5.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5.3}LLMs Applied to Sports-Specific Tasks}{14}{subsection.2.5.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {2.6}Research Gap and Positioning of the Present Study}{15}{section.2.6}\protected@file@percent }
+\citation{cricsheet}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Materials and Methods}{17}{chapter.3}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Introduction}{17}{section.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Data Collection and Preprocessing}{17}{section.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Source Dataset}{17}{subsection.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Filtering Criteria}{18}{subsection.3.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Feature Engineering}{18}{section.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Innings Segmentation}{18}{subsection.3.3.1}\protected@file@percent }
+\citation{duckworth1998fair}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Per-Section Features}{19}{subsection.3.3.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Features extracted per two-over section}}{19}{table.caption.5}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:features}{{3.1}{19}{Features extracted per two-over section}{table.caption.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Venue Par Score}{19}{subsection.3.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.4}Player Batting and Bowling Statistics}{20}{subsection.3.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.5}Player Classification}{20}{subsection.3.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.6}Remaining Batting Strength Score}{21}{subsection.3.3.6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces Player classification weights used in the Remaining Batting Strength Score}}{21}{table.caption.6}\protected@file@percent }
+\newlabel{tab:rbss_weights}{{3.2}{21}{Player classification weights used in the Remaining Batting Strength Score}{table.caption.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Prompt Schema and Dataset Construction}{22}{section.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Natural-Language Prompt Design}{22}{subsection.3.4.1}\protected@file@percent }
+\citation{touvron2023llama}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Dataset Split}{23}{subsection.3.4.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.3}{\ignorespaces Temporal train/validation/test split}}{23}{table.caption.7}\protected@file@percent }
+\newlabel{tab:split}{{3.3}{23}{Temporal train/validation/test split}{table.caption.7}{}}
+\citation{dettmers2023qlora}
+\citation{hu2022lora}
+\citation{vonwerra2022trl}
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Model Architecture and Fine-Tuning}{24}{section.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}Base Model}{24}{subsection.3.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}LoRA Adapter Configuration}{24}{subsection.3.5.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.4}{\ignorespaces LoRA adapter configuration (LITE mode)}}{24}{table.caption.8}\protected@file@percent }
+\newlabel{tab:lora}{{3.4}{24}{LoRA adapter configuration (LITE mode)}{table.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.3}Training Procedure}{25}{subsection.3.5.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.5}{\ignorespaces Training hyperparameters (LITE mode, Kaggle T4)}}{25}{table.caption.9}\protected@file@percent }
+\newlabel{tab:hyperparams}{{3.5}{25}{Training hyperparameters (LITE mode, Kaggle T4)}{table.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.4}Checkpoint Selection}{25}{subsection.3.5.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Training loss (\texttt  {train/loss}) — W\&B run \texttt  {v64wpa10}}}{26}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:wandb_train_loss}{{3.1}{26}{Training loss (\texttt {train/loss}) — W\&B run \texttt {v64wpa10}}{figure.caption.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Validation loss (\texttt  {eval/loss}) — W\&B run \texttt  {v64wpa10}}}{26}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:wandb_eval_loss}{{3.2}{26}{Validation loss (\texttt {eval/loss}) — W\&B run \texttt {v64wpa10}}{figure.caption.11}{}}
+\citation{litellm2023}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Cumulative evaluation runtime (\texttt  {eval/runtime}) — W\&B run \texttt  {v64wpa10}}}{27}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:wandb_eval_runtime}{{3.3}{27}{Cumulative evaluation runtime (\texttt {eval/runtime}) — W\&B run \texttt {v64wpa10}}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.6}Evaluation Framework}{27}{section.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}Experimental Conditions}{27}{subsection.3.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}Inference Configuration}{28}{subsection.3.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.3}Output Post-processing}{28}{subsection.3.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.4}Performance Metrics}{28}{subsection.3.6.4}\protected@file@percent }
+\citation{pedregosa2011scikit}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Results}{30}{chapter.4}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Introduction}{30}{section.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Zero-Shot Baseline: Llama 3.2-3B}{30}{section.4.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Zero-shot \textit  {Llama 3.2-3B} baseline evaluation results (200 datapoints)}}{31}{table.caption.13}\protected@file@percent }
+\newlabel{tab:zeroshot_results}{{4.1}{31}{Zero-shot \textit {Llama 3.2-3B} baseline evaluation results (200 datapoints)}{table.caption.13}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Fine-Tuned Llama 3.2-3B: Checkpoint Comparison}{31}{section.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Overview}{31}{subsection.4.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}Effect of Checkpoint Selection at 200 Datapoints}{31}{subsection.4.3.2}\protected@file@percent }
+\citation{prechelt1998early}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Fine-tuned \textit  {Llama 3.2-3B} checkpoint comparison on the temporal test set}}{32}{table.caption.14}\protected@file@percent }
+\newlabel{tab:checkpoint_comparison}{{4.2}{32}{Fine-tuned \textit {Llama 3.2-3B} checkpoint comparison on the temporal test set}{table.caption.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.3}Effect of Checkpoint Selection at 500 Datapoints}{32}{subsection.4.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.4}Prediction Accuracy at 500 Datapoints}{32}{subsection.4.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Zero-Shot Frontier Model: GPT-4.1-nano}{33}{section.4.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces \textit  {GPT-4.1-nano} zero-shot evaluation results (200 datapoints)}}{33}{table.caption.15}\protected@file@percent }
+\newlabel{tab:gpt_results}{{4.3}{33}{\textit {GPT-4.1-nano} zero-shot evaluation results (200 datapoints)}{table.caption.15}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Cross-Condition Comparison}{34}{section.4.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Cross-condition performance comparison on the temporal test set}}{34}{table.caption.16}\protected@file@percent }
+\newlabel{tab:full_comparison}{{4.4}{34}{Cross-condition performance comparison on the temporal test set}{table.caption.16}{}}
+\citation{ouyang2022training}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Discussion}{36}{chapter.5}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Introduction}{36}{section.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Effectiveness of Fine-Tuning for Score Prediction}{36}{section.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Role of Feature Engineering and Prompt Schema}{37}{section.5.3}\protected@file@percent }
+\citation{prechelt1998early}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Checkpoint Selection and Generalisation}{38}{section.5.4}\protected@file@percent }
+\citation{iyer2009prediction}
+\citation{kampakis2015using}
+\citation{bailey2004predicting}
+\citation{perera2012markov}
+\citation{hegselmann2023tabllm}
+\citation{gruver2023large}
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}Positioning Against the Literature}{39}{section.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.6}Limitations}{40}{section.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.7}Future Work}{41}{section.5.7}\protected@file@percent }
+\citation{rafailov2023direct}
 \bibcite{ahmad2011predicting}{1}
 \bibcite{bailey2004predicting}{2}
 \bibcite{brown2020language}{3}
@@ -84,7 +176,7 @@
 \bibcite{davis2015markov}{6}
 \bibcite{dettmers2023qlora}{7}
 \bibcite{devlin2019bert}{8}
-\@writefile{toc}{\contentsline {chapter}{References}{17}{section.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{References}{43}{section.5.7}\protected@file@percent }
 \bibcite{duckworth1998fair}{9}
 \bibcite{gruver2023large}{10}
 \bibcite{haghighat2013review}{11}
@@ -94,20 +186,22 @@
 \bibcite{iyer2009prediction}{15}
 \bibcite{kampakis2015using}{16}
 \bibcite{kirkpatrick2017overcoming}{17}
-\bibcite{loshchilov2019decoupled}{18}
-\bibcite{ouyang2022training}{19}
-\bibcite{perera2012markov}{20}
-\bibcite{prechelt1998early}{21}
-\bibcite{preston2000batting}{22}
-\bibcite{rafailov2023direct}{23}
-\bibcite{rajapaksha2024transformer}{24}
-\bibcite{sankaranarayanan2014cricket}{25}
-\bibcite{stern2016duckworth}{26}
-\bibcite{touvron2023llama}{27}
-\bibcite{vaswani2017attention}{28}
-\bibcite{vonwerra2022trl}{29}
-\bibcite{wei2022chain}{30}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Appendix A}{21}{appendix.A}\protected@file@percent }
+\bibcite{litellm2023}{18}
+\bibcite{loshchilov2019decoupled}{19}
+\bibcite{ouyang2022training}{20}
+\bibcite{perera2012markov}{21}
+\bibcite{prechelt1998early}{22}
+\bibcite{preston2000batting}{23}
+\bibcite{rafailov2023direct}{24}
+\bibcite{rajapaksha2024transformer}{25}
+\bibcite{sankaranarayanan2014cricket}{26}
+\bibcite{stern2016duckworth}{27}
+\bibcite{touvron2023llama}{28}
+\bibcite{vaswani2017attention}{29}
+\bibcite{pedregosa2011scikit}{30}
+\bibcite{vonwerra2022trl}{31}
+\bibcite{wei2022chain}{32}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Appendix A}{47}{appendix.A}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\gdef \@abspage@last{31}
+\gdef \@abspage@last{59}

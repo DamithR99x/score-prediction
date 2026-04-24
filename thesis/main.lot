@@ -1,3 +1,15 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Features extracted per two-over section}}{19}{table.caption.5}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Player classification weights used in the Remaining Batting Strength Score}}{21}{table.caption.6}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Temporal train/validation/test split}}{23}{table.caption.7}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces LoRA adapter configuration (LITE mode)}}{24}{table.caption.8}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Training hyperparameters (LITE mode, Kaggle T4)}}{25}{table.caption.9}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Zero-shot \textit {Llama 3.2-3B} baseline evaluation results (200 datapoints)}}{31}{table.caption.13}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Fine-tuned \textit {Llama 3.2-3B} checkpoint comparison on the temporal test set}}{32}{table.caption.14}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces \textit {GPT-4.1-nano} zero-shot evaluation results (200 datapoints)}}{33}{table.caption.15}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Cross-condition performance comparison on the temporal test set}}{34}{table.caption.16}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }

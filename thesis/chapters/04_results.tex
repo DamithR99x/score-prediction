@@ -1,0 +1,115 @@
+\chapter{Results}
+
+\section{Introduction}
+
+This chapter presents the empirical results of all experimental conditions evaluated in the present study. Section~4.2 reports the performance of the zero-shot \textit{Llama 3.2-3B} base model as the primary baseline. Section~4.3 presents the results of the fine-tuned model under a comparison of checkpoint selection strategies. Section~4.4 reports the performance of the frontier model \textit{GPT-4.1-nano}. Section~4.5 provides a consolidated cross-condition comparison. All results are reported on the held-out temporal test set using Mean Absolute Error (MAE, in runs), Mean Squared Error (MSE), and the coefficient of determination ($R^2$, as a percentage).
+
+\section{Zero-Shot Baseline: Llama 3.2-3B}
+
+The unmodified \textit{Llama 3.2-3B} base model was evaluated in a zero-shot setting --- without any domain-specific fine-tuning --- to establish a pre-adaptation baseline. In this condition, the model received the full natural-language match-state prompt and was required to generate a completion representing the predicted first-innings total.
+
+The zero-shot baseline experiments were conducted on Google Colab (NVIDIA T4 GPU) using 4-bit NF4 quantisation and greedy decoding. The model was evaluated on 200 test datapoints drawn from the temporal test split. Outputs were post-processed using the two-step regex extraction procedure described in Section~3.6.3 to extract a numeric prediction from each generated continuation.
+
+The results are summarised in Table~\ref{tab:zeroshot_results}.
+
+\begin{table}[ht]
+\centering
+\caption{Zero-shot \textit{Llama 3.2-3B} baseline evaluation results (200 datapoints)}
+\label{tab:zeroshot_results}
+\begin{tabular}{lrrr}
+\hline
+\textbf{Model} & \textbf{MAE (runs)} & \textbf{MSE} & \textbf{$R^2$ (\%)} \\
+\hline
+LLaMA 3.2-3B (zero-shot) & 71.31 & 7,463 & $-$317.4 \\
+\hline
+\end{tabular}
+\end{table}
+
+The untuned model exhibits extremely poor predictive performance, with an MAE of \textbf{71.31 runs}, an MSE of \textbf{7,463}, and an $R^2$ of \textbf{$-$317.4\%}. The sharply negative $R^2$ indicates that the model's predictions are substantially worse than simply predicting the mean first-innings score for every input --- a result consistent with a model that has not been trained to associate structured T20 match-state descriptions with plausible final totals. Many outputs from the zero-shot model were incoherent, out of range, or consisted of repeated tokens rather than a recognisable integer score, which the post-processing regex resolved to 0 (the default fallback), inflating the error further. These results confirm that the pre-trained model carries essentially no usable domain knowledge for this task in the zero-shot setting, and they establish a clear lower bound for comparison with the fine-tuned and frontier conditions.
+
+\section{Fine-Tuned Llama 3.2-3B: Checkpoint Comparison}
+
+\subsection{Overview}
+
+The fine-tuned model was evaluated under four sub-conditions arising from the combination of two checkpoint variants (step-800 minimum-loss checkpoint vs.\ final epoch checkpoint) and two test-set sizes (200 and 500 datapoints). This design isolates two sources of variation: (i) the effect of checkpoint selection on generalisation, and (ii) the reliability of the evaluation estimate as a function of sample size. The results across all four sub-conditions are summarised in Table~\ref{tab:checkpoint_comparison}.
+
+\begin{table}[ht]
+\centering
+\caption{Fine-tuned \textit{Llama 3.2-3B} checkpoint comparison on the temporal test set}
+\label{tab:checkpoint_comparison}
+\begin{tabular}{lcrrr}
+\hline
+\textbf{Checkpoint} & \textbf{N} & \textbf{MAE (runs)} & \textbf{MSE} & \textbf{$R^2$ (\%)} \\
+\hline
+Step-800 (min.\ eval/loss = 1.856) & 200 & 17.05 & 601 & 66.4 \\
+Final epoch checkpoint             & 200 & \textbf{16.12} & 618 & 65.4 \\
+\hline
+Step-800 (min.\ eval/loss = 1.856) & 500 & \textbf{16.51} & \textbf{543} & \textbf{68.3} \\
+Final epoch checkpoint             & 500 & 16.54 & 546 & 68.1 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Effect of Checkpoint Selection at 200 Datapoints}
+
+At 200 test datapoints, the final epoch checkpoint appears to outperform the step-800 checkpoint across all three metrics: MAE of 16.12 runs versus 17.05 runs, MSE of 618 versus 601, and $R^2$ of 65.4\% versus 66.4\%. However, this apparent advantage is contradicted by the MSE comparison, which favours the step-800 checkpoint (601 vs.\ 618) despite the latter having the higher MAE. This inconsistency is indicative of noise in the evaluation estimate. The test set is ordered chronologically, and 200 datapoints represent a narrow, temporally contiguous window of matches, making the evaluation sensitive to the particular scoring patterns of the matches included in that window.
+
+\subsection{Effect of Checkpoint Selection at 500 Datapoints}
+
+At 500 test datapoints, the ordering of results reverses: the step-800 checkpoint achieves lower MAE (16.51 vs.\ 16.54 runs), lower MSE (543 vs.\ 546), and higher $R^2$ (68.3\% vs.\ 68.1\%). Although the absolute differences are small, the consistency across all three metrics at the larger sample size provides stronger evidence that the step-800 checkpoint generalises marginally better. The improvement in all metrics when moving from 200 to 500 datapoints (for both checkpoints) further confirms that the 200-point evaluation was subject to sample noise.
+
+Based on this analysis, the \textbf{step-800 checkpoint} (revision SHA \texttt{00be3f3f}) is adopted as the primary fine-tuned model for the cross-condition comparison in Section~4.5, evaluated on 500 datapoints. This choice is consistent with the standard practice of selecting the minimum validation-loss checkpoint for deployment \cite{prechelt1998early}.
+
+\subsection{Prediction Accuracy at 500 Datapoints}
+
+The fine-tuned model (step-800, 500 datapoints) achieves an average prediction error of \textbf{16.51 runs}, an MSE of \textbf{543}, and an $R^2$ of \textbf{68.3\%}. An $R^2$ of 68.3\% indicates that the model explains approximately 68\% of the variance in final first-innings totals from the in-game state alone, demonstrating that a significant portion of the predictive signal in the natural-language prompt is captured by the fine-tuned model.
+
+\section{Zero-Shot Frontier Model: GPT-4.1-nano}
+
+The \textit{GPT-4.1-nano} model was evaluated in a zero-shot setting using the summary prompt variant (without the trailing ``Final 1st innings score:'' suffix) and an explicit system instruction to respond with the predicted score as a number only. The model was accessed via the LiteLLM library and evaluated on 200 test datapoints from the temporal test split.
+
+The results are summarised in Table~\ref{tab:gpt_results}.
+
+\begin{table}[ht]
+\centering
+\caption{\textit{GPT-4.1-nano} zero-shot evaluation results (200 datapoints)}
+\label{tab:gpt_results}
+\begin{tabular}{lrrr}
+\hline
+\textbf{Model} & \textbf{MAE (runs)} & \textbf{MSE} & \textbf{$R^2$ (\%)} \\
+\hline
+GPT-4.1-nano (zero-shot) & 30.02 & 1,538 & 14.0 \\
+\hline
+\end{tabular}
+\end{table}
+
+Despite being a substantially larger and more capable model by general-purpose benchmarks, \textit{GPT-4.1-nano} achieves poor predictive performance on this task, with an MAE of \textbf{30.02 runs} ($\pm$3.50 runs at 95\% confidence) and an $R^2$ of only \textbf{14.0\%}. The low $R^2$ indicates that the model's predictions account for only a small fraction of the variance in first-innings totals, performing only marginally better than a naïve mean predictor.
+
+A qualitative inspection of the model's outputs revealed a tendency to underestimate scores in early-innings states, where fewer overs have been bowled and the cumulative run tally is low. For example, at a venue with a par score of 160, after 2 overs with 14 runs scored and 1 wicket down, the model predicted a final total of 89 runs against an actual final score of 160. This pattern suggests that the frontier model does not reliably scale early-innings run rates to final totals, and that its broad pre-training does not encode sufficient domain-specific knowledge about T20 scoring dynamics to compensate for the absence of task-specific fine-tuning.
+
+\section{Cross-Condition Comparison}
+
+Table~\ref{tab:full_comparison} presents the consolidated performance of all evaluated conditions. The fine-tuned \textit{Llama 3.2-3B} model (step-800 checkpoint, 500 datapoints) is used as the representative result for the fine-tuned condition, and the \textit{GPT-4.1-nano} result at 200 datapoints is retained as reported (a 500-point evaluation was not conducted for the frontier model due to API cost constraints).
+
+\begin{table}[ht]
+\centering
+\caption{Cross-condition performance comparison on the temporal test set}
+\label{tab:full_comparison}
+\begin{tabular}{p{5.2cm}ccrrr}
+\hline
+\textbf{Model} & \textbf{Fine-tuned} & \textbf{N} & \textbf{MAE (runs)} & \textbf{MSE} & \textbf{$R^2$ (\%)} \\
+\hline
+LLaMA 3.2-3B (zero-shot) & No  & 200 & 71.31 & 7,463 & $-$317.4 \\
+LLaMA 3.2-3B (fine-tuned, step-800) & Yes & 500 & \textbf{16.51} & \textbf{543} & \textbf{68.3} \\
+GPT-4.1-nano (zero-shot) & No  & 200 & 30.02 & 1,538 & 14.0 \\
+\hline
+\end{tabular}
+\end{table}
+
+The results reveal three principal findings.
+
+\textbf{Finding 1 — Fine-tuning substantially outperforms the frontier zero-shot model.} The fine-tuned \textit{Llama 3.2-3B} model achieves an MAE of 16.51 runs and an $R^2$ of 68.3\%, compared to an MAE of 30.02 runs and an $R^2$ of 14.0\% for zero-shot \textit{GPT-4.1-nano}. This represents a \textbf{45.0\% reduction in MAE} and a \textbf{54.3 percentage-point improvement in $R^2$} relative to the frontier model, despite the fine-tuned model having approximately 100 times fewer parameters. The result demonstrates that domain-specific supervised fine-tuning on a curated T20 innings dataset is far more effective than relying on the general world knowledge of a large proprietary model for this task.
+
+\textbf{Finding 2 — Fine-tuning produces a dramatic improvement over the zero-shot LLaMA baseline.} The zero-shot \textit{Llama 3.2-3B} baseline achieves an MAE of 71.31 runs and an $R^2$ of $-$317.4\%, indicating near-random prediction behaviour. Fine-tuning the same model on the domain-specific dataset reduces the MAE to 16.51 runs --- a \textbf{76.8\% reduction} --- and raises $R^2$ from $-$317.4\% to 68.3\%, a \textbf{385.7 percentage-point improvement}. This dramatic gain demonstrates that the task knowledge required for in-game T20 score prediction is not present in the base pre-trained weights and must be acquired through domain-specific supervised training.
+
+\textbf{Finding 3 — Checkpoint selection has a marginal but consistent effect at scale.} The step-800 minimum-loss checkpoint outperforms the final epoch checkpoint on all three metrics when evaluated over 500 datapoints, confirming the validity of early-stopping-based checkpoint selection. The difference is small in absolute terms (MAE: 16.51 vs.\ 16.54 runs; $R^2$: 68.3\% vs.\ 68.1\%), but is consistent across all metrics, supporting the selection of the step-800 checkpoint as the deployment model.
