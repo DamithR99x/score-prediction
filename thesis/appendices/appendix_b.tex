@@ -1,0 +1,85 @@
+\chapter{Player Classification Rules}
+\label{app:player_classification}
+
+\section*{B.1\quad Minimum Data Threshold}
+
+A player is assigned the label \texttt{INSUFFICIENT\_DATA} and excluded from substantive classification if either of the following conditions holds:
+
+\begin{itemize}
+    \item The player has appeared in fewer than \textbf{15 matches} in the dataset.
+    \item The player has accumulated fewer than \textbf{250 total runs} \textit{and} fewer than \textbf{10 total wickets}.
+\end{itemize}
+
+Players meeting the minimum threshold are then assessed by the ordered rule set in Section~B.2. The first rule that matches determines the final classification; subsequent rules are not evaluated.
+
+\section*{B.2\quad Ordered Classification Rules}
+
+\begin{table}[ht]
+\centering
+\caption{Player classification rules applied in priority order}
+\label{tab:classification_rules_full}
+\begin{tabular}{p{4cm} p{9.5cm}}
+\hline
+\textbf{Classification} & \textbf{Conditions (all must hold)} \\
+\hline
+\textbf{BOWLER} &
+  Overs bowled per match $\geq 3$ \newline
+  Economy rate $\leq 8.2$ runs per over \newline
+  Bowling average $\leq 26$ runs per wicket \newline
+  Batting average $< 20$ runs per dismissal \\
+\hline
+\textbf{ALL\_ROUNDER} \newline (bowling-dominant) &
+  Overs bowled per match $\geq 2$ \newline
+  Total wickets $\geq 25$ \newline
+  Batting average $\geq 20$ runs per dismissal \newline
+  Batting strike rate $\geq 120$ \newline
+  Economy rate $\leq 8.8$ runs per over \\
+\hline
+\textbf{ALL\_ROUNDER} \newline (batting-dominant) &
+  Overs bowled per match $\geq 1$ \newline
+  Total wickets $\geq 20$ \newline
+  Batting average $\geq 25$ runs per dismissal \newline
+  Batting strike rate $\geq 130$ \\
+\hline
+\textbf{BATTER} &
+  Batting average $\geq 28$ runs per dismissal \newline
+  Batting strike rate $\geq 125$ \newline
+  Overs bowled per match $< 0.5$ \\
+\hline
+\textbf{UTILITY\_PLAYER} &
+  All remaining players who meet the minimum data threshold and do not match any rule above. \\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent Both ALL\_ROUNDER sub-types receive the same \texttt{ALL\_ROUNDER} label and the same RBSS weight (0.80). The distinction between bowling-dominant and batting-dominant all-rounders is made only for internal rule ordering and does not appear in the prompt.
+
+\section*{B.3\quad RBSS Weights by Classification}
+
+\begin{table}[ht]
+\centering
+\caption{RBSS weights assigned to each player classification}
+\label{tab:rbss_weights_full}
+\begin{tabular}{lcp{7cm}}
+\hline
+\textbf{Classification} & \textbf{Weight ($w$)} & \textbf{Rationale} \\
+\hline
+BATTER             & 1.00 & Full batting value; primary run-scoring resource \\
+ALL\_ROUNDER       & 0.80 & Reliable contributions but not a pure batter \\
+UTILITY\_PLAYER    & 0.65 & Moderate batting capability, high variance \\
+INSUFFICIENT\_DATA & 0.45 & Unknown capability; conservative estimate \\
+BOWLER             & 0.30 & Tail-end batter; limited scoring expectation \\
+\hline
+\end{tabular}
+\end{table}
+
+The RBSS is computed at the end of each two-over section as:
+\begin{equation}
+    \text{RBSS} = \sum_{p \,\in\, \mathcal{R}} w\bigl(\text{class}(p)\bigr)
+\end{equation}
+
+where $\mathcal{R}$ is the set of players from the batting team's eleven who have not yet been dismissed at the end of that section. The score is rounded to two decimal places. A full eleven of unclassified batters (all \texttt{INSUFFICIENT\_DATA}) at the start of an innings yields a maximum RBSS of $11 \times 0.45 = 4.95$; a team of pure batters would yield $11 \times 1.00 = 11.00$.
+
+\section*{B.4\quad Implementation Reference}
+
+The classification logic is implemented in \texttt{forecaster/player\_classification.py}, function \texttt{classify\_t20i\_player}. Player career statistics used as inputs to the classification rules are aggregated across all qualifying first-innings match rows in the dataset and stored in the SQLite table \texttt{first\_innings\_player\_stats}.

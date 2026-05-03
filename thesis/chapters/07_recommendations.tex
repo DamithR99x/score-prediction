@@ -1,0 +1,81 @@
+\chapter{Recommendations}
+
+\section{Introduction}
+
+This chapter consolidates actionable recommendations arising from the study, organised by stakeholder group. The recommendations are directed at four distinct audiences: cricket governing bodies and team analytics units who may wish to deploy predictive tools in operational settings; machine learning researchers extending this line of inquiry; software engineers and MLOps practitioners responsible for productionising fine-tuned language models; and future academic researchers building on the dataset, pipeline, or methodology developed in this work.
+
+\section{Recommendations for Cricket Boards and Analytics Teams}
+
+\subsection{Adopt Domain-Specific Fine-Tuning Over Frontier Model Prompting}
+
+The empirical results of this study demonstrate that a fine-tuned 3-billion-parameter open-source model achieves substantially better predictive accuracy (MAE 16.51 runs, $R^2$ 68.3\%) than a zero-shot frontier model with approximately 100 times the parameter count (MAE 30.02 runs, $R^2$ 14.0\%). Cricket analytics teams should therefore prioritise investment in curating labelled training data and running parameter-efficient fine-tuning over subscription-based access to general-purpose frontier models for specialised prediction tasks. The computational cost of QLoRA fine-tuning on a single consumer-grade GPU is modest --- less than six hours on a Kaggle T4 --- and the resulting model can be hosted on-premises without ongoing API fees.
+
+\subsection{Invest in Structured Ball-by-Ball Data Infrastructure}
+
+The quality of score prediction models is fundamentally constrained by the quality and quantity of the underlying ball-by-ball data. Teams and national boards that maintain private performance databases should consider standardising their internal data formats to be compatible with openly available archives such as Cricsheet, enabling rapid integration of new data into fine-tuning pipelines. In particular, accurate recording of player roles (specialist batter, all-rounder, specialist bowler) is essential for computing the Role-Based Scoring System (RBSS) feature introduced in this work.
+
+\subsection{Use Venue Par Scores as a Baseline Calibration Reference}
+
+The venue par score feature, derived from the historical average first-innings total at each ground, was identified as a key contextual signal in the prompt schema. Analytics teams are encouraged to maintain and regularly update venue par score tables for all grounds at which they compete, distinguishing between day and day/night matches where sufficient data are available. These par scores can also serve as a standalone heuristic for early-innings score targets in the absence of a full predictive model.
+
+\subsection{Do Not Use Point Predictions Alone for High-Stakes Decisions}
+
+A model with an average prediction error of approximately 16 runs --- roughly 10\% of a typical T20 total --- is useful for trend analysis and strategy simulation, but should not be used in isolation for high-stakes decisions such as Duckworth-Lewis target setting or in-play betting market settlement. For such applications, a prediction interval or a Monte Carlo simulation over multiple sampled completions is preferable to a single greedy-decoded prediction.
+
+\section{Recommendations for Machine Learning Researchers}
+
+\subsection{Prioritise Feature Engineering for Structured Tabular-to-Text Tasks}
+
+The results of this study illustrate a general principle applicable beyond cricket: when adapting an LLM to a structured numerical prediction task, the information content of the prompt is as important as the choice of base model or fine-tuning configuration. Researchers applying LLMs to analogous domains --- energy consumption forecasting, financial time-series, clinical outcome prediction --- should devote equivalent attention to prompt schema design and domain-specific feature engineering as to hyperparameter search and model selection.
+
+\subsection{Evaluate at Multiple Test-Set Sizes Before Drawing Conclusions}
+
+The checkpoint comparison in this study revealed that results at 200 test datapoints partially reversed at 500 datapoints, with the apparent ranking of the two checkpoints depending on which metric was prioritised. Researchers evaluating generative prediction models on temporally ordered test sets should report results at multiple test-set sizes and verify that rankings are consistent before drawing conclusions about the relative performance of model variants. Where possible, bootstrapped confidence intervals over the evaluation metrics should be computed and reported.
+
+\subsection{Consider the Evaluation Impact of Regex Post-Processing}
+
+The post-processing step that extracts a numeric prediction from each model completion is a non-trivial component of the evaluation pipeline. When a model fails to generate a recognisable integer in its completion, the fallback value of 0 is used, which substantially inflates the MAE and MSE for that prediction. Researchers should report the rate of failed regex extractions alongside the aggregate metrics, as a high failure rate indicates that the model has not converged to the expected output format rather than that it is generating poor predictions. For the zero-shot baseline in this study, the high failure rate was a primary contributor to the extreme MAE of 71.31 runs.
+
+\subsection{Report Results on Both Checkpoint Variants}
+
+When fine-tuning LLMs for regression or numerical prediction tasks, researchers should report results for both the minimum-validation-loss checkpoint and the final epoch checkpoint separately. Reporting only the final checkpoint may understate model performance, while reporting only the minimum-loss checkpoint may obscure whether the training process has converged. The present study found a consistent but small advantage for the minimum-loss checkpoint; other tasks and training configurations may exhibit larger divergences.
+
+\section{Recommendations for Software Engineers and MLOps Practitioners}
+
+\subsection{Use QLoRA for Memory-Constrained Deployment}
+
+QLoRA (4-bit NF4 quantisation with low-rank LoRA adapters) provides an effective method for fine-tuning and deploying language models on GPU hardware with limited memory. The \textit{Llama 3.2-3B} model with rank-8 LoRA adapters and 4-bit weights fits comfortably within the 15\,GB VRAM of a Kaggle T4 or Google Colab T4 instance during both training and inference. Practitioners deploying fine-tuned models in resource-constrained environments are encouraged to adopt this configuration as a default starting point.
+
+\subsection{Implement Checkpoint Management from the Start of Training}
+
+The Weights \& Biases integration used in this study made it straightforward to identify the step-800 minimum-loss checkpoint after training. Practitioners should configure checkpoint saving at regular intervals (every 200--400 steps for a training run of this scale) from the beginning of the training job, and should log validation loss at each checkpoint. Attempting to recover intermediate checkpoints after the fact is not possible if periodic saving was not enabled in advance.
+
+\subsection{Wrap Inference in a Robust Post-Processing Layer}
+
+Generative LLM outputs are inherently unstructured and may deviate from the expected format even after fine-tuning on uniformly formatted training data. The two-step regex post-processing pipeline described in Section~3.6.3 --- which first attempts to match ``Final 1st innings score: \textit{N}'' and falls back to the first standalone integer in the completion --- should be treated as a minimum viable post-processing layer. Production deployments should additionally validate that the extracted integer falls within a plausible range (e.g., 50--350 runs for a T20 match), log any out-of-range or failed extractions for monitoring, and alert operators when the failure rate exceeds a configurable threshold.
+
+\subsection{Version Datasets and Model Artefacts Together}
+
+The fine-tuned model artefact (Hugging Face model repository) and the training dataset (Hugging Face dataset repository) used in this study were versioned independently. For reproducibility in production systems, model artefacts should be tagged with the exact dataset version and training configuration that produced them. This is particularly important for iterative fine-tuning workflows in which the training data is periodically refreshed with new match data, as a model trained on a later dataset version may not be directly comparable to one trained on an earlier version.
+
+\section{Recommendations for Future Researchers}
+
+\subsection{Extend the Pipeline to Domestic T20 Leagues}
+
+The pipeline developed in this study processes Cricsheet JSON archives and is format-agnostic with respect to competition type. The most impactful near-term extension is to include ball-by-ball data from major domestic leagues (IPL, BBL, PSL, CPL, SA20) in the training set. Since these leagues collectively produce more professional T20 cricket than international fixtures, a model trained on a combined dataset would be applicable to a far broader range of matches and scoring environments. The Cricsheet archive includes this data and requires no additional preprocessing to integrate.
+
+\subsection{Investigate the Effect of Base Model Scale}
+
+This study used \textit{Llama 3.2-3B} as the base model, driven by GPU memory constraints. Future work should systematically evaluate the performance of the same QLoRA fine-tuning pipeline applied to larger base models (7B, 8B, and 70B parameter variants) to determine whether the predictive accuracy scales with model size and whether the relative improvement from fine-tuning changes at larger scales. It is possible that larger base models exhibit stronger zero-shot performance due to better general numerical reasoning, which would reduce the marginal gain from fine-tuning.
+
+\subsection{Develop a Second-Innings Prediction Variant}
+
+A second-innings prediction model would need to condition on the first-innings total as an additional input and predict the probability of a successful chase rather than (or in addition to) the final second-innings score. This is a more complex prediction target due to the strategic interaction between batting and field-setting, but it is commercially and analytically more valuable for live match commentary and in-play applications. The prompt schema developed in this work could be extended to include the chase target and the required run rate as additional features.
+
+\subsection{Quantify Uncertainty with Sampled Completions}
+
+The current evaluation uses greedy decoding to generate a single point prediction per prompt. Future work should evaluate the use of nucleus sampling (top-$p$ sampling) to generate an ensemble of predictions from each prompt and derive a prediction interval. This would allow calibration analysis (e.g., whether the 90\% prediction interval contains the actual score 90\% of the time) and would make the model more useful for applications requiring uncertainty estimates, such as real-time broadcast analytics and in-play risk management.
+
+\subsection{Conduct an Ablation Study of Engineered Features}
+
+The prompt schema used in this study combines six categories of engineered features: over count and segment label, current score and wickets, venue par score, RBSS, active player classifications, and bowling attack tier. The relative contribution of each feature to model performance has not been isolated. A systematic ablation study --- in which each feature is individually removed from the prompt and the model is re-evaluated --- would clarify which features are most informative and whether any features are redundant or counterproductive. This analysis would also guide feature selection for future extensions of the pipeline.

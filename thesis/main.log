@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.4.18)  24 APR 2026 19:04
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.4.18)  24 APR 2026 21:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -585,28 +585,33 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (
 
 ] (./main.toc [1
 
-] [2] [3])
+] [2] [3]
+Underfull \hbox (badness 7832) in paragraph at lines 87--87
+ [][] [][]\TU/TimesNewRoman(0)/m/n/12 Adopt Domain-Specific Fine-Tuning Over Frontier Model 
+ []
+
+[4])
 \tf@toc=\write4
 \openout4 = `main.toc'.
 
- [4] (./main.lot)
-\tf@lot=\write5
-\openout5 = `main.lot'.
-
- (./main.lof
+ [5] (./main.lot
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: TU).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 )
+\tf@lot=\write5
+\openout5 = `main.lot'.
+
+ (./main.lof [6])
 \tf@lof=\write6
 \openout6 = `main.lof'.
 
- (./frontmatter/acknowledgement.tex [5]) (./frontmatter/abstract.tex [6
+ (./frontmatter/acknowledgement.tex [7]) (./frontmatter/abstract.tex [8
 
-] [7
+] [9
 
-]) (./chapters/01_introduction.tex [8]
+]) (./chapters/01_introduction.tex [10]
 Chapter 1.
 [1
 
@@ -703,33 +708,140 @@ Underfull \hbox (badness 10000) in paragraph at lines 103--103
 Chapter 5.
 [36
 
-] [37] [38] [39] [40] [41]) [42]
-Underfull \hbox (badness 10000) in paragraph at lines 124--127
+] [37] [38] [39] [40] [41]) (./chapters/06_conclusion.tex [42]
+Chapter 6.
+[43
+
+] [44] [45]) (./chapters/07_recommendations.tex [46]
+Chapter 7.
+[47
+
+] [48] [49] [50] [51] [52]) [53]
+Underfull \hbox (badness 10000) in paragraph at lines 126--129
 []\TU/TimesNewRoman(0)/m/n/12 Cricsheet (2024) \TU/TimesNewRoman(0)/m/it/12 Cricsheet: A cricketing archive \TU/TimesNewRoman(0)/m/n/12 [online]. Available at:
  []
 
-[43
+[54
 
 
-] [44] [45] (./appendices/appendix_a.tex [46]
+] [55] [56] (./appendices/appendix_a.tex [57]
 Appendix A.
-) [47
 
-] (./main.aux)
+Underfull \hbox (badness 1132) in paragraph at lines 1--1
+|\TU/TimesNewRoman(0)/b/n/24.88 Prompt Schema and Sample Prompt–
+ []
+
+[58
+
+] [59] [60] [61]) (./appendices/appendix_b.tex [62]
+Appendix B.
+
+Underfull \hbox (badness 1478) in paragraph at lines 50--51
+[]\TU/TimesNewRoman(0)/m/n/12 All remaining players who meet the minimum data
+ []
+
+
+Underfull \hbox (badness 1478) in paragraph at lines 70--71
+[]\TU/TimesNewRoman(0)/m/n/12 Unknown capability; conservative esti-
+ []
+
+[63
+
+]) (./appendices/appendix_c.tex [64] [65]
+Appendix C.
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <14.4> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 4.
+
+Underfull \hbox (badness 10000) in paragraph at lines 90--91
+[]\TU/lmtt/m/n/12 ratnayakatilanka-university-of-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--111
+[]\TU/TimesNewRoman(0)/m/n/10.95 Training/eval dataset
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 112--112
+[]\TU/TimesNewRoman(0)/m/n/10.95 Evaluation dataset (sum-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 113--113
+[]\TU/TimesNewRoman(0)/m/n/10.95 Fine-tuned LoRA adapter
+ []
+
+) (./appendices/appendix_d.tex [66
+
+] [67] [68]
+Appendix D.
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--21
+[]\TU/lmtt/m/n/12 The innings is still in
+ []
+
+
+Underfull \hbox (badness 6284) in paragraph at lines 20--21
+\TU/lmtt/m/n/12 progress... \TU/TimesNewRoman(0)/m/n/12 (no integer
+ []
+
+
+Underfull \hbox (badness 2443) in paragraph at lines 24--25
+[]\TU/lmtt/m/n/12 58 runs \TU/TimesNewRoman(0)/m/n/12 (regex captures 58
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--33
+[]\TU/lmtt/m/n/12 I cannot predict...
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--33
+\TU/TimesNewRoman(0)/m/n/12 (model declines to answer;
+ []
+
+[69
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 94--95
+\TU/TimesNewRoman(0)/m/n/12 late-innings accuracy im-
+ []
+
+[70]
+Underfull \hbox (badness 10000) in paragraph at lines 115--115
+[]\TU/TimesNewRoman(0)/b/n/12 Zero-shot
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--115
+[]\TU/TimesNewRoman(0)/b/n/12 Fine-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--115
+\TU/TimesNewRoman(0)/b/n/12 tuned
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--116
+[]\TU/TimesNewRoman(0)/b/n/12 GPT-4.1-
+ []
+
+) [71] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 614BCF2496645ADC7D13539C3B94D003;15086.
+(rerunfilecheck)             Checksum: D5E844B5E862DFC465207B79B5FB25C5;23973.
  ) 
 Here is how much of TeX's memory you used:
- 16780 strings out of 469709
- 321988 string characters out of 5466023
- 805867 words of memory out of 5000000
- 45166 multiletter control sequences out of 15000+600000
- 632950 words of font info for 87 fonts, out of 8000000 for 9000
+ 16858 strings out of 469709
+ 323927 string characters out of 5466023
+ 816277 words of memory out of 5000000
+ 45223 multiletter control sequences out of 15000+600000
+ 634530 words of font info for 97 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 73i,14n,93p,1232b,475s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 73i,14n,93p,1232b,595s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (59 pages).
+Output written on main.pdf (85 pages).

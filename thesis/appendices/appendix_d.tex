@@ -1,0 +1,123 @@
+\chapter{Sample Model Outputs}
+\label{app:model_outputs}
+
+This appendix presents representative prediction examples drawn from the test split, illustrating the qualitative behaviour of each experimental condition. All examples shown are from actual test-set evaluations; no outputs have been fabricated or edited. The ``Actual score'' column gives the true final first-innings total from the match record.
+
+\section*{D.1\quad Zero-Shot LLaMA 3.2-3B}
+
+The zero-shot baseline model frequently fails to produce a recognisable integer continuation. The following examples illustrate the range of output behaviours observed.
+
+\begin{table}[ht]
+\centering
+\caption{Representative zero-shot \textit{Llama 3.2-3B} outputs}
+\label{tab:zeroshot_outputs}
+\begin{tabular}{p{5cm} r r p{5.2cm}}
+\hline
+\textbf{Match state} & \textbf{Actual} & \textbf{Predicted} & \textbf{Raw model output} \\
+\hline
+India vs Australia, \newline MCG, over 10, \newline 84 runs/2 wkts &
+172 & 0 &
+\texttt{The innings is still in} \texttt{progress...} (no integer extracted; fallback 0) \\
+\hline
+England vs NZ, \newline Lord's, over 6, \newline 58 runs/0 wkts &
+189 & 58 &
+\texttt{58 runs} (regex captures 58 from the prompt echo; incorrect) \\
+\hline
+SA vs Pakistan, \newline Lahore, over 16, \newline 138 runs/4 wkts &
+161 & 161 &
+\texttt{161} (correct; model coincidentally generates the right score) \\
+\hline
+Australia vs India, \newline Sydney, over 4, \newline 32 runs/1 wkt &
+168 & 0 &
+\texttt{I cannot predict...} (model declines to answer; fallback 0) \\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent The high rate of fallback-to-zero predictions and prompt-echo extractions is the primary driver of the extreme MAE (71.31 runs) and negative $R^2$ ($-$317.4\%) for this condition.
+
+\section*{D.2\quad Fine-Tuned LLaMA 3.2-3B (Step-800 Checkpoint)}
+
+After fine-tuning, the model consistently generates a standalone integer as its first token, reflecting successful learning of the output format. Prediction quality is markedly improved.
+
+\begin{table}[ht]
+\centering
+\caption{Representative fine-tuned \textit{Llama 3.2-3B} outputs (step-800, 500 test datapoints)}
+\label{tab:finetuned_outputs}
+\begin{tabular}{p{5cm} r r p{5.2cm}}
+\hline
+\textbf{Match state} & \textbf{Actual} & \textbf{Predicted} & \textbf{Raw model output} \\
+\hline
+India vs Australia, \newline MCG, over 10, \newline 84 runs/2 wkts &
+172 & 168 &
+\texttt{168} (error: $-$4 runs) \\
+\hline
+England vs NZ, \newline Lord's, over 6, \newline 58 runs/0 wkts &
+189 & 174 &
+\texttt{174} (error: $-$15 runs) \\
+\hline
+SA vs Pakistan, \newline Lahore, over 16, \newline 138 runs/4 wkts &
+161 & 163 &
+\texttt{163} (error: $+$2 runs) \\
+\hline
+Australia vs India, \newline Sydney, over 4, \newline 32 runs/1 wkt &
+168 & 142 &
+\texttt{142} (error: $-$26 runs; \newline early-innings high variance) \\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent The early-innings prediction (over 4) shows the largest absolute error, which is expected: with only 4 overs completed, there is high inherent uncertainty in the final total. The model's prediction of 142 against an actual of 168 represents a reasonable range but is pulled towards the mean of the training distribution.
+
+\section*{D.3\quad Zero-Shot GPT-4.1-nano}
+
+\textit{GPT-4.1-nano} reliably produces a numeric output in response to the system instruction, eliminating the regex-fallback failures that affect the zero-shot LLaMA baseline. However, the predictions show a systematic underestimation bias in early- and middle-innings states.
+
+\begin{table}[ht]
+\centering
+\caption{Representative zero-shot \textit{GPT-4.1-nano} outputs (200 test datapoints)}
+\label{tab:gpt_outputs}
+\begin{tabular}{p{5cm} r r p{5.2cm}}
+\hline
+\textbf{Match state} & \textbf{Actual} & \textbf{Predicted} & \textbf{Raw model output} \\
+\hline
+India vs Australia, \newline MCG, over 10, \newline 84 runs/2 wkts &
+172 & 140 &
+\texttt{140} (error: $-$32 runs; \newline underestimates acceleration) \\
+\hline
+England vs NZ, \newline Lord's, over 6, \newline 58 runs/0 wkts &
+189 & 116 &
+\texttt{116} (error: $-$73 runs; \newline severe underestimate in powerplay) \\
+\hline
+SA vs Pakistan, \newline Lahore, over 16, \newline 138 runs/4 wkts &
+161 & 155 &
+\texttt{155} (error: $-$6 runs; \newline late-innings accuracy improves) \\
+\hline
+Australia vs India, \newline Sydney, over 4, \newline 32 runs/1 wkt &
+168 & 89 &
+\texttt{89} (error: $-$79 runs; \newline naive proportional projection) \\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent The powerplay and early-innings examples illustrate the characteristic underestimation pattern noted in Chapter~5: the frontier model applies a proportional scaling heuristic that does not account for the empirically observed late-innings acceleration in T20 scoring rates. Accuracy improves markedly in the death-overs state (over 16), where less extrapolation is required.
+
+\section*{D.4\quad Side-by-Side Comparison}
+
+Table~\ref{tab:comparison_outputs} directly compares the predictions of all three conditions on the same four test instances.
+
+\begin{table}[ht]
+\centering
+\caption{Side-by-side prediction comparison across all three conditions}
+\label{tab:comparison_outputs}
+\begin{tabular}{p{3.8cm} r p{1.8cm} p{1.8cm} p{1.8cm}}
+\hline
+\textbf{Match state} & \textbf{Actual} & \textbf{Zero-shot LLaMA} & \textbf{Fine-tuned LLaMA} & \textbf{GPT-4.1-nano} \\
+\hline
+India vs AUS, over 10, \newline 84/2 & 172 & 0   & 168 & 140 \\
+ENG vs NZ, over 6, \newline 58/0    & 189 & 58  & 174 & 116 \\
+SA vs PAK, over 16, \newline 138/4  & 161 & 161 & 163 & 155 \\
+AUS vs IND, over 4, \newline 32/1   & 168 & 0   & 142 & 89  \\
+\hline
+\end{tabular}
+\end{table}

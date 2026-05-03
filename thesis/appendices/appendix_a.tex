@@ -1,3 +1,126 @@
-\chapter{Appendix A}
+\chapter{Prompt Schema and Sample Prompt--Completion Pairs}
+\label{app:prompt_schema}
 
-This is a placeholder for Appendix A.
+\section*{A.1\quad Full Prompt Template}
+
+Each in-game state snapshot is serialised into the following structured natural-language prompt. Placeholders in braces are substituted with the computed feature values at the end of the relevant two-over section.
+
+\begin{verbatim}
+Match type: T20
+Venue: {venue}
+Venue par score: {par_score_filled}
+Batting team: {team}
+
+Overs completed: {overs_completed}
+Balls remaining: {balls_remaining}
+Runs scored: {cumulative_runs}
+Wickets lost: {cumulative_wickets}
+Current run rate: {cumulative_run_rate}
+
+Runs in last 2 overs: {runs_in_section}
+Dot balls so far: {dot_balls_so_far}
+Dot balls in last 2 overs: {dot_balls_last_2_overs}
+
+Fours hit: {fours_hit}
+Sixes hit: {sixes_hit}
+
+Powerplay completed: {Yes|No}
+
+Remaining Batting Strength Score: {RBSS}
+
+Final 1st innings score:
+\end{verbatim}
+
+The completion (target output) appended during fine-tuning and expected during inference is the actual final first-innings total as a plain integer string, for example \texttt{173}.
+
+\section*{A.2\quad Sample Prompt--Completion Pairs}
+
+The following three examples are drawn from the test split and illustrate how the prompt encodes progressively later over-boundary states within the same innings. Section labels (Early, Middle, Death) are added here for clarity and do not appear in the actual prompt.
+
+\bigskip
+\noindent\textbf{Example 1 — Early-innings snapshot (after 4 overs, Section 2)}
+
+\begin{verbatim}
+Match type: T20
+Venue: SuperSport Park
+Venue par score: 168
+Batting team: South Africa
+
+Overs completed: 4
+Balls remaining: 96
+Runs scored: 38
+Wickets lost: 1
+Current run rate: 9.50
+
+Runs in last 2 overs: 19
+Dot balls so far: 8
+Dot balls in last 2 overs: 3
+
+Fours hit: 5
+Sixes hit: 1
+
+Powerplay completed: No
+
+Remaining Batting Strength Score: 8.25
+
+Final 1st innings score: 187
+\end{verbatim}
+
+\bigskip
+\noindent\textbf{Example 2 — Middle-innings snapshot (after 12 overs, Section 6)}
+
+\begin{verbatim}
+Match type: T20
+Venue: Eden Gardens
+Venue par score: 162
+Batting team: India
+
+Overs completed: 12
+Balls remaining: 48
+Runs scored: 97
+Wickets lost: 3
+Current run rate: 8.08
+
+Runs in last 2 overs: 14
+Dot balls so far: 21
+Dot balls in last 2 overs: 4
+
+Fours hit: 9
+Sixes hit: 3
+
+Powerplay completed: Yes
+
+Remaining Batting Strength Score: 6.10
+
+Final 1st innings score: 172
+\end{verbatim}
+
+\bigskip
+\noindent\textbf{Example 3 — Death-overs snapshot (after 18 overs, Section 9)}
+
+\begin{verbatim}
+Match type: T20
+Venue: Melbourne Cricket Ground
+Venue par score: 155
+Batting team: Australia
+
+Overs completed: 18
+Balls remaining: 12
+Runs scored: 163
+Wickets lost: 5
+Current run rate: 9.06
+
+Runs in last 2 overs: 22
+Dot balls so far: 29
+Dot balls in last 2 overs: 2
+
+Fours hit: 16
+Sixes hit: 7
+
+Powerplay completed: Yes
+
+Remaining Batting Strength Score: 2.40
+
+Final 1st innings score: 184
+\end{verbatim}
+

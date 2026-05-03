@@ -1,8 +1,8 @@
 \contentsline {chapter}{Contents}{i}{chapter*.2}%
-\contentsline {chapter}{List of Tables}{v}{chapter*.2}%
-\contentsline {chapter}{List of Figures}{v}{chapter*.2}%
-\contentsline {chapter}{Acknowledgements}{vi}{chapter*.3}%
-\contentsline {chapter}{Abstract}{vii}{chapter*.4}%
+\contentsline {chapter}{List of Tables}{vi}{chapter*.2}%
+\contentsline {chapter}{List of Figures}{vi}{chapter*.2}%
+\contentsline {chapter}{Acknowledgements}{viii}{chapter*.3}%
+\contentsline {chapter}{Abstract}{ix}{chapter*.4}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Background}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Problem Statement}{2}{section.1.2}%
@@ -75,5 +75,37 @@
 \contentsline {section}{\numberline {5.5}Positioning Against the Literature}{39}{section.5.5}%
 \contentsline {section}{\numberline {5.6}Limitations}{40}{section.5.6}%
 \contentsline {section}{\numberline {5.7}Future Work}{41}{section.5.7}%
-\contentsline {chapter}{References}{43}{section.5.7}%
-\contentsline {chapter}{\numberline {A}Appendix A}{47}{appendix.A}%
+\contentsline {chapter}{\numberline {6}Conclusions}{43}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Summary of the Study}{43}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Principal Findings}{44}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Contributions}{44}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Recommendations for Practitioners}{45}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Concluding Remarks}{46}{section.6.5}%
+\contentsline {chapter}{\numberline {7}Recommendations}{47}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Introduction}{47}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Recommendations for Cricket Boards and Analytics Teams}{47}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Adopt Domain-Specific Fine-Tuning Over Frontier Model Prompting}{47}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Invest in Structured Ball-by-Ball Data Infrastructure}{48}{subsection.7.2.2}%
+\contentsline {subsection}{\numberline {7.2.3}Use Venue Par Scores as a Baseline Calibration Reference}{48}{subsection.7.2.3}%
+\contentsline {subsection}{\numberline {7.2.4}Do Not Use Point Predictions Alone for High-Stakes Decisions}{48}{subsection.7.2.4}%
+\contentsline {section}{\numberline {7.3}Recommendations for Machine Learning Researchers}{49}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Prioritise Feature Engineering for Structured Tabular-to-Text Tasks}{49}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Evaluate at Multiple Test-Set Sizes Before Drawing Conclusions}{49}{subsection.7.3.2}%
+\contentsline {subsection}{\numberline {7.3.3}Consider the Evaluation Impact of Regex Post-Processing}{49}{subsection.7.3.3}%
+\contentsline {subsection}{\numberline {7.3.4}Report Results on Both Checkpoint Variants}{50}{subsection.7.3.4}%
+\contentsline {section}{\numberline {7.4}Recommendations for Software Engineers and MLOps Practitioners}{50}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Use QLoRA for Memory-Constrained Deployment}{50}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}Implement Checkpoint Management from the Start of Training}{50}{subsection.7.4.2}%
+\contentsline {subsection}{\numberline {7.4.3}Wrap Inference in a Robust Post-Processing Layer}{51}{subsection.7.4.3}%
+\contentsline {subsection}{\numberline {7.4.4}Version Datasets and Model Artefacts Together}{51}{subsection.7.4.4}%
+\contentsline {section}{\numberline {7.5}Recommendations for Future Researchers}{51}{section.7.5}%
+\contentsline {subsection}{\numberline {7.5.1}Extend the Pipeline to Domestic T20 Leagues}{51}{subsection.7.5.1}%
+\contentsline {subsection}{\numberline {7.5.2}Investigate the Effect of Base Model Scale}{52}{subsection.7.5.2}%
+\contentsline {subsection}{\numberline {7.5.3}Develop a Second-Innings Prediction Variant}{52}{subsection.7.5.3}%
+\contentsline {subsection}{\numberline {7.5.4}Quantify Uncertainty with Sampled Completions}{52}{subsection.7.5.4}%
+\contentsline {subsection}{\numberline {7.5.5}Conduct an Ablation Study of Engineered Features}{53}{subsection.7.5.5}%
+\contentsline {chapter}{References}{54}{subsection.7.5.5}%
+\contentsline {chapter}{\numberline {A}Prompt Schema and Sample Prompt--Completion Pairs}{58}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Player Classification Rules}{63}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Full Training Configuration}{66}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Sample Model Outputs}{69}{appendix.D}%

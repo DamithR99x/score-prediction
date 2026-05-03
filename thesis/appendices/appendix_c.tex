@@ -1,0 +1,117 @@
+\chapter{Full Training Configuration}
+\label{app:training_config}
+
+\section*{C.1\quad Quantisation Configuration (\texttt{BitsAndBytesConfig})}
+
+\begin{table}[ht]
+\centering
+\caption{4-bit NF4 quantisation configuration}
+\label{tab:bnb_config}
+\begin{tabular}{ll}
+\hline
+\textbf{Parameter} & \textbf{Value} \\
+\hline
+\texttt{load\_in\_4bit}              & \texttt{True} \\
+\texttt{bnb\_4bit\_quant\_type}      & \texttt{nf4} \\
+\texttt{bnb\_4bit\_use\_double\_quant} & \texttt{True} \\
+\texttt{bnb\_4bit\_compute\_dtype}   & \texttt{torch.float16} \\
+\hline
+\end{tabular}
+\end{table}
+
+\section*{C.2\quad LoRA Adapter Configuration (\texttt{LoraConfig})}
+
+\begin{table}[ht]
+\centering
+\caption{LoRA adapter configuration (LITE mode)}
+\label{tab:lora_full}
+\begin{tabular}{ll}
+\hline
+\textbf{Parameter} & \textbf{Value} \\
+\hline
+\texttt{r} (rank)                    & 16 \\
+\texttt{lora\_alpha}                 & 32 \\
+\texttt{lora\_dropout}               & 0.1 \\
+\texttt{bias}                        & \texttt{none} \\
+\texttt{task\_type}                  & \texttt{CAUSAL\_LM} \\
+\texttt{target\_modules}             & \texttt{q\_proj, v\_proj, k\_proj, o\_proj} \\
+\hline
+\end{tabular}
+\end{table}
+
+\section*{C.3\quad Training Arguments (\texttt{SFTConfig})}
+
+\begin{table}[ht]
+\centering
+\caption{Full \texttt{SFTConfig} / \texttt{TrainingArguments} (LITE mode, Kaggle T4)}
+\label{tab:training_args_full}
+\begin{tabular}{ll}
+\hline
+\textbf{Parameter} & \textbf{Value} \\
+\hline
+\texttt{num\_train\_epochs}          & 1 \\
+\texttt{per\_device\_train\_batch\_size} & 4 \\
+\texttt{gradient\_accumulation\_steps} & 2 \\
+\texttt{per\_device\_eval\_batch\_size} & 4 \\
+\texttt{eval\_strategy}             & \texttt{steps} \\
+\texttt{eval\_steps}                & 100 \\
+\texttt{save\_strategy}             & \texttt{steps} \\
+\texttt{save\_steps}                & 200 \\
+\texttt{save\_total\_limit}         & 10 \\
+\texttt{learning\_rate}             & $2 \times 10^{-4}$ \\
+\texttt{lr\_scheduler\_type}        & \texttt{cosine} \\
+\texttt{warmup\_ratio}              & 0.03 \\
+\texttt{weight\_decay}              & 0.001 \\
+\texttt{max\_grad\_norm}            & 0.3 \\
+\texttt{max\_seq\_length}           & 256 \\
+\texttt{optim}                      & \texttt{paged\_adamw\_8bit} \\
+\texttt{fp16}                       & \texttt{True} \\
+\texttt{bf16}                       & \texttt{False} \\
+\texttt{load\_best\_model\_at\_end} & \texttt{True} \\
+\texttt{metric\_for\_best\_model}   & \texttt{eval\_loss} \\
+\texttt{greater\_is\_better}        & \texttt{False} \\
+\texttt{report\_to}                 & \texttt{wandb} \\
+\texttt{run\_name}                  & \texttt{t20\_score\_prediction\_keggle} \\
+\hline
+\end{tabular}
+\end{table}
+
+\section*{C.4\quad Weights \& Biases Run Details}
+
+\begin{table}[ht]
+\centering
+\caption{Weights \& Biases run metadata}
+\label{tab:wandb_run}
+\begin{tabular}{lp{9cm}}
+\hline
+\textbf{Field} & \textbf{Value} \\
+\hline
+Project           & \texttt{t20\_score\_prediction\_keggle} \\
+Entity            & \texttt{ratnayakatilanka-university-of-} \texttt{sri-jayewardenepura} \\
+Run ID            & \texttt{v64wpa10} \\
+Run name          & \texttt{t20\_score\_prediction\_keggle} \\
+Hardware          & Kaggle NVIDIA T4 (16 GB VRAM) \\
+Min eval/loss     & 1.856 (at step 800) \\
+Best checkpoint SHA & \texttt{00be3f3f2cb4af3cd727c68284ca3} \texttt{dcbad7656a4} \\
+\hline
+\end{tabular}
+\end{table}
+
+\section*{C.5\quad Dataset and Model Artefact Identifiers}
+
+\begin{table}[ht]
+\centering
+\caption{Hugging Face Hub artefact identifiers}
+\label{tab:hf_artefacts}
+\small
+\begin{tabular}{@{}p{4.5cm}p{10cm}@{}}
+\hline
+\textbf{Artefact} & \textbf{Identifier} \\
+\hline
+Training/eval dataset (prompts)  & \texttt{ratnayakatilanka/}\newline\texttt{t20\_score\_prediction\_prompts} \\
+Evaluation dataset (summaries)   & \texttt{ratnayakatilanka/}\newline\texttt{t20\_score\_prediction\_summary} \\
+Fine-tuned LoRA adapter (Kaggle) & \texttt{ratnayakatilanka/t20\_score\_prediction\_keggle-}\newline\texttt{2026-04-18\_04.16.40-lite} \\
+Base model                       & \texttt{meta-llama/Llama-3.2-3B} \\
+\hline
+\end{tabular}
+\end{table}
