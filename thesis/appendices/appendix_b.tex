@@ -54,31 +54,69 @@ Players meeting the minimum threshold are then assessed by the ordered rule set 
 
 \noindent Both ALL\_ROUNDER sub-types receive the same \texttt{ALL\_ROUNDER} label and the same RBSS weight (0.80). The distinction between bowling-dominant and batting-dominant all-rounders is made only for internal rule ordering and does not appear in the prompt.
 
-\section*{B.3\quad RBSS Weights by Classification}
+\section*{B.3\quad RBSS Weight Design and Rationale}
+
+The RBSS weight for each classification was selected to reflect expected batting contribution in T20 cricket, not bowling quality. The weights are designed to be \textit{stable}, \textit{simple}, \textit{rounded}, and \textit{consistent} across the full dataset, as language models interpret smooth and interpretable numeric values more reliably than arbitrary decimals.
 
 \begin{table}[ht]
 \centering
 \caption{RBSS weights assigned to each player classification}
 \label{tab:rbss_weights_full}
-\begin{tabular}{lcp{7cm}}
+\begin{tabular}{lcp{7.5cm}}
 \hline
-\textbf{Classification} & \textbf{Weight ($w$)} & \textbf{Rationale} \\
+\textbf{Classification} & \textbf{Weight ($w$)} & \textbf{Design rationale} \\
 \hline
-BATTER             & 1.00 & Full batting value; primary run-scoring resource \\
-ALL\_ROUNDER       & 0.80 & Reliable contributions but not a pure batter \\
-UTILITY\_PLAYER    & 0.65 & Moderate batting capability, high variance \\
-INSUFFICIENT\_DATA & 0.45 & Unknown capability; conservative estimate \\
-BOWLER             & 0.30 & Tail-end batter; limited scoring expectation \\
+BATTER             & 1.00 & Baseline reference unit. Specialist batters are the primary run-scoring resource; all other weights are calibrated relative to this value. \\
+ALL\_ROUNDER       & 0.80 & T20 all-rounders typically bat at positions 5--7 with high strike rates but lower consistency than top-order batters. Bowling proficiency partially substitutes for batting depth, justifying a modest discount from 1.00. \\
+UTILITY\_PLAYER   & 0.65 & Floaters and situational players with mixed skill sets and inconsistent output. Positioned between reliable batting contributors and tail-end bowlers. \\
+INSUFFICIENT\_DATA & 0.45 & Players with limited match history. A low weight (e.g.\ 0.30) would systematically undervalue unknown young batters; a high weight (e.g.\ 0.80) would be overly optimistic. The value 0.45 is a conservative mid-point that minimises expected error under uncertainty. \\
+BOWLER             & 0.30 & Specialist bowlers bat in the lower order (positions 8--11). The weight is non-zero to capture the occasional late-innings cameo hitting that is common in T20 cricket, but is kept low to reflect the generally limited batting expectation. \\
 \hline
 \end{tabular}
 \end{table}
+
+\subsection*{B.3.1\quad Formula}
 
 The RBSS is computed at the end of each two-over section as:
 \begin{equation}
     \text{RBSS} = \sum_{p \,\in\, \mathcal{R}} w\bigl(\text{class}(p)\bigr)
 \end{equation}
 
-where $\mathcal{R}$ is the set of players from the batting team's eleven who have not yet been dismissed at the end of that section. The score is rounded to two decimal places. A full eleven of unclassified batters (all \texttt{INSUFFICIENT\_DATA}) at the start of an innings yields a maximum RBSS of $11 \times 0.45 = 4.95$; a team of pure batters would yield $11 \times 1.00 = 11.00$.
+where $\mathcal{R}$ is the set of players from the batting team's eleven who have not yet been dismissed at the end of that section, and $w(\cdot)$ maps each classification to its weight. The score is rounded to two decimal places.
+
+\subsection*{B.3.2\quad Worked Example}
+
+Consider a match state at the end of over 12 in which the following players remain undismissed:
+
+\begin{center}
+\begin{tabular}{ll}
+\hline
+\textbf{Player} & \textbf{Classification} \\
+\hline
+Player A & BATTER \\
+Player B & ALL\_ROUNDER \\
+Player C & ALL\_ROUNDER \\
+Player D & UTILITY\_PLAYER \\
+Player E & BOWLER \\
+Player F & BOWLER \\
+Player G & BOWLER \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+The RBSS at this point is:
+
+\begin{equation}
+    \text{RBSS} = (1 \times 1.00) + (2 \times 0.80) + (1 \times 0.65) + (3 \times 0.30)
+    = 1.00 + 1.60 + 0.65 + 0.90 = 4.15
+\end{equation}
+
+This is encoded in the natural-language prompt as \texttt{Remaining Batting Strength Score: 4.15}. The model can infer from this value that the batting side has limited remaining depth --- a team of seven pure batters would yield an RBSS of 7.00, while seven pure bowlers would yield only 2.10.
+
+\subsection*{B.3.3\quad Boundary Cases}
+
+A full eleven of \texttt{INSUFFICIENT\_DATA} players at the start of an innings yields a maximum RBSS of $11 \times 0.45 = 4.95$. A team composed entirely of specialist batters would yield $11 \times 1.00 = 11.00$. In practice, RBSS values at the start of an innings typically fall in the range 6.0--8.5, decreasing as wickets fall and the lower-order bowlers approach the crease.
 
 \section*{B.4\quad Implementation Reference}
 

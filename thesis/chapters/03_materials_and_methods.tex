@@ -19,7 +19,27 @@ Two sequential filtering steps were applied before any features were extracted.
 \textbf{Step 1 — Exclusion of no-result matches.} Matches where the \texttt{info.outcome.result} field equals \texttt{"no result"} were excluded. Such matches are those abandoned due to weather or other circumstances before a result could be determined, and they do not produce a complete or meaningful first-innings score.
 
 \textbf{Step 2 — Exclusion of incomplete first innings.} Matches where the first innings had fewer than 20 overs bowled \textit{and} fewer than 10 wickets fallen were excluded. This filter removes innings that were reduced by Duckworth--Lewis--Stern adjustments or prematurely terminated by agreement, retaining only innings that represent a natural T20 conclusion (either all twenty overs bowled or the batting side dismissed). After both filters, approximately \textbf{2,895 matches} were retained, yielding approximately \textbf{28,954 labelled training rows} at ten snapshots per match.
+\subsection{Venue Name Normalisation}
 
+The Cricsheet JSON files record venue names as free-text strings that exhibit substantial inconsistency across matches: the same physical ground may appear under multiple spellings, with or without a city or country suffix, or with minor punctuation differences. Left unresolved, these variants would be treated as distinct venues, fragmenting the historical match history used to compute per-venue par scores and reducing the reliability of the venue statistics.
+
+A conservative venue name normalisation step was applied after filtering, using a two-rule algorithm implemented in \texttt{research/02\_data\_processing\_vanues.ipynb}. Venues were processed in ascending order of name length so that the shorter, unqualified form of a name was established as canonical before any longer variant was encountered.
+
+\textbf{Rule 1 --- Exact prefix with location suffix.} If venue name $A$ is an exact string prefix of venue name $B$, and the characters immediately following $A$ in $B$ begin with a comma, $B$ is mapped to $A$. This rule handles the dominant inconsistency pattern in the dataset, in which the same ground appears both without and with a city or country qualifier:
+
+\begin{center}
+\textit{``Eden Gardens''} $\leftarrow$ \textit{``Eden Gardens, Kolkata''} \\
+\textit{``Wankhede Stadium''} $\leftarrow$ \textit{``Wankhede Stadium, Mumbai''} \\
+\textit{``SuperSport Park''} $\leftarrow$ \textit{``SuperSport Park, Centurion''}
+\end{center}
+
+\textbf{Rule 2 --- High-threshold fuzzy match.} If two venue names have a token-sorted fuzzy similarity ratio of 95 or above (computed using the \texttt{fuzzywuzzy} library), the shorter name is adopted as canonical. The threshold was set deliberately high to avoid incorrect merges between genuinely different grounds; in practice this rule resolves only minor punctuation differences such as a full stop in place of a space:
+
+\begin{center}
+\textit{``M Chinnaswamy Stadium''} $\leftarrow$ \textit{``M.Chinnaswamy Stadium''}
+\end{center}
+
+The resulting mapping was stored in a \texttt{venue\_mapping} table in the SQLite database. The raw \texttt{first\_innings\_sections} table was joined against this mapping to produce a cleaned \texttt{first\_innings\_sections\_clean} table. Venue normalisation reduced the number of distinct venue strings from \textbf{322} to \textbf{236}, collapsing \textbf{86} variant names into their canonical equivalents. All subsequent feature engineering and par score computation was performed on the cleaned venue labels.
 \section{Feature Engineering}
 
 \subsection{Innings Segmentation}
@@ -66,7 +86,7 @@ A per-venue par score was computed as a proxy for the typical winning total at e
     \text{par\_score}_{v} = Q_{0.52}\bigl(\{s_i : \text{venue}(i) = v\}\bigr)
 \end{equation}
 
-where $s_i$ denotes the first-innings total of match $i$. The 52nd percentile was selected as it corresponds approximately to the score at which a batting-first team achieves an even chance of winning, consistent with the resource-allocation interpretation underlying the DLS method \cite{duckworth1998fair}. For venues with fewer than ten historical matches (136 out of 235 unique venues in the dataset), the par score was set equal to the rounded historical average first-innings total at that venue as a fallback. The resulting \texttt{par\_score\_filled} column was stored in a SQLite database and joined to the section-level feature table.
+where $s_i$ denotes the first-innings total of match $i$. The 52nd percentile was selected as it corresponds approximately to the score at which a batting-first team achieves an even chance of winning, consistent with the resource-allocation interpretation underlying the DLS method \cite{duckworth1998fair}. For venues with fewer than ten historical matches in the dataset (100 out of 236 unique venues after normalisation), the par score was set equal to the rounded historical average first-innings total at that venue as a fallback. The resulting \texttt{par\_score\_filled} column was stored in a SQLite database and joined to the section-level feature table.
 
 \subsection{Player Batting and Bowling Statistics}
 
@@ -104,20 +124,29 @@ where $\mathcal{R}$ is the set of undismissed players at the end of the section,
 \centering
 \caption{Player classification weights used in the Remaining Batting Strength Score}
 \label{tab:rbss_weights}
-\begin{tabular}{lc}
+\begin{tabular}{lcp{8cm}}
 \hline
-\textbf{Classification} & \textbf{Weight} \\
+\textbf{Classification} & \textbf{Weight} & \textbf{Rationale} \\
 \hline
-BATTER              & 1.00 \\
-ALL\_ROUNDER        & 0.80 \\
-UTILITY\_PLAYER     & 0.65 \\
-INSUFFICIENT\_DATA  & 0.45 \\
-BOWLER              & 0.30 \\
+BATTER             & 1.00 & Baseline reference unit; primary run-scoring resource in T20 cricket \\
+ALL\_ROUNDER       & 0.80 & Strong middle-order contributors with high strike rates, but less consistent than specialist batters \\
+UTILITY\_PLAYER   & 0.65 & Mixed skill set and inconsistent output; positioned between batter and tail \\
+INSUFFICIENT\_DATA & 0.45 & Unknown capability; conservative mid-point to avoid over- or under-estimating unproven players \\
+BOWLER             & 0.30 & Tail-end batters with limited scoring expectation; retains a non-zero weight to capture occasional late hitting \\
 \hline
 \end{tabular}
 \end{table}
 
-The RBSS encodes not merely the number of wickets remaining but the batting quality of the players yet to bat, providing the model with a quantitative estimate of the residual scoring capacity of the innings.
+The weights were designed to be stable, simple, and rounded, avoiding arbitrary decimal values that would be difficult for a language model to interpret consistently. \texttt{BATTER} is set to 1.00 as the baseline unit of batting value. \texttt{ALL\_ROUNDER} receives 0.80, reflecting that T20 all-rounders frequently bat in positions 5--7 with high strike rates but lower consistency than specialist top-order batters. \texttt{UTILITY\_PLAYER} is assigned 0.65, occupying the mid-point between reliable batting and tail-end contributions. \texttt{BOWLER} is assigned 0.30 rather than zero, as specialist bowlers in T20 cricket can contribute cameo innings in the death overs. The \texttt{INSUFFICIENT\_DATA} weight of 0.45 is set at a conservative mid-point: assigning a low weight would systematically underestimate young or debut players who may be capable batters, while assigning a high weight would be overly optimistic about genuinely inexperienced or peripheral players.
+
+To illustrate the computation, consider a match state at the end of over 12 in which the following seven players remain undismissed: one BATTER, two ALL\-ROUNDERs, one UTILITY\_PLAYER, and three BOWLERs. The RBSS at this point is:
+
+\begin{equation}
+    \text{RBSS} = (1 \times 1.00) + (2 \times 0.80) + (1 \times 0.65) + (3 \times 0.30)
+    = 1.00 + 1.60 + 0.65 + 0.90 = 4.15
+\end{equation}
+
+This score is encoded directly in the natural-language prompt as \texttt{Remaining Batting Strength Score: 4.15}, providing the model with a single numerical signal that integrates batting depth, batting quality, and order position without exposing a noisy list of individual player names. The RBSS therefore encodes not merely the number of wickets remaining but the batting quality of the players yet to bat, providing a quantitative estimate of the residual scoring capacity of the innings.
 
 \section{Prompt Schema and Dataset Construction}
 
