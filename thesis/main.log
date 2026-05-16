@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.4.18)  16 MAY 2026 11:43
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.4.18)  16 MAY 2026 14:06
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -586,7 +586,7 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (
 ] (./main.toc [1
 
 ] [2] [3]
-Underfull \hbox (badness 7832) in paragraph at lines 91--91
+Underfull \hbox (badness 7832) in paragraph at lines 92--92
  [][] [][]\TU/TimesNewRoman(0)/m/n/12 Adopt Domain-Specific Fine-Tuning Over Frontier Model 
  []
 
@@ -725,50 +725,55 @@ Underfull \hbox (badness 1024) in paragraph at lines 345--346
 \TU/TimesNewRoman(0)/m/n/12 setup method (\TU/lmtt/m/n/12 t20_scorer_service.py\TU/TimesNewRoman(0)/m/n/12 ), which loads the base model and LoRA
  []
 
-) (./chapters/04_results.tex
-Overfull \hbox (91.38902pt too wide) in paragraph at lines 347--1
+
+Overfull \hbox (91.38902pt too wide) in paragraph at lines 347--348
 []\TU/TimesNewRoman(0)/m/n/12 The service was deployed to Modal’s platform and invoked remotely via \TU/lmtt/m/n/12 scorer.predict.remote(prompt)
  []
 
-[32]
+[32]) (./chapters/04_results.tex [33]
 Chapter 4.
-[33
+[34
 
-] [34] [35] [36]
+] [35] [36] [37]
 Underfull \hbox (badness 10000) in paragraph at lines 103--103
 []\TU/TimesNewRoman(0)/m/n/12 LLaMA 3.2-3B (fine-tuned,
  []
 
-[37]) (./chapters/05_discussion.tex [38]
+[38]) (./chapters/05_discussion.tex [39]
 Chapter 5.
-[39
+[40
 
-] [40] [41] [42] [43] [44]) (./chapters/06_conclusion.tex [45]
+] [41] [42] [43] [44] [45]) (./chapters/06_conclusion.tex [46]
 Chapter 6.
-[46
+[47
 
-] [47] [48]) (./chapters/07_recommendations.tex [49]
+] [48] [49]) (./chapters/07_recommendations.tex [50]
 Chapter 7.
-[50
+[51
 
-] [51] [52] [53] [54] [55]) [56]
+] [52] [53] [54] [55] [56]) [57] [58]
 Underfull \hbox (badness 10000) in paragraph at lines 126--129
 []\TU/TimesNewRoman(0)/m/n/12 Cricsheet (2024) \TU/TimesNewRoman(0)/m/it/12 Cricsheet: A cricketing archive \TU/TimesNewRoman(0)/m/n/12 [online]. Available at:
  []
 
-[57
+[59
 
 
-] [58] [59] [60] (./appendices/appendix_a.tex [61]
+] [60] [61]
+Underfull \hbox (badness 10000) in paragraph at lines 262--265
+[]\TU/TimesNewRoman(0)/m/n/12 Hugging Face (2024) \TU/TimesNewRoman(0)/m/it/12 Hugging Face Spaces \TU/TimesNewRoman(0)/m/n/12 [online]. Available at:
+ []
+
+[62] (./appendices/appendix_a.tex [63]
 Appendix A.
 
 Underfull \hbox (badness 1132) in paragraph at lines 1--1
 |\TU/TimesNewRoman(0)/b/n/24.88 Prompt Schema and Sample Prompt–
  []
 
-[62
+[64
 
-] [63] [64] [65]) (./appendices/appendix_b.tex [66]
+] [65] [66] [67]) (./appendices/appendix_b.tex [68]
 Appendix B.
 
 Underfull \hbox (badness 1478) in paragraph at lines 50--51
@@ -780,9 +785,9 @@ Underfull \hbox (badness 1515) in paragraph at lines 72--73
 \TU/TimesNewRoman(0)/m/n/12 dervalue unknown young batters; a high
  []
 
-[67
+[69
 
-] [68] [69]) (./appendices/appendix_c.tex [70]
+] [70] [71]) (./appendices/appendix_c.tex [72]
 Appendix C.
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <14.4> not available
 (Font)              Font shape `TU/lmtt/b/n' tried instead on input line 4.
@@ -806,9 +811,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 113--113
 []\TU/TimesNewRoman(0)/m/n/10.95 Fine-tuned LoRA adapter
  []
 
-) (./appendices/appendix_d.tex [71
+) (./appendices/appendix_d.tex [73
 
-] [72] [73]
+] [74] [75]
 Appendix D.
 
 Underfull \hbox (badness 10000) in paragraph at lines 20--21
@@ -835,14 +840,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 32--33
 \TU/TimesNewRoman(0)/m/n/12 (model declines to answer;
  []
 
-[74
+[76
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 94--95
 \TU/TimesNewRoman(0)/m/n/12 late-innings accuracy im-
  []
 
-[75]
+[77]
 Underfull \hbox (badness 10000) in paragraph at lines 115--115
 []\TU/TimesNewRoman(0)/b/n/12 Zero-shot
  []
@@ -862,21 +867,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 115--116
 []\TU/TimesNewRoman(0)/b/n/12 GPT-4.1-
  []
 
-) [76] (./main.aux)
+) [78] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 5B81EA03D00D7C245E4D3C11C69BBC66;25149.
+(rerunfilecheck)             Checksum: E5C2041EBD5BDD77E94C5D607AFF00EE;25508.
  ) 
 Here is how much of TeX's memory you used:
- 16860 strings out of 469709
- 323951 string characters out of 5466023
- 817530 words of memory out of 5000000
- 45225 multiletter control sequences out of 15000+600000
+ 16862 strings out of 469709
+ 323981 string characters out of 5466023
+ 817969 words of memory out of 5000000
+ 45227 multiletter control sequences out of 15000+600000
  634530 words of font info for 97 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 73i,14n,93p,1337b,601s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 73i,14n,93p,1660b,601s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (90 pages).
+Output written on main.pdf (92 pages).
