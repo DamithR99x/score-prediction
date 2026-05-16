@@ -1,0 +1,20 @@
+{
+  "venue": "Wankhede Stadium",
+  "par_score": 172,
+  "batting_team": "India",
+  "overs_completed": 14,
+  "balls_remaining": 36,
+  "runs_scored": 118,
+  "wickets_lost": 4,
+  "runs_last_2_overs": 22,
+  "dot_balls_total": 28,
+  "dot_balls_last_2": 2,
+  "fours": 11,
+  "sixes": 5,
+  "powerplay_completed": true,
+  "remaining_batters": 2,
+  "remaining_all_rounders": 2,
+  "remaining_utility": 1,
+  "remaining_bowlers": 3,
+  "remaining_unknown": 0
+}

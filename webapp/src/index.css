@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-pitch-950 text-slate-100;
+    background-image:
+      radial-gradient(1200px 600px at 20% -10%, rgba(61, 220, 151, 0.08), transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, rgba(34, 211, 238, 0.06), transparent 60%),
+      linear-gradient(180deg, #05070d 0%, #0a0f1a 100%);
+    background-attachment: fixed;
+  }
+  ::selection {
+    background: rgba(61, 220, 151, 0.35);
+  }
+}
+
+@layer components {
+  .panel {
+    @apply relative rounded-2xl border border-white/5 bg-pitch-900/70 backdrop-blur-xl
+           shadow-inset-ring;
+  }
+  .panel-pad {
+    @apply p-5 sm:p-6;
+  }
+  .label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400;
+  }
+  .stat-value {
+    @apply font-display text-3xl font-semibold tabular-nums text-white;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-white/10
+           bg-white/[0.03] px-2.5 py-1 text-[11px] font-medium text-slate-300;
+  }
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-xl
+           bg-gradient-to-b from-turf-400 to-turf-600 px-5 py-3 font-semibold
+           text-pitch-950 shadow-glow-turf transition
+           hover:brightness-110 active:scale-[0.98] disabled:opacity-50;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl
+           border border-white/10 bg-white/[0.02] px-4 py-2.5 text-sm
+           text-slate-200 transition hover:bg-white/[0.06];
+  }
+  .input {
+    @apply w-full rounded-lg border border-white/5 bg-pitch-800/80 px-3 py-2
+           text-sm text-slate-100 placeholder-slate-500 outline-none
+           focus:border-turf-400/60 focus:ring-2 focus:ring-turf-400/20;
+  }
+  .seam-divider {
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(232, 93, 47, 0.6) 0 6px,
+      transparent 6px 12px
+    );
+    height: 2px;
+  }
+}
+
+/* Stadium "floodlight" sweep used behind the predicted score */
+.floodlight-sweep::before {
+  content: '';
+  position: absolute;
+  inset: -40%;
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    rgba(61, 220, 151, 0) 0deg,
+    rgba(61, 220, 151, 0.18) 60deg,
+    rgba(34, 211, 238, 0.18) 180deg,
+    rgba(61, 220, 151, 0) 300deg
+  );
+  filter: blur(40px);
+  animation: spin 18s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

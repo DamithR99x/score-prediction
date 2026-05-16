@@ -10,3 +10,10 @@
 # Avoid committing all files in t20s_json
 # (both top-level and nested folders)
 t20s_json/
+
+# ── webapp (Vite / Node) ─────────────────────────────────────────────────────
+webapp/node_modules/
+webapp/dist/
+webapp/.env
+webapp/.env.local
+webapp/.env.*.local
