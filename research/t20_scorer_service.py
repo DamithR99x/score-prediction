@@ -7,6 +7,9 @@ app = modal.App("t20-scorer-service")
 image = Image.debian_slim().pip_install(
     "torch", "transformers", "bitsandbytes", "accelerate", "peft"
 )
+# Lightweight image for the HTTP API layer — no GPU deps needed.
+api_image = Image.debian_slim().pip_install("fastapi[standard]")
+
 secrets = [modal.Secret.from_name("huggingface-secret")]
 
 # Constants
@@ -85,3 +88,45 @@ class Scorer:
 
         match = re.search(r"\b\d{2,3}\b", generated_text)
         return float(match.group()) if match else 0.0
+
+
+# ── HTTP web endpoint ─────────────────────────────────────────────────────────
+# A lightweight CPU-only container that receives JSON from the browser,
+# forwards the prompt to the GPU Scorer container, and returns the result.
+# After `modal deploy`, the URL is printed as:
+#   https://<workspace>--t20-scorer-service-predict-api.modal.run
+#
+# Set that URL as VITE_PREDICT_URL in webapp/.env.local before `npm run build`.
+
+@app.function(image=api_image)
+@modal.asgi_app()
+def predict_api():
+    from fastapi import FastAPI
+    from fastapi.middleware.cors import CORSMiddleware
+    from pydantic import BaseModel
+
+    api = FastAPI(title="T20 Score Predictor API")
+
+    # Allow requests from any origin so the React app (local dev or any
+    # static host) can call this endpoint directly from the browser.
+    api.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["GET", "POST"],
+        allow_headers=["*"],
+    )
+
+    class PredictRequest(BaseModel):
+        prompt: str
+
+    @api.get("/health")
+    def health():
+        return {"status": "ok"}
+
+    @api.post("/predict")
+    async def predict(req: PredictRequest):
+        scorer = Scorer()
+        score = await scorer.predict.remote.aio(req.prompt)
+        return {"score": score}
+
+    return api
