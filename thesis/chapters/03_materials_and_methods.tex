@@ -331,3 +331,17 @@ Model performance was assessed using three standard regression metrics computed 
 \end{itemize}
 
 All metrics were computed using the \texttt{scikit-learn} library \cite{pedregosa2011scikit}. Evaluations were conducted on 200 datapoints (the default LITE-mode setting) and on 500 datapoints for the fine-tuned model checkpoint comparison. The larger evaluation set provides a more reliable estimate of generalisation performance by reducing the influence of the chronological ordering of the test set.
+
+\section{Serverless Inference Deployment}
+
+To demonstrate that the fine-tuned model could be served beyond the research notebook environment, a serverless inference service was implemented using Modal \cite{modal2024}, a cloud platform that provides on-demand GPU containers without requiring persistent infrastructure. The deployment experiment validated that the LoRA adapter artefact published to Hugging Face can be loaded and invoked through a callable remote function in a reproducible, cloud-hosted environment.
+
+\subsection{Ephemeral Inference Function}
+
+The first deployment pattern used Modal's \texttt{@app.function} decorator to create a stateless ephemeral function (\texttt{t20\_scorer\_ephemeral.py}) that loads the base model, applies the LoRA adapters, generates a prediction, and then releases GPU resources. The container image used \texttt{debian\_slim} as a base with \texttt{torch}, \texttt{transformers}, \texttt{bitsandbytes}, \texttt{accelerate}, and \texttt{peft} installed at build time. The base model (\texttt{meta-llama/Llama-3.2-3B}), fine-tuned adapter repository, and specific checkpoint revision SHA (\texttt{00be3f3f}) were hard-coded to ensure reproducibility. An NVIDIA T4 GPU was requested for each invocation. On first invocation, model loading required approximately 30 seconds (254 quantised weight shards); generation itself completed in under one second thereafter.
+
+\subsection{Persistent Warm Service}
+
+The second deployment pattern used Modal's \texttt{@app.cls} decorator with a \texttt{@modal.enter()} setup method (\texttt{t20\_scorer\_service.py}), which loads the base model and LoRA adapters exactly once when the container starts. Subsequent calls to the \texttt{predict} method reuse the in-memory model, reducing per-request latency to approximately 2 seconds. Model weights were cached in a Modal persistent Volume (\texttt{hf-hub-cache}) to eliminate repeated downloads from Hugging Face on container cold starts. The \texttt{MIN\_CONTAINERS} parameter controls scaling behaviour: a value of \texttt{0} permits scale-to-zero after two minutes of inactivity (cold start $\approx$30 s); a value of \texttt{1} maintains a permanently warm container (warm response $\approx$2 s).
+
+The service was deployed to Modal's platform and invoked remotely via \texttt{scorer.predict.remote(prompt)} to confirm end-to-end functionality. For a sample mid-innings prompt (Melbourne Cricket Ground, Australia batting, 10 overs completed, score 82/2, current run rate 8.2), both the ephemeral function and the persistent service produced a predicted final score of 165 runs, consistent with the benchmark evaluation results.

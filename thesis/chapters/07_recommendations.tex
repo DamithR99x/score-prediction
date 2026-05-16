@@ -58,6 +58,10 @@ Generative LLM outputs are inherently unstructured and may deviate from the expe
 
 The fine-tuned model artefact (Hugging Face model repository) and the training dataset (Hugging Face dataset repository) used in this study were versioned independently. For reproducibility in production systems, model artefacts should be tagged with the exact dataset version and training configuration that produced them. This is particularly important for iterative fine-tuning workflows in which the training data is periodically refreshed with new match data, as a model trained on a later dataset version may not be directly comparable to one trained on an earlier version.
 
+\subsection{Use Serverless GPU Platforms as a Low-Cost Deployment Path}
+
+The deployment experiment described in Section~3.7 demonstrated that serverless GPU computing platforms such as Modal \cite{modal2024} provide a practical path from a fine-tuned Hugging Face model to a callable remote inference service without managing persistent GPU infrastructure. A 4-bit QLoRA model can be deployed on a T4 container with a cold start latency of approximately 30 seconds and a warm response latency of approximately 2 seconds, at zero compute cost when idle (scale-to-zero configuration). Two deployment patterns are worth distinguishing: an \textit{ephemeral function}, which reloads the model on every call and is appropriate for infrequent one-off predictions; and a \textit{persistent warm service}, which loads the model once per container lifetime and amortises that cost across repeated calls. The warm service pattern, with model weights cached in a persistent volume, is recommended for any production scenario that requires sub-five-second response times. Practitioners who have validated a research model and wish to expose it as an API endpoint before committing to full cloud infrastructure should treat a serverless warm service as the minimal viable deployment unit.
+
 \section{Recommendations for Future Researchers}
 
 \subsection{Extend the Pipeline to Domestic T20 Leagues}
