@@ -1,0 +1,54 @@
+\chapter*{Glossary}
+\addcontentsline{toc}{chapter}{Glossary}
+
+\begin{description}
+
+    \item[Batting Strength Score]
+    A weighted composite score quantifying the aggregate scoring potential of the batting lineup remaining at a given point in an innings. Each player is assigned a weight based on their classified role: batter (1.0), all-rounder (0.8), utility player (0.65), unknown (0.45), or bowler (0.3).
+
+    \item[Checkpoint]
+    A saved snapshot of model weights at a specific step during training. In this thesis, checkpoints are saved at regular 100-step intervals and the checkpoint achieving minimum validation loss is selected as the deployment model.
+
+    \item[Completion]
+    In the context of language model fine-tuning, the target output text that the model is trained to generate given a prompt input. In this work, the completion is the actual final first-innings total expressed as a plain integer string.
+
+    \item[Decoder-only Transformer]
+    A transformer architecture that generates output tokens autoregressively, conditioning each new token on all preceding tokens. Used in models such as LLaMA and the GPT series.
+
+    \item[Fine-tuning]
+    The process of continuing the training of a pre-trained model on a domain-specific dataset to adapt it to a target task, typically using a lower learning rate than the original pre-training.
+
+    \item[Greedy Decoding]
+    An inference strategy in which the model always selects the token with the highest predicted probability at each generation step, producing deterministic outputs without sampling.
+
+    \item[In-game State Snapshot]
+    A structured representation of the match state at a specific point during a batting innings, capturing all cumulative and section-level statistics up to that point. In this work, one snapshot is extracted at the end of each two-over section.
+
+    \item[Innings]
+    In cricket, the period during which one team bats. In the T20 format, each team has one innings of up to 20 overs or until all ten wickets have fallen.
+
+    \item[Over]
+    A set of six consecutive legal deliveries bowled by a single bowler.
+
+    \item[Par Score]
+    The historical percentile first-innings total at a given venue, used as a contextual benchmark for typical scoring expectations at that ground. In this work, the 52nd percentile of first-innings totals is used for venues with ten or more historical matches.
+
+    \item[Powerplay]
+    The first six overs of a T20 innings, during which fielding restrictions are in force. These restrictions typically result in elevated scoring rates relative to the rest of the innings.
+
+    \item[Prompt]
+    A structured natural-language input provided to a language model to elicit a desired output. In this work, the prompt encodes the full in-game match state in a fixed template format.
+
+    \item[QLoRA]
+    Quantised Low-Rank Adaptation; a parameter-efficient fine-tuning method that combines 4-bit NormalFloat quantisation of frozen base model weights with trainable low-rank adapter matrices injected into the attention layers.
+
+    \item[Run Rate]
+    The average number of runs scored per over at a given point in an innings, computed as cumulative runs divided by overs completed.
+
+    \item[Section]
+    A two-over unit of innings progression used in this work for feature extraction. Each T20 innings is divided into ten non-overlapping sections, and one in-game state snapshot is captured at the end of each section.
+
+    \item[Zero-shot Inference]
+    Evaluation of a language model on a task without providing any task-specific training examples, relying solely on the knowledge and capabilities encoded during pre-training.
+
+\end{description}
