@@ -71,15 +71,11 @@ export function buildPrompt(form) {
     `Runs in last 2 overs: ${form.runs_last_2_overs}\n` +
     `Dot balls so far: ${form.dot_balls_total}\n` +
     `Dot balls in last 2 overs: ${form.dot_balls_last_2}\n\n` +
-    `Fours: ${form.fours}\n` +
-    `Sixes: ${form.sixes}\n` +
+    `Fours hit: ${form.fours}\n` +
+    `Sixes hit: ${form.sixes}\n` +
     `Powerplay completed: ${pp}\n\n` +
-    `Remaining batting lineup composition:\n` +
-    `  Batters: ${form.lineup.batter}\n` +
-    `  All-rounders: ${form.lineup.all_rounder}\n` +
-    `  Utility players: ${form.lineup.utility_player}\n` +
-    `  Bowlers: ${form.lineup.bowler}\n` +
-    `  Unknown: ${form.lineup.unknown}\n` +
-    `Batting strength: ${bs}\n`
+    `Remaining Batting Strength Score: ${bs}\n` +
+    `\n` +
+    `Final 1st innings score:`
   );
 }

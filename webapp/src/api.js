@@ -29,7 +29,7 @@ function mockPredict(prompt) {
       const wkts = num(prompt, /Wickets lost: (\d+)/);
       const par = num(prompt, /Venue par score: (\d+)/) || 160;
       const last2 = num(prompt, /Runs in last 2 overs: (\d+)/);
-      const bs = num(prompt, /Batting strength: ([\d.]+)/) || 5;
+      const bs = num(prompt, /Remaining Batting Strength Score: ([\d.]+)/) || 5;
 
       const rr = overs > 0 ? runs / overs : 7;
       const oversLeft = Math.max(0, 20 - overs);

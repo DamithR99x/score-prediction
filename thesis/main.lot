@@ -3,9 +3,9 @@
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {3.1}{\ignorespaces Features extracted per two-over section}}{19}{table.caption.7}%
 \contentsline {table}{\numberline {3.2}{\ignorespaces Player classification weights used in the Remaining Batting Strength Score}}{22}{table.caption.8}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces Temporal train/validation/test split}}{24}{table.caption.9}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Temporal train/validation/test split}}{25}{table.caption.9}%
 \contentsline {table}{\numberline {3.4}{\ignorespaces LoRA adapter configuration (LITE mode)}}{26}{table.caption.10}%
-\contentsline {table}{\numberline {3.5}{\ignorespaces Training hyperparameters (LITE mode, Kaggle T4)}}{26}{table.caption.11}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Training hyperparameters (LITE mode, Kaggle T4)}}{27}{table.caption.11}%
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {4.1}{\ignorespaces Zero-shot \textit {Llama 3.2-3B} baseline evaluation results (200 datapoints)}}{36}{table.caption.15}%
 \contentsline {table}{\numberline {4.2}{\ignorespaces Fine-tuned \textit {Llama 3.2-3B} checkpoint comparison on the temporal test set}}{37}{table.caption.16}%

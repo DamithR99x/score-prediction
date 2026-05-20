@@ -40,27 +40,27 @@
 \contentsline {subsection}{\numberline {3.2.1}Source Dataset}{16}{subsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Filtering Criteria}{17}{subsection.3.2.2}%
 \contentsline {subsection}{\numberline {3.2.3}Venue Name Normalisation}{17}{subsection.3.2.3}%
-\contentsline {section}{\numberline {3.3}Feature Engineering}{18}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Innings Segmentation}{18}{subsection.3.3.1}%
+\contentsline {section}{\numberline {3.3}Feature Engineering}{19}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Innings Segmentation}{19}{subsection.3.3.1}%
 \contentsline {subsection}{\numberline {3.3.2}Per-Section Features}{19}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Venue Par Score}{19}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.3}Venue Par Score}{20}{subsection.3.3.3}%
 \contentsline {subsection}{\numberline {3.3.4}Player Batting and Bowling Statistics}{20}{subsection.3.3.4}%
-\contentsline {subsection}{\numberline {3.3.5}Player Classification}{20}{subsection.3.3.5}%
+\contentsline {subsection}{\numberline {3.3.5}Player Classification}{21}{subsection.3.3.5}%
 \contentsline {subsection}{\numberline {3.3.6}Remaining Batting Strength Score}{21}{subsection.3.3.6}%
 \contentsline {section}{\numberline {3.4}Prompt Schema and Dataset Construction}{23}{section.3.4}%
 \contentsline {subsection}{\numberline {3.4.1}Natural-Language Prompt Design}{23}{subsection.3.4.1}%
 \contentsline {subsection}{\numberline {3.4.2}Dataset Split}{24}{subsection.3.4.2}%
 \contentsline {section}{\numberline {3.5}Model Architecture and Fine-Tuning}{25}{section.3.5}%
 \contentsline {subsection}{\numberline {3.5.1}Base Model}{25}{subsection.3.5.1}%
-\contentsline {subsection}{\numberline {3.5.2}LoRA Adapter Configuration}{25}{subsection.3.5.2}%
-\contentsline {subsection}{\numberline {3.5.3}Training Procedure}{25}{subsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.5.2}LoRA Adapter Configuration}{26}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Training Procedure}{26}{subsection.3.5.3}%
 \contentsline {subsection}{\numberline {3.5.4}Checkpoint Selection}{26}{subsection.3.5.4}%
 \contentsline {section}{\numberline {3.6}Evaluation Framework}{28}{section.3.6}%
 \contentsline {subsection}{\numberline {3.6.1}Experimental Conditions}{28}{subsection.3.6.1}%
 \contentsline {subsection}{\numberline {3.6.2}Inference Configuration}{29}{subsection.3.6.2}%
 \contentsline {subsection}{\numberline {3.6.3}Output Post-processing}{29}{subsection.3.6.3}%
-\contentsline {subsection}{\numberline {3.6.4}Performance Metrics}{29}{subsection.3.6.4}%
-\contentsline {section}{\numberline {3.7}Serverless Inference Deployment}{30}{section.3.7}%
+\contentsline {subsection}{\numberline {3.6.4}Performance Metrics}{30}{subsection.3.6.4}%
+\contentsline {section}{\numberline {3.7}Serverless Inference Deployment}{31}{section.3.7}%
 \contentsline {subsection}{\numberline {3.7.1}Ephemeral Inference Function}{31}{subsection.3.7.1}%
 \contentsline {subsection}{\numberline {3.7.2}Persistent Warm Service}{31}{subsection.3.7.2}%
 \contentsline {subsection}{\numberline {3.7.3}Gradio Web Interface and Hugging Face Spaces Deployment}{32}{subsection.3.7.3}%
