@@ -29,92 +29,92 @@
 \contentsline {subsection}{\numberline {2.4.3}Quantised Low-Rank Adaptation (QLoRA)}{12}{subsection.2.4.3}%
 \contentsline {subsection}{\numberline {2.4.4}Supervised Fine-Tuning (SFT)}{12}{subsection.2.4.4}%
 \contentsline {subsection}{\numberline {2.4.5}Checkpoint Selection and Early Stopping}{13}{subsection.2.4.5}%
-\contentsline {section}{\numberline {2.5}LLMs in Sports Analytics and Forecasting}{14}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}Sports Analytics with Machine Learning}{14}{subsection.2.5.1}%
+\contentsline {section}{\numberline {2.5}LLMs in Sports Analytics and Forecasting}{13}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Sports Analytics with Machine Learning}{13}{subsection.2.5.1}%
 \contentsline {subsection}{\numberline {2.5.2}Language Models for Structured and Tabular Data}{14}{subsection.2.5.2}%
 \contentsline {subsection}{\numberline {2.5.3}LLMs Applied to Sports-Specific Tasks}{14}{subsection.2.5.3}%
 \contentsline {section}{\numberline {2.6}Research Gap and Positioning of the Present Study}{15}{section.2.6}%
-\contentsline {chapter}{\numberline {3}Materials and Methods}{17}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Introduction}{17}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Data Collection and Preprocessing}{17}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Source Dataset}{17}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Filtering Criteria}{18}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Venue Name Normalisation}{18}{subsection.3.2.3}%
-\contentsline {section}{\numberline {3.3}Feature Engineering}{19}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Innings Segmentation}{19}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Per-Section Features}{20}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Venue Par Score}{20}{subsection.3.3.3}%
-\contentsline {subsection}{\numberline {3.3.4}Player Batting and Bowling Statistics}{21}{subsection.3.3.4}%
-\contentsline {subsection}{\numberline {3.3.5}Player Classification}{21}{subsection.3.3.5}%
-\contentsline {subsection}{\numberline {3.3.6}Remaining Batting Strength Score}{22}{subsection.3.3.6}%
-\contentsline {section}{\numberline {3.4}Prompt Schema and Dataset Construction}{24}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Natural-Language Prompt Design}{24}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Dataset Split}{25}{subsection.3.4.2}%
-\contentsline {section}{\numberline {3.5}Model Architecture and Fine-Tuning}{26}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Base Model}{26}{subsection.3.5.1}%
-\contentsline {subsection}{\numberline {3.5.2}LoRA Adapter Configuration}{26}{subsection.3.5.2}%
-\contentsline {subsection}{\numberline {3.5.3}Training Procedure}{26}{subsection.3.5.3}%
-\contentsline {subsection}{\numberline {3.5.4}Checkpoint Selection}{27}{subsection.3.5.4}%
-\contentsline {section}{\numberline {3.6}Evaluation Framework}{29}{section.3.6}%
-\contentsline {subsection}{\numberline {3.6.1}Experimental Conditions}{29}{subsection.3.6.1}%
-\contentsline {subsection}{\numberline {3.6.2}Inference Configuration}{30}{subsection.3.6.2}%
-\contentsline {subsection}{\numberline {3.6.3}Output Post-processing}{30}{subsection.3.6.3}%
-\contentsline {subsection}{\numberline {3.6.4}Performance Metrics}{30}{subsection.3.6.4}%
-\contentsline {section}{\numberline {3.7}Serverless Inference Deployment}{31}{section.3.7}%
-\contentsline {subsection}{\numberline {3.7.1}Ephemeral Inference Function}{32}{subsection.3.7.1}%
-\contentsline {subsection}{\numberline {3.7.2}Persistent Warm Service}{32}{subsection.3.7.2}%
-\contentsline {subsection}{\numberline {3.7.3}Gradio Web Interface and Hugging Face Spaces Deployment}{33}{subsection.3.7.3}%
-\contentsline {subsection}{\numberline {3.7.4}Production React Web Application}{34}{subsection.3.7.4}%
-\contentsline {chapter}{\numberline {4}Results}{36}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Introduction}{36}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Zero-Shot Baseline: Llama 3.2-3B}{36}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Fine-Tuned Llama 3.2-3B: Checkpoint Comparison}{37}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Overview}{37}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Effect of Checkpoint Selection at 200 Datapoints}{37}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}Effect of Checkpoint Selection at 500 Datapoints}{38}{subsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.3.4}Prediction Accuracy at 500 Datapoints}{38}{subsection.4.3.4}%
-\contentsline {section}{\numberline {4.4}Zero-Shot Frontier Model: GPT-4.1-nano}{39}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Cross-Condition Comparison}{40}{section.4.5}%
-\contentsline {chapter}{\numberline {5}Discussion}{42}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Introduction}{42}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Effectiveness of Fine-Tuning for Score Prediction}{42}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Role of Feature Engineering and Prompt Schema}{43}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Checkpoint Selection and Generalisation}{44}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Positioning Against the Literature}{45}{section.5.5}%
-\contentsline {section}{\numberline {5.6}Limitations}{46}{section.5.6}%
-\contentsline {section}{\numberline {5.7}Future Work}{47}{section.5.7}%
-\contentsline {chapter}{\numberline {6}Conclusions}{49}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Summary of the Study}{49}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Principal Findings}{50}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Contributions}{50}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Recommendations for Practitioners}{51}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Concluding Remarks}{52}{section.6.5}%
-\contentsline {chapter}{\numberline {7}Recommendations}{53}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Introduction}{53}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Recommendations for Cricket Boards and Analytics Teams}{53}{section.7.2}%
-\contentsline {subsection}{\numberline {7.2.1}Adopt Domain-Specific Fine-Tuning Over Frontier Model Prompting}{53}{subsection.7.2.1}%
-\contentsline {subsection}{\numberline {7.2.2}Invest in Structured Ball-by-Ball Data Infrastructure}{54}{subsection.7.2.2}%
-\contentsline {subsection}{\numberline {7.2.3}Use Venue Par Scores as a Baseline Calibration Reference}{54}{subsection.7.2.3}%
-\contentsline {subsection}{\numberline {7.2.4}Do Not Use Point Predictions Alone for High-Stakes Decisions}{54}{subsection.7.2.4}%
-\contentsline {section}{\numberline {7.3}Recommendations for Machine Learning Researchers}{55}{section.7.3}%
-\contentsline {subsection}{\numberline {7.3.1}Prioritise Feature Engineering for Structured Tabular-to-Text Tasks}{55}{subsection.7.3.1}%
-\contentsline {subsection}{\numberline {7.3.2}Evaluate at Multiple Test-Set Sizes Before Drawing Conclusions}{55}{subsection.7.3.2}%
-\contentsline {subsection}{\numberline {7.3.3}Consider the Evaluation Impact of Regex Post-Processing}{55}{subsection.7.3.3}%
-\contentsline {subsection}{\numberline {7.3.4}Report Results on Both Checkpoint Variants}{56}{subsection.7.3.4}%
-\contentsline {section}{\numberline {7.4}Recommendations for Software Engineers and MLOps Practitioners}{56}{section.7.4}%
-\contentsline {subsection}{\numberline {7.4.1}Use QLoRA for Memory-Constrained Deployment}{56}{subsection.7.4.1}%
-\contentsline {subsection}{\numberline {7.4.2}Implement Checkpoint Management from the Start of Training}{56}{subsection.7.4.2}%
-\contentsline {subsection}{\numberline {7.4.3}Wrap Inference in a Robust Post-Processing Layer}{57}{subsection.7.4.3}%
-\contentsline {subsection}{\numberline {7.4.4}Version Datasets and Model Artefacts Together}{57}{subsection.7.4.4}%
-\contentsline {subsection}{\numberline {7.4.5}Use Serverless GPU Platforms as a Low-Cost Deployment Path}{57}{subsection.7.4.5}%
-\contentsline {section}{\numberline {7.5}Recommendations for Future Researchers}{58}{section.7.5}%
-\contentsline {subsection}{\numberline {7.5.1}Extend the Pipeline to Domestic T20 Leagues}{58}{subsection.7.5.1}%
-\contentsline {subsection}{\numberline {7.5.2}Investigate the Effect of Base Model Scale}{59}{subsection.7.5.2}%
-\contentsline {subsection}{\numberline {7.5.3}Develop a Second-Innings Prediction Variant}{59}{subsection.7.5.3}%
-\contentsline {subsection}{\numberline {7.5.4}Quantify Uncertainty with Sampled Completions}{59}{subsection.7.5.4}%
-\contentsline {subsection}{\numberline {7.5.5}Conduct an Ablation Study of Engineered Features}{60}{subsection.7.5.5}%
-\contentsline {chapter}{References}{61}{subsection.7.5.5}%
-\contentsline {chapter}{\numberline {A}Prompt Schema and Sample Prompt--Completion Pairs}{66}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Player Classification Rules}{71}{appendix.B}%
-\contentsline {chapter}{\numberline {C}Full Training Configuration}{75}{appendix.C}%
-\contentsline {chapter}{\numberline {D}Sample Model Outputs}{78}{appendix.D}%
+\contentsline {chapter}{\numberline {3}Materials and Methods}{16}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Introduction}{16}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Data Collection and Preprocessing}{16}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Source Dataset}{16}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Filtering Criteria}{17}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Venue Name Normalisation}{17}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Feature Engineering}{18}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Innings Segmentation}{18}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Per-Section Features}{19}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Venue Par Score}{19}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Player Batting and Bowling Statistics}{20}{subsection.3.3.4}%
+\contentsline {subsection}{\numberline {3.3.5}Player Classification}{20}{subsection.3.3.5}%
+\contentsline {subsection}{\numberline {3.3.6}Remaining Batting Strength Score}{21}{subsection.3.3.6}%
+\contentsline {section}{\numberline {3.4}Prompt Schema and Dataset Construction}{23}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Natural-Language Prompt Design}{23}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Dataset Split}{24}{subsection.3.4.2}%
+\contentsline {section}{\numberline {3.5}Model Architecture and Fine-Tuning}{25}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Base Model}{25}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}LoRA Adapter Configuration}{25}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Training Procedure}{25}{subsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.5.4}Checkpoint Selection}{26}{subsection.3.5.4}%
+\contentsline {section}{\numberline {3.6}Evaluation Framework}{28}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Experimental Conditions}{28}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Inference Configuration}{29}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}Output Post-processing}{29}{subsection.3.6.3}%
+\contentsline {subsection}{\numberline {3.6.4}Performance Metrics}{29}{subsection.3.6.4}%
+\contentsline {section}{\numberline {3.7}Serverless Inference Deployment}{30}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Ephemeral Inference Function}{31}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}Persistent Warm Service}{31}{subsection.3.7.2}%
+\contentsline {subsection}{\numberline {3.7.3}Gradio Web Interface and Hugging Face Spaces Deployment}{32}{subsection.3.7.3}%
+\contentsline {subsection}{\numberline {3.7.4}Production React Web Application}{33}{subsection.3.7.4}%
+\contentsline {chapter}{\numberline {4}Results}{35}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction}{35}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Zero-Shot Baseline: Llama 3.2-3B}{35}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Fine-Tuned Llama 3.2-3B: Checkpoint Comparison}{36}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Overview}{36}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Effect of Checkpoint Selection at 200 Datapoints}{36}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Effect of Checkpoint Selection at 500 Datapoints}{37}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Prediction Accuracy at 500 Datapoints}{37}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}Zero-Shot Frontier Model: GPT-4.1-nano}{38}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Cross-Condition Comparison}{39}{section.4.5}%
+\contentsline {chapter}{\numberline {5}Discussion}{41}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Introduction}{41}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Effectiveness of Fine-Tuning for Score Prediction}{41}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Role of Feature Engineering and Prompt Schema}{42}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Checkpoint Selection and Generalisation}{43}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Positioning Against the Literature}{44}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Limitations}{45}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Future Work}{46}{section.5.7}%
+\contentsline {chapter}{\numberline {6}Conclusions}{48}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Summary of the Study}{48}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Principal Findings}{49}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Contributions}{49}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Recommendations for Practitioners}{50}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Concluding Remarks}{51}{section.6.5}%
+\contentsline {chapter}{\numberline {7}Recommendations}{52}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Introduction}{52}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Recommendations for Cricket Boards and Analytics Teams}{52}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Adopt Domain-Specific Fine-Tuning Over Frontier Model Prompting}{52}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Invest in Structured Ball-by-Ball Data Infrastructure}{53}{subsection.7.2.2}%
+\contentsline {subsection}{\numberline {7.2.3}Use Venue Par Scores as a Baseline Calibration Reference}{53}{subsection.7.2.3}%
+\contentsline {subsection}{\numberline {7.2.4}Do Not Use Point Predictions Alone for High-Stakes Decisions}{53}{subsection.7.2.4}%
+\contentsline {section}{\numberline {7.3}Recommendations for Machine Learning Researchers}{54}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Prioritise Feature Engineering for Structured Tabular-to-Text Tasks}{54}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Evaluate at Multiple Test-Set Sizes Before Drawing Conclusions}{54}{subsection.7.3.2}%
+\contentsline {subsection}{\numberline {7.3.3}Consider the Evaluation Impact of Regex Post-Processing}{54}{subsection.7.3.3}%
+\contentsline {subsection}{\numberline {7.3.4}Report Results on Both Checkpoint Variants}{55}{subsection.7.3.4}%
+\contentsline {section}{\numberline {7.4}Recommendations for Software Engineers and MLOps Practitioners}{55}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Use QLoRA for Memory-Constrained Deployment}{55}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}Implement Checkpoint Management from the Start of Training}{55}{subsection.7.4.2}%
+\contentsline {subsection}{\numberline {7.4.3}Wrap Inference in a Robust Post-Processing Layer}{56}{subsection.7.4.3}%
+\contentsline {subsection}{\numberline {7.4.4}Version Datasets and Model Artefacts Together}{56}{subsection.7.4.4}%
+\contentsline {subsection}{\numberline {7.4.5}Use Serverless GPU Platforms as a Low-Cost Deployment Path}{56}{subsection.7.4.5}%
+\contentsline {section}{\numberline {7.5}Recommendations for Future Researchers}{57}{section.7.5}%
+\contentsline {subsection}{\numberline {7.5.1}Extend the Pipeline to Domestic T20 Leagues}{57}{subsection.7.5.1}%
+\contentsline {subsection}{\numberline {7.5.2}Investigate the Effect of Base Model Scale}{58}{subsection.7.5.2}%
+\contentsline {subsection}{\numberline {7.5.3}Develop a Second-Innings Prediction Variant}{58}{subsection.7.5.3}%
+\contentsline {subsection}{\numberline {7.5.4}Quantify Uncertainty with Sampled Completions}{58}{subsection.7.5.4}%
+\contentsline {subsection}{\numberline {7.5.5}Conduct an Ablation Study of Engineered Features}{59}{subsection.7.5.5}%
+\contentsline {chapter}{References}{60}{subsection.7.5.5}%
+\contentsline {chapter}{\numberline {A}Prompt Schema and Sample Prompt--Completion Pairs}{65}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Player Classification Rules}{70}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Full Training Configuration}{74}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Sample Model Outputs}{77}{appendix.D}%

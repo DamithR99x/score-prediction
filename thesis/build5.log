@@ -1,0 +1,265 @@
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex)
+ restricted \write18 enabled.
+entering extended mode
+(./main.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2025/01/22 v1.4n Standard LaTeX document class
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/base/size12.clo))
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/geometry/geometry.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/iftex/ifvtex.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/iftex/iftex.sty)))
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/setspace/setspace.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/fontspec/fontspec.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/l3kernel/expl3.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/l3backend/l3backend-xetex.de
+f)))
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/base/fontenc.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/fontspec/fontspec.cfg)))
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/titlesec/titlesec.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/tocloft/tocloft.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/microtype/microtype.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/microtype/microtype-xetex.de
+f) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/microtype/microtype.cfg))
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics-def/xetex.def)))
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/caption/subcaption.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/caption/caption.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/caption/caption3.sty)))
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.
+sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/infwarerr/infwarerr.sty)))
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/gettitlestring/gettitlestr
+ing.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/stringenc/stringenc.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/url/url.sty)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty)
+)) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/hyperref/hxetex.def
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/rerunfilecheck/rerunfilechec
+k.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/uniquecounter/uniquecounte
+r.sty))) (./main.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: xetex
+(./main.out) (./main.out) (./frontmatter/title_outer.tex [1])
+(./frontmatter/title_inner.tex [2]) (./frontmatter/declaration.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/microtype/mt-msa.cfg)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/microtype/mt-msb.cfg)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/microtype/mt-cmr.cfg))
+(./frontmatter/certification.tex [3]) [4] (./main.toc [1] [2] [3]
+Underfull \hbox (badness 7832) in paragraph at lines 95--95
+ [][] [][]\TU/TimesNewRoman(0)/m/n/12 Adopt Domain-Specific Fine-Tuning Over Fr
+ontier Model 
+[4]) [5] (./main.lot) (./main.lof [6]) (./frontmatter/abbreviations.tex
+[7] [8]) (./frontmatter/glossary.tex [9] [10])
+(./frontmatter/acknowledgement.tex [11]) (./frontmatter/abstract.tex [12]
+[13]) (./chapters/01_introduction.tex [14]
+Chapter 1.
+[1] [2] [3] [4]) (./chapters/02_literature_review.tex [5]
+Chapter 2.
+[6] [7] [8] [9] [10] [11] [12] [13] [14])
+(./chapters/03_materials_and_methods.tex [15]
+Chapter 3.
+[16] [17] [18]
+Underfull \hbox (badness 1867) in paragraph at lines 68--69
+[]\TU/TimesNewRoman(0)/m/n/12 Cumulative deliveries on which no runs were
+
+Underfull \hbox (badness 10000) in paragraph at lines 76--76
+[]\TU/lmtt/m/n/12 remaining_batting_
+
+Underfull \hbox (badness 2626) in paragraph at lines 76--77
+[]\TU/TimesNewRoman(0)/m/n/12 Weighted sum of remaining players (see Sec-
+[19]
+Underfull \hbox (badness 1910) in paragraph at lines 95--96
+\TU/TimesNewRoman(0)/m/n/12 batting average ($[] \OT1/cmr/m/n/12 = []/[]$\TU/Ti
+mesNewRoman(0)/m/n/12 ), and batting strike rate ($[][] \OT1/cmr/m/n/12 =
+
+Underfull \hbox (badness 1199) in paragraph at lines 97--98
+\TU/TimesNewRoman(0)/m/n/12 (run-outs excluded), wides, no-balls, dot balls bow
+led, bowling average ($[] \OT1/cmr/m/n/12 =
+
+Underfull \hbox (badness 1194) in paragraph at lines 103--104
+\TU/TimesNewRoman(0)/m/n/12 Each player in the dataset was assigned one of five
+ role classifications based on
+
+Underfull \hbox (badness 3679) in paragraph at lines 103--104
+\TU/TimesNewRoman(0)/m/n/12 their career-aggregated statistics, using the funct
+ion \TU/lmtt/m/n/12 classify_t20i_player \TU/TimesNewRoman(0)/m/n/12 de-
+[20]
+Underfull \hbox (badness 3872) in paragraph at lines 132--133
+[]\TU/TimesNewRoman(0)/m/n/12 Strong middle-order contributors with high
+[21] [22] [23] [24]
+Underfull \hbox (badness 1147) in paragraph at lines 242--243
+\TU/TimesNewRoman(0)/m/n/12 jective is the standard causal language modelling l
+oss computed over the comple-
+
+Underfull \hbox (badness 1917) in paragraph at lines 242--243
+\TU/TimesNewRoman(0)/m/n/12 ble []3.5[]. Training progress was logged to \TU/Ti
+mesNewRoman(0)/b/n/12 Weights & Biases \TU/TimesNewRoman(0)/m/n/12 under the pr
+oject
+
+Underfull \hbox (badness 1558) in paragraph at lines 242--243
+\TU/TimesNewRoman(0)/m/n/12 the private Hugging Face repository \TU/lmtt/m/n/12
+ ratnayakatilanka/t20_score_prediction-
+[25]
+Underfull \hbox (badness 1057) in paragraph at lines 272--273
+\TU/TimesNewRoman(0)/m/n/12 decreases steadily across the training steps. Figur
+e []3.2[] shows the validation loss
+[26] [27]
+Underfull \hbox (badness 1838) in paragraph at lines 306--307
+[]\TU/TimesNewRoman(0)/b/n/12 Zero-shot GPT-4.1-nano (frontier reference): \TU/
+TimesNewRoman(0)/m/n/12 The \TU/lmtt/m/n/12 openai/gpt-4.1-nano
+[28]
+Underfull \hbox (badness 1038) in paragraph at lines 318--319
+[]\TU/TimesNewRoman(0)/b/n/12 Primary pattern: \TU/TimesNewRoman(0)/m/n/12 Extr
+act the first standalone 2-or-3-digit number matching
+[29]
+Underfull \hbox (badness 2253) in paragraph at lines 341--342
+\TU/TimesNewRoman(0)/m/n/12 less ephemeral function (\TU/lmtt/m/n/12 t20_scorer
+_ephemeral.py\TU/TimesNewRoman(0)/m/n/12 ) that loads the base model,
+
+Underfull \hbox (badness 2846) in paragraph at lines 341--342
+\TU/TimesNewRoman(0)/m/n/12 The container image used \TU/lmtt/m/n/12 debian_sli
+m \TU/TimesNewRoman(0)/m/n/12 as a base with \TU/lmtt/m/n/12 torch\TU/TimesNewR
+oman(0)/m/n/12 , \TU/lmtt/m/n/12 transformers\TU/TimesNewRoman(0)/m/n/12 ,
+
+Underfull \hbox (badness 1242) in paragraph at lines 341--342
+\TU/lmtt/m/n/12 bitsandbytes\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12 accel
+erate\TU/TimesNewRoman(0)/m/n/12 , and \TU/lmtt/m/n/12 peft \TU/TimesNewRoman(0
+)/m/n/12 installed at build time. The base model
+[30]
+Underfull \hbox (badness 1502) in paragraph at lines 345--346
+\TU/lmtt/m/n/12 @modal.enter() \TU/TimesNewRoman(0)/m/n/12 setup method (\TU/lm
+tt/m/n/12 t20_scorer_service.py\TU/TimesNewRoman(0)/m/n/12 ), which loads the b
+ase
+
+Underfull \hbox (badness 2707) in paragraph at lines 347--348
+[]\TU/TimesNewRoman(0)/m/n/12 The service was deployed to Modal’s platform and 
+invoked remotely using the
+[31] [32]) (./chapters/04_results.tex
+Underfull \hbox (badness 2409) in paragraph at lines 363--1
+\TU/TimesNewRoman(0)/m/n/12 function that proxies the existing \TU/lmtt/m/n/12 
+Scorer.predict \TU/TimesNewRoman(0)/m/n/12 method over HTTP. The ap-
+
+Underfull \hbox (badness 10000) in paragraph at lines 363--1
+\TU/lmtt/m/n/12 build && gh-pages -d dist\TU/TimesNewRoman(0)/m/n/12 ), availab
+le at []$[][][][][] [] [] [] [][][][][][][][][][] [] [][][][][][] [] [][] []
+[33] [34]
+Chapter 4.
+[35] [36] [37] [38]
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+[]\TU/TimesNewRoman(0)/m/n/12 LLaMA 3.2-3B (fine-tuned,
+[39]) (./chapters/05_discussion.tex [40]
+Chapter 5.
+[41] [42] [43] [44] [45] [46]) (./chapters/06_conclusion.tex [47]
+Chapter 6.
+[48] [49] [50]) (./chapters/07_recommendations.tex [51]
+Chapter 7.
+[52] [53] [54] [55] [56] [57]) [58] [59]
+Underfull \hbox (badness 10000) in paragraph at lines 141--144
+[]\TU/TimesNewRoman(0)/m/n/12 Cricsheet (2024) \TU/TimesNewRoman(0)/m/it/12 Cri
+csheet: A cricketing archive \TU/TimesNewRoman(0)/m/n/12 [online]. Available at
+:
+[60]
+Underfull \hbox (badness 10000) in paragraph at lines 191--194
+[]\TU/TimesNewRoman(0)/m/n/12 Hugging Face (2024) \TU/TimesNewRoman(0)/m/it/12 
+Hugging Face Spaces \TU/TimesNewRoman(0)/m/n/12 [online]. Available at:
+[61]
+Underfull \hbox (badness 10000) in paragraph at lines 216--219
+[]\TU/TimesNewRoman(0)/m/n/12 Meta AI (2024) \TU/TimesNewRoman(0)/m/it/12 The L
+lama 3 herd of models \TU/TimesNewRoman(0)/m/n/12 [online]. Available at:
+[62] [63] (./appendices/appendix_a.tex [64]
+Appendix A.
+
+Underfull \hbox (badness 1132) in paragraph at lines 1--1
+|\TU/TimesNewRoman(0)/b/n/24.88 Prompt Schema and Sample Prompt–
+[65] [66] [67] [68]) (./appendices/appendix_b.tex [69]
+Appendix B.
+
+Underfull \hbox (badness 1478) in paragraph at lines 50--51
+[]\TU/TimesNewRoman(0)/m/n/12 All remaining players who meet the minimum data
+
+Underfull \hbox (badness 1515) in paragraph at lines 72--73
+\TU/TimesNewRoman(0)/m/n/12 dervalue unknown young batters; a high
+[70] [71] [72]) (./appendices/appendix_c.tex [73]
+Appendix C.
+
+Underfull \hbox (badness 10000) in paragraph at lines 90--91
+[]\TU/lmtt/m/n/12 ratnayakatilanka-university-of-
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--111
+[]\TU/TimesNewRoman(0)/m/n/10.95 Training/eval dataset
+
+Underfull \hbox (badness 10000) in paragraph at lines 112--112
+[]\TU/TimesNewRoman(0)/m/n/10.95 Evaluation dataset (sum-
+
+Underfull \hbox (badness 10000) in paragraph at lines 113--113
+[]\TU/TimesNewRoman(0)/m/n/10.95 Fine-tuned LoRA adapter
+) (./appendices/appendix_d.tex [74] [75] [76]
+Appendix D.
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--21
+[]\TU/lmtt/m/n/12 The innings is still in
+
+Underfull \hbox (badness 6284) in paragraph at lines 20--21
+\TU/lmtt/m/n/12 progress... \TU/TimesNewRoman(0)/m/n/12 (no integer
+
+Underfull \hbox (badness 2443) in paragraph at lines 24--25
+[]\TU/lmtt/m/n/12 58 runs \TU/TimesNewRoman(0)/m/n/12 (regex captures 58
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--33
+[]\TU/lmtt/m/n/12 I cannot predict...
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--33
+\TU/TimesNewRoman(0)/m/n/12 (model declines to answer;
+[77]
+Underfull \hbox (badness 10000) in paragraph at lines 94--95
+\TU/TimesNewRoman(0)/m/n/12 late-innings accuracy im-
+[78]
+Underfull \hbox (badness 10000) in paragraph at lines 115--115
+[]\TU/TimesNewRoman(0)/b/n/12 Zero-shot
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--115
+[]\TU/TimesNewRoman(0)/b/n/12 Fine-
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--115
+\TU/TimesNewRoman(0)/b/n/12 tuned
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--116
+[]\TU/TimesNewRoman(0)/b/n/12 GPT-4.1-
+) [79] (./main.aux) )
+(see the transcript file for additional information)
+Output written on main.pdf (97 pages).
+Transcript written on main.log.
