@@ -305,12 +305,12 @@ Three experimental conditions were evaluated on the held-out test set:
 \begin{enumerate}
     \item \textbf{Zero-shot LLaMA 3.2-3B (baseline):} The unmodified base model was prompted with the full in-game-state prompt and asked to generate a continuation. No domain-specific training was applied.
     \item \textbf{Fine-tuned LLaMA 3.2-3B:} The QLoRA-adapted model was loaded with the step-800 checkpoint adapter and evaluated on the same test set under identical inference conditions.
-    \item \textbf{Zero-shot GPT-4.1-nano (frontier reference):} The \texttt{openai/gpt-4.1-nano} model was queried via the LiteLLM Python library \cite{litellm2023} using the summary prompt variant. The system instruction was: \textit{``Predict the final T20 first-innings score in runs. Respond with the number only, no explanation.''}
+    \item \textbf{Zero-shot GPT-4.1-nano (frontier reference):} The \texttt{openai/gpt-4.1-nano} model was queried via the LiteLLM Python library \cite{litellm2023} using the summary prompt variant. The model was prompted with a user-turn instruction prepended to the match-state context: \textit{``Predict the final T20 first-innings score in runs. Respond with the number only, no explanation.''}
 \end{enumerate}
 
 \subsection{Inference Configuration}
 
-For both LLaMA-based conditions, inference was performed using greedy decoding (\texttt{do\_sample=False}) with a maximum of 8 new tokens generated beyond the prompt. Only the tokens generated after the end of the input prompt were decoded; the prompt tokens themselves were excluded from the output. For GPT-4.1-nano, the API was called with default sampling settings, and the raw text response was processed identically to the LLaMA output.
+For the fine-tuned LLaMA conditions, inference was performed using greedy decoding (\texttt{do\_sample=False}) with a maximum of 8 new tokens generated beyond the prompt; in practice the fine-tuned model consistently generated 2--3 tokens. For the zero-shot LLaMA baseline, 15 new tokens were permitted to allow the untuned model greater latitude to produce a recognisable integer. Only the tokens generated after the end of the input prompt were decoded; the prompt tokens themselves were excluded from the output. For GPT-4.1-nano, the API was called with default sampling settings, and the raw text response was processed identically to the LLaMA output.
 
 \subsection{Output Post-processing}
 

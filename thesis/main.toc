@@ -58,11 +58,11 @@
 \contentsline {section}{\numberline {3.6}Evaluation Framework}{28}{section.3.6}%
 \contentsline {subsection}{\numberline {3.6.1}Experimental Conditions}{28}{subsection.3.6.1}%
 \contentsline {subsection}{\numberline {3.6.2}Inference Configuration}{29}{subsection.3.6.2}%
-\contentsline {subsection}{\numberline {3.6.3}Output Post-processing}{29}{subsection.3.6.3}%
+\contentsline {subsection}{\numberline {3.6.3}Output Post-processing}{30}{subsection.3.6.3}%
 \contentsline {subsection}{\numberline {3.6.4}Performance Metrics}{30}{subsection.3.6.4}%
 \contentsline {section}{\numberline {3.7}Serverless Inference Deployment}{31}{section.3.7}%
 \contentsline {subsection}{\numberline {3.7.1}Ephemeral Inference Function}{31}{subsection.3.7.1}%
-\contentsline {subsection}{\numberline {3.7.2}Persistent Warm Service}{31}{subsection.3.7.2}%
+\contentsline {subsection}{\numberline {3.7.2}Persistent Warm Service}{32}{subsection.3.7.2}%
 \contentsline {subsection}{\numberline {3.7.3}Gradio Web Interface and Hugging Face Spaces Deployment}{32}{subsection.3.7.3}%
 \contentsline {subsection}{\numberline {3.7.4}Production React Web Application}{33}{subsection.3.7.4}%
 \contentsline {chapter}{\numberline {4}Results}{35}{chapter.4}%
