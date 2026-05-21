@@ -3,9 +3,9 @@
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {3.1}{\ignorespaces Features extracted per two-over section}}{19}{table.caption.7}%
 \contentsline {table}{\numberline {3.2}{\ignorespaces Player classification weights used in the Remaining Batting Strength Score}}{22}{table.caption.8}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces Temporal train/validation/test split}}{25}{table.caption.9}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Temporal train/validation/test split}}{24}{table.caption.9}%
 \contentsline {table}{\numberline {3.4}{\ignorespaces LoRA adapter configuration (LITE mode)}}{26}{table.caption.10}%
-\contentsline {table}{\numberline {3.5}{\ignorespaces Training hyperparameters (LITE mode, Kaggle T4)}}{27}{table.caption.11}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Training hyperparameters (LITE mode, Kaggle T4)}}{26}{table.caption.11}%
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {4.1}{\ignorespaces Zero-shot \textit {Llama 3.2-3B} baseline evaluation results (200 datapoints)}}{36}{table.caption.15}%
 \contentsline {table}{\numberline {4.2}{\ignorespaces Fine-tuned \textit {Llama 3.2-3B} checkpoint comparison on the temporal test set}}{37}{table.caption.16}%
@@ -16,16 +16,16 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {B.1}{\ignorespaces Player classification rules applied in priority order}}{71}{table.caption.20}%
-\contentsline {table}{\numberline {B.2}{\ignorespaces RBSS weights assigned to each player classification}}{72}{table.caption.21}%
+\contentsline {table}{\numberline {B.1}{\ignorespaces Player classification rules applied in priority order}}{72}{table.caption.20}%
+\contentsline {table}{\numberline {B.2}{\ignorespaces RBSS weights assigned to each player classification}}{73}{table.caption.21}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {C.1}{\ignorespaces 4-bit NF4 quantisation configuration}}{74}{table.caption.22}%
-\contentsline {table}{\numberline {C.2}{\ignorespaces LoRA adapter configuration (LITE mode)}}{74}{table.caption.23}%
-\contentsline {table}{\numberline {C.3}{\ignorespaces Full \texttt {SFTConfig} / \texttt {TrainingArguments} (LITE mode, Kaggle T4)}}{75}{table.caption.24}%
-\contentsline {table}{\numberline {C.4}{\ignorespaces Weights \& Biases run metadata}}{75}{table.caption.25}%
-\contentsline {table}{\numberline {C.5}{\ignorespaces Hugging Face Hub artefact identifiers}}{76}{table.caption.26}%
+\contentsline {table}{\numberline {C.1}{\ignorespaces 4-bit NF4 quantisation configuration}}{75}{table.caption.22}%
+\contentsline {table}{\numberline {C.2}{\ignorespaces LoRA adapter configuration (LITE mode)}}{75}{table.caption.23}%
+\contentsline {table}{\numberline {C.3}{\ignorespaces Full \texttt {SFTConfig} / \texttt {TrainingArguments} (LITE mode, Kaggle T4)}}{76}{table.caption.24}%
+\contentsline {table}{\numberline {C.4}{\ignorespaces Weights \& Biases run metadata}}{76}{table.caption.25}%
+\contentsline {table}{\numberline {C.5}{\ignorespaces Hugging Face Hub artefact identifiers}}{77}{table.caption.26}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {D.1}{\ignorespaces Representative zero-shot \textit {Llama 3.2-3B} outputs}}{77}{table.caption.27}%
-\contentsline {table}{\numberline {D.2}{\ignorespaces Representative fine-tuned \textit {Llama 3.2-3B} outputs (step-800, 500 test datapoints)}}{78}{table.caption.28}%
-\contentsline {table}{\numberline {D.3}{\ignorespaces Representative zero-shot \textit {GPT-4.1-nano} outputs (200 test datapoints)}}{79}{table.caption.29}%
-\contentsline {table}{\numberline {D.4}{\ignorespaces Side-by-side prediction comparison across all three conditions}}{79}{table.caption.30}%
+\contentsline {table}{\numberline {D.1}{\ignorespaces Representative zero-shot \textit {Llama 3.2-3B} outputs}}{78}{table.caption.27}%
+\contentsline {table}{\numberline {D.2}{\ignorespaces Representative fine-tuned \textit {Llama 3.2-3B} outputs (step-800, 500 test datapoints)}}{79}{table.caption.28}%
+\contentsline {table}{\numberline {D.3}{\ignorespaces Representative zero-shot \textit {GPT-4.1-nano} outputs (200 test datapoints)}}{80}{table.caption.29}%
+\contentsline {table}{\numberline {D.4}{\ignorespaces Side-by-side prediction comparison across all three conditions}}{80}{table.caption.30}%
