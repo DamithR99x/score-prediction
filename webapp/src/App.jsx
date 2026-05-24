@@ -19,7 +19,7 @@ import ConfidenceMeter from './components/ConfidenceMeter.jsx';
 import VenueInsights from './components/VenueInsights.jsx';
 import JsonUploadZone from './components/JsonUploadZone.jsx';
 
-import { buildPrompt, currentRunRate, battingStrength } from './lib/cricket.js';
+import { buildPrompt, currentRunRate, battingStrength, totalRemainingBatters } from './lib/cricket.js';
 import { predictScore } from './api.js';
 
 const INITIAL = {
@@ -79,7 +79,18 @@ export default function App() {
     return Math.max(0, (prediction.score - form.runs_scored) / oversLeft);
   }, [prediction, form.overs_completed, form.runs_scored]);
 
+  const validationErrors = useMemo(() => {
+    const errs = [];
+    if (!form.venue)                          errs.push('Venue');
+    if (!form.batting_team)                   errs.push('Batting team');
+    if (!form.par_score)                      errs.push('Venue par score');
+    if (form.overs_completed <= 0)            errs.push('Overs completed');
+    if (totalRemainingBatters(form.lineup) === 0) errs.push('Remaining lineup');
+    return errs;
+  }, [form]);
+
   const onPredict = useCallback(async () => {
+    if (validationErrors.length > 0) return;
     setLoading(true);
     setError(null);
     try {
@@ -91,7 +102,7 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  }, [form]);
+  }, [form, validationErrors]);
 
   return (
     <div className="min-h-dvh">
@@ -102,6 +113,7 @@ export default function App() {
           prediction={prediction}
           loading={loading}
           onPredict={onPredict}
+          validationErrors={validationErrors}
           battingTeam={form.batting_team}
           venue={form.venue}
           runs={form.runs_scored}
@@ -160,11 +172,6 @@ export default function App() {
           <ConfidenceMeter prediction={prediction} par={form.par_score} />
         </div>
 
-        {/* Input grid — organised by innings flow */}
-        <CollapsibleUpload>
-          <JsonUploadZone onLoad={onJsonLoad} />
-        </CollapsibleUpload>
-
         <div className="grid gap-4 lg:grid-cols-3">
           <MatchSetupCard form={form} set={set} />
           <InningsFlowPanel form={form} set={set} />
@@ -175,6 +182,10 @@ export default function App() {
           <BoundariesPanel form={form} set={set} />
           <LineupSelector lineup={form.lineup} onChange={setLineup} />
         </div>
+
+        <CollapsibleUpload>
+          <JsonUploadZone onLoad={onJsonLoad} />
+        </CollapsibleUpload>
 
         <footer className="pt-4 pb-10 text-center text-xs text-slate-500">
           <div className="mx-auto inline-flex items-center gap-2">

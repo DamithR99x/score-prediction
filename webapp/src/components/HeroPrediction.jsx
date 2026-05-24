@@ -6,6 +6,7 @@ export default function HeroPrediction({
   prediction,
   loading,
   onPredict,
+  validationErrors = [],
   battingTeam,
   venue,
   runs,
@@ -14,6 +15,7 @@ export default function HeroPrediction({
   crr,
   requiredRR,
 }) {
+  const isReady = validationErrors.length === 0;
   return (
     <section className="panel relative overflow-hidden">
       {/* Floodlight conic glow */}
@@ -49,15 +51,22 @@ export default function HeroPrediction({
             <button
               type="button"
               onClick={onPredict}
-              disabled={loading}
+              disabled={loading || !isReady}
               className="btn-primary"
+              title={!isReady ? `Fill in: ${validationErrors.join(', ')}` : undefined}
             >
               <Zap className="h-4 w-4" />
               {loading ? 'Forecasting…' : 'Run AI Prediction'}
             </button>
-            <span className="text-xs text-slate-400">
-              Fine-tuned LLM · served via Modal
-            </span>
+            {!isReady && !loading ? (
+              <span className="text-xs text-leather-400">
+                Fill in: {validationErrors.join(' · ')}
+              </span>
+            ) : (
+              <span className="text-xs text-slate-400">
+                Fine-tuned LLM · served via Modal
+              </span>
+            )}
           </div>
         </div>
 

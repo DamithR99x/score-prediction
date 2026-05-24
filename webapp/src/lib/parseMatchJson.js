@@ -26,7 +26,7 @@ export function parseMatchJson(raw) {
   };
 
   const formPatch = {
-    venue:            str('venue'),
+    venue:            resolveVenue(str('venue')),
     par_score:        num('par_score'),
     batting_team:     str('batting_team'),
     overs_completed:  num('overs_completed'),
@@ -50,4 +50,28 @@ export function parseMatchJson(raw) {
   };
 
   return { formPatch, errors };
+}
+
+// Known venues — kept in sync with MatchSetupCard.jsx.
+const KNOWN_VENUES = [
+  'Wankhede Stadium, Mumbai',
+  'M. Chinnaswamy Stadium, Bengaluru',
+  'Eden Gardens, Kolkata',
+  'Narendra Modi Stadium, Ahmedabad',
+  'MCG, Melbourne',
+  'SCG, Sydney',
+  'Dubai International',
+  'Premadasa, Colombo',
+];
+
+// If the JSON venue string exactly matches a known venue, use it.
+// Otherwise try a case-insensitive substring match so "Wankhede Stadium"
+// still resolves to "Wankhede Stadium, Mumbai".
+function resolveVenue(raw) {
+  if (!raw) return raw;
+  const exact = KNOWN_VENUES.find((v) => v === raw);
+  if (exact) return exact;
+  const lower = raw.toLowerCase();
+  const partial = KNOWN_VENUES.find((v) => v.toLowerCase().includes(lower) || lower.includes(v.toLowerCase().split(',')[0].toLowerCase()));
+  return partial ?? raw; // fall back to raw string if no match (still valid for the LLM)
 }
