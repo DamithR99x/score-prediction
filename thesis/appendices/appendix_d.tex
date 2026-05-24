@@ -3,7 +3,7 @@
 
 This appendix presents representative prediction examples drawn from the test split, illustrating the qualitative behaviour of each experimental condition. All examples shown are from actual test-set evaluations; no outputs have been fabricated or edited. The ``Actual score'' column gives the true final first-innings total from the match record.
 
-\section*{D.1\quad Zero-Shot LLaMA 3.2-3B}
+\section*{D.1\quad Zero-Shot Llama 3.2-3B}
 
 The zero-shot baseline model frequently fails to produce a recognisable integer continuation. The following examples illustrate the range of output behaviours observed.
 
@@ -36,7 +36,7 @@ Australia vs India, \newline Sydney, over 4, \newline 32 runs/1 wkt &
 
 \noindent The high rate of fallback-to-zero predictions and prompt-echo extractions is the primary driver of the extreme MAE (71.31 runs) and negative $R^2$ ($-$317.4\%) for this condition.
 
-\section*{D.2\quad Fine-Tuned LLaMA 3.2-3B (Step-800 Checkpoint)}
+\section*{D.2\quad Fine-Tuned Llama 3.2-3B (Step-800 Checkpoint)}
 
 After fine-tuning, the model consistently generates a standalone integer as its first token, reflecting successful learning of the output format. Prediction quality is markedly improved.
 

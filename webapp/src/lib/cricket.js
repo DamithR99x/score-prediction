@@ -72,7 +72,7 @@ export function buildPrompt(form) {
     `Dot balls so far: ${form.dot_balls_total}\n` +
     `Dot balls in last 2 overs: ${form.dot_balls_last_2}\n\n` +
     `Fours hit: ${form.fours}\n` +
-    `Sixes hit: ${form.sixes}\n` +
+    `Sixes hit: ${form.sixes}\n\n` +
     `Powerplay completed: ${pp}\n\n` +
     `Remaining Batting Strength Score: ${bs}\n` +
     `\n` +
