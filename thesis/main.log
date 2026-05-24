@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.4.18)  24 MAY 2026 10:32
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.4.18)  24 MAY 2026 14:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -711,6 +711,11 @@ Underfull \hbox (badness 1087) in paragraph at lines 365--1
 []\TU/TimesNewRoman(0)/m/n/12 The production backend is implemented as a Modal \TU/lmtt/m/n/12 @asgi_app() \TU/TimesNewRoman(0)/m/n/12 ASGI function
  []
 
+
+Underfull \hbox (badness 3068) in paragraph at lines 365--1
+[]$[][][][][] [] [] [] [][][][][][][][][][][][][][][][][][][][][][][] [] [] [] [][][][][][][][][][][][][][][] [] [][][][]$[]\TU/TimesNewRoman(0)/m/n/12 . Because the de-
+ []
+
 [34]
 Chapter 4.
 [35
@@ -858,6 +863,6 @@ Here is how much of TeX's memory you used:
  45075 multiletter control sequences out of 15000+600000
  636269 words of font info for 110 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 73i,14n,93p,1345b,596s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 73i,14n,93p,1985b,596s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on main.pdf (97 pages).
