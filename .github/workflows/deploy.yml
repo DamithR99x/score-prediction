@@ -15,11 +15,9 @@ permissions:
   contents: read
 
 jobs:
-  deploy-infra:
-    name: Deploy Infrastructure (Bicep)
+  deploy:
+    name: Deploy Infrastructure & App
     runs-on: ubuntu-latest
-    outputs:
-      deployment_token: ${{ steps.bicep.outputs.deploymentToken }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,7 +30,6 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Deploy Bicep
-        id: bicep
         uses: azure/arm-deploy@v2
         with:
           resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
@@ -43,13 +40,15 @@ jobs:
             sku=Free
           failOnStdErr: false
 
-  deploy-app:
-    name: Build & Deploy App
-    runs-on: ubuntu-latest
-    needs: deploy-infra
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Get SWA deployment token
+        id: get-token
+        run: |
+          TOKEN=$(az staticwebapp secrets list \
+            --name t20-intelligence-console \
+            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --query "properties.apiKey" -o tsv)
+          echo "::add-mask::$TOKEN"
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -69,7 +68,7 @@ jobs:
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ needs.deploy-infra.outputs.deployment_token }}
+          azure_static_web_apps_api_token: ${{ steps.get-token.outputs.token }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: 'upload'
           app_location: 'webapp'
