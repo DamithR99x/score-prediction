@@ -20,7 +20,7 @@ The results are summarised in Table~\ref{tab:zeroshot_results}.
 \hline
 \textbf{Model} & \textbf{MAE (runs)} & \textbf{MSE} & \textbf{$R^2$ (\%)} \\
 \hline
-LLaMA 3.2-3B (zero-shot) & 71.31 & 7,463 & $-$317.4 \\
+Llama 3.2-3B (zero-shot) & 71.31 & 7,463 & $-$317.4 \\
 \hline
 \end{tabular}
 \end{table}
@@ -66,7 +66,7 @@ The fine-tuned model (step-800, 500 datapoints) achieves an average prediction e
 
 \section{Zero-Shot Frontier Model: GPT-4.1-nano}
 
-The \textit{GPT-4.1-nano} model was evaluated in a zero-shot setting using the summary prompt variant (without the trailing ``Final 1st innings score:'' suffix) and an explicit system instruction to respond with the predicted score as a number only. The model was accessed via the LiteLLM library and evaluated on 200 test datapoints from the temporal test split, drawn from the same underlying match instances as the prompt-format test split used for the LLaMA evaluations.
+The \textit{GPT-4.1-nano} model was evaluated in a zero-shot setting using the summary prompt variant (without the trailing ``Final 1st innings score:'' suffix) and an explicit system instruction to respond with the predicted score as a number only. The model was accessed via the LiteLLM library and evaluated on 200 test datapoints from the temporal test split, drawn from the same underlying match instances as the prompt-format test split used for the Llama evaluations.
 
 The results are summarised in Table~\ref{tab:gpt_results}.
 
@@ -99,19 +99,19 @@ Table~\ref{tab:full_comparison} presents the consolidated performance of all eva
 \hline
 \textbf{Model} & \textbf{Fine-tuned} & \textbf{N} & \textbf{MAE (runs)} & \textbf{MSE} & \textbf{$R^2$ (\%)} \\
 \hline
-LLaMA 3.2-3B (zero-shot) & No  & 200 & 71.31 & 7,463 & $-$317.4 \\
-LLaMA 3.2-3B (fine-tuned, step-800) & Yes & 500 & \textbf{16.51} & \textbf{543} & \textbf{68.3} \\
+Llama 3.2-3B (zero-shot) & No  & 200 & 71.31 & 7,463 & $-$317.4 \\
+Llama 3.2-3B (fine-tuned, step-800) & Yes & 500 & \textbf{16.51} & \textbf{543} & \textbf{68.3} \\
 GPT-4.1-nano (zero-shot) & No  & 200 & 30.02 & 1,538 & 14.0 \\
 \hline
 \end{tabular}
 \vspace{4pt}
-{\footnotesize \textit{Note:} The fine-tuned model is evaluated at $N = 500$ to reduce evaluation noise; the zero-shot LLaMA baseline and GPT-4.1-nano are evaluated at $N = 200$. All evaluation sets comprise the chronologically first $N$ rows of the temporal test split.}
+{\footnotesize \textit{Note:} The fine-tuned model is evaluated at $N = 500$ to reduce evaluation noise; the zero-shot Llama baseline and GPT-4.1-nano are evaluated at $N = 200$. All evaluation sets comprise the chronologically first $N$ rows of the temporal test split.}
 \end{table}
 
 The results reveal three principal findings.
 
 \textbf{Finding 1 — Fine-tuning substantially outperforms the frontier zero-shot model.} The fine-tuned \textit{Llama 3.2-3B} model achieves an MAE of 16.51 runs and an $R^2$ of 68.3\%, compared to an MAE of 30.02 runs and an $R^2$ of 14.0\% for zero-shot \textit{GPT-4.1-nano}. This represents a \textbf{45.0\% reduction in MAE} and a \textbf{54.3 percentage-point improvement in $R^2$} relative to the frontier model, despite the fine-tuned model being a compact open-source system compared to the closed proprietary frontier model. The result demonstrates that domain-specific supervised fine-tuning on a curated T20 innings dataset is far more effective than relying on the general world knowledge of a large proprietary model for this task.
 
-\textbf{Finding 2 — Fine-tuning produces a dramatic improvement over the zero-shot LLaMA baseline.} The zero-shot \textit{Llama 3.2-3B} baseline achieves an MAE of 71.31 runs and an $R^2$ of $-$317.4\%, indicating near-random prediction behaviour. Fine-tuning the same model on the domain-specific dataset reduces the MAE to 16.51 runs --- a \textbf{76.8\% reduction} --- and raises $R^2$ from $-$317.4\% to 68.3\%, crossing the zero threshold from a below-mean predictor to a model that accounts for more than two-thirds of the variance in final first-innings totals. This dramatic gain demonstrates that the task knowledge required for in-game T20 score prediction is not present in the base pre-trained weights and must be acquired through domain-specific supervised training.
+\textbf{Finding 2 — Fine-tuning produces a dramatic improvement over the zero-shot Llama baseline.} The zero-shot \textit{Llama 3.2-3B} baseline achieves an MAE of 71.31 runs and an $R^2$ of $-$317.4\%, indicating near-random prediction behaviour. Fine-tuning the same model on the domain-specific dataset reduces the MAE to 16.51 runs --- a \textbf{76.8\% reduction} --- and raises $R^2$ from $-$317.4\% to 68.3\%, crossing the zero threshold from a below-mean predictor to a model that accounts for more than two-thirds of the variance in final first-innings totals. This dramatic gain demonstrates that the task knowledge required for in-game T20 score prediction is not present in the base pre-trained weights and must be acquired through domain-specific supervised training.
 
 \textbf{Finding 3 — Checkpoint selection has a marginal but consistent effect at scale.} The step-800 minimum-loss checkpoint outperforms the final epoch checkpoint on all three metrics when evaluated over 500 datapoints, confirming the validity of early-stopping-based checkpoint selection. The difference is small in absolute terms (MAE: 16.51 vs.\ 16.54 runs; $R^2$: 68.3\% vs.\ 68.1\%), but is consistent across all metrics, supporting the selection of the step-800 checkpoint as the deployment model.

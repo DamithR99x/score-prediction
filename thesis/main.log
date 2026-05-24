@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.4.18)  24 MAY 2026 10:24
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.4.18)  24 MAY 2026 10:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -715,12 +715,7 @@ Underfull \hbox (badness 1087) in paragraph at lines 365--1
 Chapter 4.
 [35
 
-] [36] [37] [38]
-Underfull \hbox (badness 10000) in paragraph at lines 103--103
-[]\TU/TimesNewRoman(0)/m/n/12 LLaMA 3.2-3B (fine-tuned,
- []
-
-[39]) (./chapters/05_discussion.tex [40]
+] [36] [37] [38] [39]) (./chapters/05_discussion.tex [40]
 Chapter 5.
 [41
 
