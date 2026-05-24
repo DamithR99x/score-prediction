@@ -114,7 +114,7 @@
 \contentsline {subsection}{\numberline {7.5.4}Quantify Uncertainty with Sampled Completions}{59}{subsection.7.5.4}%
 \contentsline {subsection}{\numberline {7.5.5}Conduct an Ablation Study of Engineered Features}{60}{subsection.7.5.5}%
 \contentsline {chapter}{References}{61}{subsection.7.5.5}%
-\contentsline {chapter}{\numberline {A}Prompt Schema and Sample Prompt--Completion Pairs}{66}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Player Classification Rules}{71}{appendix.B}%
-\contentsline {chapter}{\numberline {C}Full Training Configuration}{75}{appendix.C}%
-\contentsline {chapter}{\numberline {D}Sample Model Outputs}{78}{appendix.D}%
+\contentsline {chapter}{\numberline {A}Prompt Schema and Sample Prompt--Completion Pairs}{65}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Player Classification Rules}{70}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Full Training Configuration}{74}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Sample Model Outputs}{77}{appendix.D}%
