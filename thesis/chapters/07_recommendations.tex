@@ -8,11 +8,11 @@ This chapter consolidates actionable recommendations arising from the study, org
 
 \subsection{Adopt Domain-Specific Fine-Tuning Over Frontier Model Prompting}
 
-The empirical results of this study demonstrate that a fine-tuned 3-billion-parameter open-source model achieves substantially better predictive accuracy (MAE 16.51 runs, $R^2$ 68.3\%) than a zero-shot frontier model with approximately 100 times the parameter count (MAE 30.02 runs, $R^2$ 14.0\%). Cricket analytics teams should therefore prioritise investment in curating labelled training data and running parameter-efficient fine-tuning over subscription-based access to general-purpose frontier models for specialised prediction tasks. The computational cost of QLoRA fine-tuning on a single consumer-grade GPU is modest --- less than six hours on a Kaggle T4 --- and the resulting model can be hosted on-premises without ongoing API fees.
+The empirical results of this study demonstrate that a fine-tuned 3-billion-parameter open-source model achieves substantially better predictive accuracy (MAE 16.51 runs, $R^2$ 68.3\%) than a zero-shot frontier model (MAE 30.02 runs, $R^2$ 14.0\%). Cricket analytics teams should therefore prioritise investment in curating labelled training data and running parameter-efficient fine-tuning over subscription-based access to general-purpose frontier models for specialised prediction tasks. The computational cost of QLoRA fine-tuning on a single consumer-grade GPU is modest --- less than six hours on a Kaggle T4 --- and the resulting model can be hosted on-premises without ongoing API fees.
 
 \subsection{Invest in Structured Ball-by-Ball Data Infrastructure}
 
-The quality of score prediction models is fundamentally constrained by the quality and quantity of the underlying ball-by-ball data. Teams and national boards that maintain private performance databases should consider standardising their internal data formats to be compatible with openly available archives such as Cricsheet, enabling rapid integration of new data into fine-tuning pipelines. In particular, accurate recording of player roles (specialist batter, all-rounder, specialist bowler) is essential for computing the Role-Based Scoring System (RBSS) feature introduced in this work.
+The quality of score prediction models is fundamentally constrained by the quality and quantity of the underlying ball-by-ball data. Teams and national boards that maintain private performance databases should consider standardising their internal data formats to be compatible with openly available archives such as Cricsheet, enabling rapid integration of new data into fine-tuning pipelines. In particular, accurate recording of player roles (specialist batter, all-rounder, specialist bowler) is essential for computing the Remaining Batting Strength Score (RBSS) feature introduced in this work.
 
 \subsection{Use Venue Par Scores as a Baseline Calibration Reference}
 
@@ -44,7 +44,7 @@ When fine-tuning LLMs for regression or numerical prediction tasks, researchers 
 
 \subsection{Use QLoRA for Memory-Constrained Deployment}
 
-QLoRA (4-bit NF4 quantisation with low-rank LoRA adapters) provides an effective method for fine-tuning and deploying language models on GPU hardware with limited memory. The \textit{Llama 3.2-3B} model with rank-8 LoRA adapters and 4-bit weights fits comfortably within the 15\,GB VRAM of a Kaggle T4 or Google Colab T4 instance during both training and inference. Practitioners deploying fine-tuned models in resource-constrained environments are encouraged to adopt this configuration as a default starting point.
+QLoRA (4-bit NF4 quantisation with low-rank LoRA adapters) provides an effective method for fine-tuning and deploying language models on GPU hardware with limited memory. The \textit{Llama 3.2-3B} model with rank-16 LoRA adapters and 4-bit weights fits comfortably within the 15\,GB VRAM of a Kaggle T4 or Google Colab T4 instance during both training and inference. Practitioners deploying fine-tuned models in resource-constrained environments are encouraged to adopt this configuration as a default starting point.
 
 \subsection{Implement Checkpoint Management from the Start of Training}
 
@@ -84,4 +84,4 @@ The current evaluation uses greedy decoding to generate a single point predictio
 
 \subsection{Conduct an Ablation Study of Engineered Features}
 
-The prompt schema used in this study combines six categories of engineered features: over count and segment label, current score and wickets, venue par score, RBSS, active player classifications, and bowling attack tier. The relative contribution of each feature to model performance has not been isolated. A systematic ablation study --- in which each feature is individually removed from the prompt and the model is re-evaluated --- would clarify which features are most informative and whether any features are redundant or counterproductive. This analysis would also guide feature selection for future extensions of the pipeline.
+The prompt schema used in this study combines six categories of engineered features: over count and segment label, current score and wickets, recent scoring rate and boundary counts, venue par score, RBSS, and active player classifications. The relative contribution of each feature to model performance has not been isolated. A systematic ablation study --- in which each feature is individually removed from the prompt and the model is re-evaluated --- would clarify which features are most informative and whether any features are redundant or counterproductive. This analysis would also guide feature selection for future extensions of the pipeline.
