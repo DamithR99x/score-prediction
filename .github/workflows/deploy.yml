@@ -61,6 +61,8 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         env:
           VITE_PREDICT_URL: ${{ secrets.VITE_PREDICT_URL }}
+        env:
+          VITE_PREDICT_URL: ${{ secrets.VITE_PREDICT_URL }}
         with:
           azure_static_web_apps_api_token: ${{ steps.get-token.outputs.token }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
