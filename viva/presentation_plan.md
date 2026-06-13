@@ -53,9 +53,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Establish identity, programme, and topic in one breath. |
 | **Key Content** | Thesis title; "An MSc DSA 055 viva submission"; candidate name; supervisor name; institution and date; small Cricsheet attribution line. |
-| **Speaker Notes** | "Good morning. My thesis investigates whether a compact open-source LLM, fine-tuned with QLoRA on domain-specific natural-language prompts, can predict T20 first-innings totals competitively from any mid-innings snapshot. I will walk through the motivation, methodology, findings, and contributions over the next fifteen minutes." |
 | **Recommended Visuals** | Clean title block + small stadium/Cricsheet logo strip; no busy imagery. |
 | **Time** | 0:30 |
+
+#### Speaker Notes
+
+Good morning, and thank you for the opportunity to defend this thesis. My name is Tilanka Ratnayaka, and over the next fifteen minutes I will present my MSc DSA work on context-aware fine-tuning of a small open-source language model for in-game first-innings score prediction in Twenty20 cricket. The central question I set out to answer is whether a compact, three-billion-parameter Llama, adapted with QLoRA on natural-language match-state prompts, can predict T20 totals competitively from any mid-innings snapshot. I will cover motivation, methodology, results, and contributions, in that order, before opening to questions.
+
+#### Key Message
+
+A compact open-source LLM, fine-tuned on cricket-specific natural-language prompts, can outperform a frontier proprietary model at predicting T20 first-innings totals.
+
+#### Potential Examiner Question
+
+> "In one sentence, what is the contribution of this thesis?"
+
+#### Suggested Response
+
+It is the first reproducible demonstration that QLoRA fine-tuning of a 3-billion-parameter Llama on natural-language T20 match-state prompts beats zero-shot GPT-4.1-nano on first-innings score prediction by a 45 % MAE reduction, with all artefacts pinned for bit-level reproducibility.
 
 ---
 
@@ -65,9 +80,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Anchor the relevance for an examiner who may not be a cricket specialist. |
 | **Key Content** | (i) T20 is the highest-revenue cricket format; (ii) in-game score prediction drives broadcast, fantasy, betting, strategy; (iii) classical predictors miss the *qualitative* context (who is yet to bat, what kind of pitch); (iv) LLMs have transformed structured-data prediction in other domains but are *largely untested in sports forecasting*. |
-| **Speaker Notes** | "T20 is short, high-variance, commercially dominant. A reliable score prediction must integrate batting depth, venue character, recent momentum, and powerplay state simultaneously. Conventional vector-based models lose the semantics of these signals. LLMs natively consume context-rich text — that is the opportunity this thesis exploits." |
 | **Recommended Visuals** | Two-column infographic: (left) icons for broadcast / fantasy / betting / coaching; (right) a redacted match-card showing a numeric vector vs. a sentence describing the same state. |
 | **Time** | 1:00 |
+
+#### Speaker Notes
+
+Twenty20 is the dominant commercial format in cricket: it drives broadcast revenue, fantasy markets, betting, and tactical decision-making. A reliable in-game forecast must integrate four signals at once — venue character, batting depth, recent momentum, and powerplay state — and integrate them in seconds, between deliveries. Conventional predictors built on flat numeric vectors lose precisely the qualitative semantics that human analysts trade in. Large language models, by contrast, were designed to consume context-rich text natively, and recent work on tabular and time-series prediction shows they can be adapted to structured numerical tasks. That capability is essentially uncharted in cricket analytics, and that is the opportunity this thesis exploits. The next slide turns it into six concrete research objectives.
+
+#### Key Message
+
+Classical T20 predictors discard the qualitative context that human analysts use; LLMs are the first model class that consumes that context natively.
+
+#### Potential Examiner Question
+
+> "Why is in-game T20 score prediction still open after decades of cricket modelling?"
+
+#### Suggested Response
+
+DLS solves interruption fairness, not in-game forecasting. Earlier ML predictors flatten match state into numeric vectors and lose lineup quality, venue character, and momentum semantics. No prior work has used natural-language prompts to retain those signals end-to-end through a fine-tuned model.
 
 ---
 
@@ -77,9 +107,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Set the contract you will be judged against. |
 | **Key Content** | RO1 dataset + RBSS · RO2 prompt schema · RO3 zero-shot Llama baseline · RO4 QLoRA fine-tune · RO5 checkpoint comparison · RO6 GPT-4.1-nano frontier reference. Scope chips: men's international T20 only · first innings only · QLoRA (not full FT) · single training run. |
-| **Speaker Notes** | "Six objectives map cleanly to the chapters that follow. Note the deliberate scope — international men's T20, first innings, parameter-efficient fine-tuning — so that the comparisons we make later are fair and the limitations are explicit." |
 | **Recommended Visuals** | 2×3 table of ROs with one-line descriptions; a *Scope* and *Out of scope* strip beneath. |
 | **Time** | 1:00 |
+
+#### Speaker Notes
+
+The six research objectives map directly onto chapters three, four, and five of the thesis, and I treat them as the evaluation contract you will hold me to. RO1 builds the dataset and the RBSS feature; RO2 designs the prompt schema; RO3 establishes the zero-shot Llama baseline; RO4 runs the QLoRA fine-tune; RO5 compares the minimum-validation-loss checkpoint against the final checkpoint; and RO6 benchmarks against GPT-4.1-nano. The scope is deliberately narrow — international men's T20, first innings only, QLoRA rather than full fine-tuning — so that every comparison made later is on like-for-like ground and every limitation is explicit. The methodology slide will show how these objectives flow through the pipeline.
+
+#### Key Message
+
+Six tightly scoped research objectives form an auditable evaluation contract that each subsequent slide must answer.
+
+#### Potential Examiner Question
+
+> "Why exclude domestic leagues such as IPL, BBL, or PSL from scope?"
+
+#### Suggested Response
+
+Distributional homogeneity. International T20 is a single, well-curated population whose pitches, formats, and player pools are comparable; mixing leagues would conflate venue, format, and player effects in a single model. The pipeline is league-agnostic — pointing it at Cricsheet IPL JSON would rerun cleanly without code changes.
 
 ---
 
@@ -89,9 +134,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Show command of the field *without* paper-by-paper recital. |
 | **Key Content** | Four thematic streams: (a) **Statistical cricket models** — DLS/Stern, Perera–Swartz Markov; (b) **ML cricket models** — Iyer & Sharda NNs, Kampakis & Thomas ensembles, Bailey & Clarke wicket-importance; (c) **LLM foundations** — Vaswani transformer, Brown GPT-3 emergence, Touvron Llama, Hu LoRA, Dettmers QLoRA; (d) **LLMs on tabular/forecasting** — Hegselmann TabLLM, Gruver time-series, Huckerby football LLM. |
-| **Speaker Notes** | "The literature traces a clear trajectory: from hand-crafted statistical resources, through ML on numeric vectors, to language models adapting to structured prediction. Each stream contributes a piece of the puzzle, but none of them assemble it for in-game T20 score prediction." |
 | **Recommended Visuals** | Four-quadrant matrix (Statistical | ML | LLM tech | LLM applications), each quadrant listing the 2–3 most-cited works with a 6-word summary. |
 | **Time** | 1:00 |
+
+#### Speaker Notes
+
+Rather than recite papers chronologically, I synthesise the literature into four streams. The first is statistical cricket modelling — Duckworth–Lewis, Stern, Perera–Swartz Markov — which frames scoring as a resource problem on hand-crafted features. The second is machine learning on cricket — Iyer and Sharda, Kampakis and Thomas, Bailey and Clarke — which improved accuracy but kept numeric-vector inputs. The third is the technical lineage that makes parameter-efficient fine-tuning affordable — Vaswani, Brown, Touvron, Hu's LoRA, Dettmers' QLoRA. The fourth is LLMs applied to structured prediction — Hegselmann's TabLLM, Gruver's time-series, Huckerby's football LLM. Each stream contributes a piece; none assembles them for in-game T20, which is the gap I make explicit on the next slide.
+
+#### Key Message
+
+Cricket modelling and LLM application are converging trajectories that meet, for the first time, at this thesis.
+
+#### Potential Examiner Question
+
+> "Which paper is the closest precedent to your work?"
+
+#### Suggested Response
+
+Hegselmann's TabLLM is closest on paradigm — tabular state serialised into text, then fine-tuned on a small LLM. Huckerby 2024 is closest on domain — LLM applied to football outcome prediction. Neither tackles in-game cricket and neither runs a small-fine-tuned versus frontier-zero-shot benchmark, which is what makes this contribution distinctive.
 
 ---
 
@@ -101,9 +161,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Convert the gap into a defensible claim of novelty. |
 | **Key Content** | Gap table — columns: *Natural-language prompts for T20*, *RBSS-style batting-quality feature*, *Fine-tuned small vs. frontier zero-shot benchmark*, *Checkpoint selection in PEFT for sports*. Rows: representative prior works (Perera–Swartz, Kampakis, Hegselmann, Huckerby, This Work). Only *This Work* ticks all four. |
-| **Speaker Notes** | "Synthesising the four streams reveals four open boxes — and this thesis is the first contribution that fills all of them simultaneously, which is what allows me to make a defensible novelty claim." |
 | **Recommended Visuals** | Tick/cross gap matrix; the *This Work* row highlighted. |
 | **Time** | 1:00 |
+
+#### Speaker Notes
+
+This is the novelty-defence slide. The four columns of the matrix are the four open boxes from the previous quadrant: a natural-language prompt schema for in-game T20 state, a weighted batting-depth feature like RBSS, a head-to-head benchmark of fine-tuned small versus zero-shot frontier, and an explicit checkpoint-selection analysis for PEFT in sports forecasting. Every prior row above ours ticks at most two of these. Mine is the only row that ticks all four — and that simultaneous combination, not any one cell on its own, is what I claim as the contribution. The methodology section that follows shows exactly how each column was implemented in code.
+
+#### Key Message
+
+This thesis is the first to populate all four cells of the cricket-LLM gap matrix simultaneously.
+
+#### Potential Examiner Question
+
+> "Is your novelty really the whole pipeline, or just RBSS?"
+
+#### Suggested Response
+
+The combination is the contribution. RBSS is one of four pieces; the prompt schema, the small-versus-frontier benchmark, and the checkpoint-selection analysis are equally load-bearing. Removing any one would weaken the claim, which is precisely why the matrix shows all four together rather than any one in isolation.
 
 ---
 
@@ -113,9 +188,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Give the examiner the full pipeline in one image so later slides slot in cleanly. |
 | **Key Content** | Five-stage flow: **Cricsheet JSON (3,113)** → **Filtering & venue normalisation (2,895 matches, 236 venues)** → **Feature engineering (16 features × 10 snapshots)** → **Prompt construction + temporal split** → **QLoRA fine-tuning** → **Evaluation (3 conditions)** → **Deployment (Modal + Gradio + React)**. Indicate which artefact is published (HF dataset, HF adapter). |
-| **Speaker Notes** | "Everything that follows is one of these five blocks. I want to flag that the temporal split sits before fine-tuning — that is the single most important methodological control against data leakage." |
 | **Recommended Visuals** | Horizontal pipeline diagram with five labelled boxes, arrows, and badge icons for HF dataset, W&B run, HF adapter, Modal, Azure. |
 | **Time** | 1:00 |
+
+#### Speaker Notes
+
+Everything that follows fits inside this five-stage pipeline, and every artefact is published. Cricsheet supplies 3,113 raw match JSONs; Pydantic-validated filtering and venue-name normalisation reduces this to 2,895 matches across 236 canonical venues. Feature engineering produces sixteen numeric features at each of ten two-over snapshots — 28,950 prompt–completion pairs in total. The temporal split — train up to end of 2024, validation in 2025-H1, test in 2025-H2 onwards — sits before fine-tuning and is the single most important guardrail against data leakage. QLoRA fine-tunes on a free-tier Kaggle T4 in under six hours. Evaluation compares three model conditions on identical metrics, and the production stack is Modal plus Gradio plus React on Azure.
+
+#### Key Message
+
+A fully reproducible Cricsheet → prompt → QLoRA → evaluation → deployment pipeline with every artefact pinned to a specific revision.
+
+#### Potential Examiner Question
+
+> "What is your single most important methodological control?"
+
+#### Suggested Response
+
+The strict temporal split by match date. Train ends 31 December 2024, validation is 2025-H1, test is 2025-H2 onwards, and no match appears in two splits. The temporal ordering matches deployment conditions — predicting the future from the past, never the reverse — which is the only honest way to estimate live performance.
 
 ---
 
@@ -125,9 +215,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Spotlight the **single most novel methodological contribution** — RBSS. |
 | **Key Content** | (a) Innings sliced into ten 2-over sections → 10 snapshots per innings. (b) 16 features per snapshot grouped as: *State* (overs/runs/wickets/run-rate), *Recent* (runs/dot balls/boundaries last 2 overs), *Phase* (powerplay flag), *Venue* (par score @ 52nd percentile), *RBSS*. (c) RBSS formula and weight table (BATTER 1.00 / ALL_ROUNDER 0.80 / UTILITY 0.65 / INSUFFICIENT_DATA 0.45 / BOWLER 0.30). (d) Worked example: 1×BATTER + 2×ALL_ROUNDER + 1×UTILITY + 3×BOWLER = **4.15**. |
-| **Speaker Notes** | "RBSS encodes residual batting *quality*, not just count of wickets in hand. Two states with identical scoreline but different remaining line-ups now look different to the model. Weights are rounded by design so the model can learn them stably; BOWLER is non-zero to capture death-over cameos; INSUFFICIENT_DATA sits at a conservative midpoint to avoid systematic bias against debutants." |
 | **Recommended Visuals** | Two-column slide: left — pipeline strip (raw deliveries → per-section features → prompt); right — RBSS weight table with the worked example boxed underneath. |
 | **Time** | 1:30 |
+
+#### Speaker Notes
+
+RBSS — the Remaining Batting Strength Score — is the most novel methodological piece in the thesis. The intuition is simple: two states with an identical scoreboard but different remaining batting line-ups should look different to the model, because depth materially changes what the final total can be. RBSS encodes residual quality, not just count. Every player is classified by historical role into one of five buckets, with rounded weights — one for a recognised batter, down to 0.3 for a specialist bowler — non-zero because death-over cameos do happen. The worked example shows how a partially-collapsed lineup compresses to a single 4.15 scalar carried into the prompt on the next slide.
+
+#### Key Message
+
+RBSS distinguishes "five-for-three with the captain still in" from "five-for-three with the tail at the crease" — a depth signal that wickets-in-hand alone cannot capture.
+
+#### Potential Examiner Question
+
+> "Did you fit the RBSS weights from data?"
+
+#### Suggested Response
+
+No — they are hand-set, monotone, and rounded for stable learning on a 24,000-example training set. A data-driven version is acknowledged as future work; the contribution defended here is whether a depth signal helps at all, not which exact numeric depth signal helps. Hand-set weights also keep the feature interpretable for analysts and broadcasters.
 
 ---
 
@@ -137,9 +242,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Show *how* numeric state becomes language and *how* QLoRA adapts the model. |
 | **Key Content** | (a) Compact prompt template (Venue, par score, batting team, overs/balls, runs/wickets, run rate, last-2-over runs / dot balls, fours, sixes, powerplay flag, RBSS, "Final 1st innings score:"). (b) Token budget: max **148 prompt tokens**, max-seq 256. (c) Base model: **Llama 3.2-3B**, NF4 4-bit, double-quantised. (d) **LoRA config:** r=16, α=32, dropout=0.1, target `q/k/v/o_proj`. (e) **Training:** 1 epoch, lr 2e-4 cosine, eff. batch 8, `paged_adamw_8bit`, fp16, Kaggle T4, eval every 100 steps. |
-| **Speaker Notes** | "The completion is a single plain integer, which keeps decoding deterministic and post-processing trivial. The LoRA configuration follows the QLoRA paper defaults; the entire fine-tune fits in 16 GB of T4 VRAM and runs in under six hours — that consumer-grade reproducibility is itself part of the contribution." |
 | **Recommended Visuals** | Split slide — left: collapsed prompt template; right: Llama-3.2 transformer schematic with LoRA matrices `B·A` injected into attention projections + a small hyperparameter table. |
 | **Time** | 1:15 |
+
+#### Speaker Notes
+
+On the left is the prompt template: venue, par score, batting team, overs and balls, runs, wickets, run rate, last-two-over runs, dot balls, fours, sixes, powerplay flag, RBSS, and the trailing instruction "Final 1st innings score:". The prompt budget is 148 tokens; sequences pad to 256. The completion is a single integer, which keeps decoding deterministic and post-processing trivial. On the right is the model: Llama 3.2-3B, 4-bit NF4, double-quantised, with LoRA adapters of rank sixteen and alpha thirty-two injected into the attention projections only. Training is one epoch, learning rate 2e-4 with cosine schedule, paged 8-bit AdamW, on a free-tier Kaggle T4 in under six hours. Consumer-grade reproducibility is itself part of the contribution.
+
+#### Key Message
+
+A 148-token prompt and a rank-16 LoRA adapter on Llama-3.2-3B are sufficient to produce a competitive predictor on a free-tier GPU.
+
+#### Potential Examiner Question
+
+> "Why rank sixteen LoRA on attention projections only?"
+
+#### Suggested Response
+
+Rank sixteen is the QLoRA paper's recommended starting configuration; it fits T4 VRAM with margin and avoids over-parameterising on a 24,000-example training set. Targeting only the q/k/v/o projections leaves the MLP layers frozen, which keeps the trainable parameter count low and acts as implicit regularisation.
 
 ---
 
@@ -149,9 +269,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Demonstrate evaluation hygiene and reproducibility. |
 | **Key Content** | (a) Temporal split table — Train ≤ 2024-12-31 (~24,080 rows / 2,408 matches), Val 2025-H1 (~2,370), Test 2025-H2+ (~2,500). (b) Why temporal: prevents leakage, simulates deployment. (c) Tool stack: Pydantic v2, fuzzywuzzy, SQLite, Hugging Face Hub + Datasets, PEFT, TRL `SFTTrainer`, BitsAndBytes, W&B, LiteLLM, Modal, Gradio, React/Vite, Azure SWA via Bicep + GitHub Actions OIDC. |
-| **Speaker Notes** | "Two design choices are non-negotiable here: strictly temporal splitting and immutable artefact pinning. The fine-tuned adapter is pinned to HF revision `00be3f3f`, so every result in Chapter 4 can be regenerated bit-for-bit." |
 | **Recommended Visuals** | Timeline bar showing train / val / test windows; logo grid of the tool stack underneath. |
 | **Time** | 0:45 |
+
+#### Speaker Notes
+
+The split table on the left shows roughly 24,000 training rows, 2,400 validation rows, and 2,500 test rows, segregated strictly by match date. The point of the temporal split is to simulate deployment — the model sees historical matches and predicts future ones, never the reverse. The tool stack on the right is conventional but worth highlighting: Pydantic-v2 for schema validation, fuzzywuzzy for venue normalisation, Hugging Face Hub for the dataset and adapter, TRL's SFTTrainer for fine-tuning, BitsAndBytes for quantisation, Weights and Biases for run tracking, Modal for serverless inference, and Bicep with GitHub Actions OIDC for Azure deployment. Every artefact is pinned to a specific revision SHA.
+
+#### Key Message
+
+Every result in Chapter 4 is bit-reproducible from a pinned Hugging Face revision and a public Weights & Biases run.
+
+#### Potential Examiner Question
+
+> "How would I reproduce your headline results?"
+
+#### Suggested Response
+
+Pull the prompt dataset from the Hugging Face Hub, pull the adapter at revision `00be3f3f`, and run the evaluation notebook against the pinned model with the W&B run config. The same MAE, MSE, and R² values reproduce — there is no hidden state and no manual configuration step.
 
 ---
 
@@ -161,9 +296,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Deliver the single strongest piece of evidence the viva needs to hear. |
 | **Key Content** | Headline cross-condition table (verbatim from Ch. 4): <br/> · **Zero-shot Llama 3.2-3B (n=200)** — MAE 71.31, MSE 7,463, $R^2$ **−317.4 %** <br/> · **GPT-4.1-nano zero-shot (n=200)** — MAE 30.02, MSE 1,538, $R^2$ 14.0 % <br/> · **Fine-tuned Llama 3.2-3B, step-800 (n=500)** — **MAE 16.51, MSE 543, $R^2$ 68.3 %** <br/> Three headline numbers boxed: **76.8 % MAE reduction over zero-shot Llama**, **45.0 % MAE reduction over GPT-4.1-nano**, **+54.3 pp $R^2$ over GPT-4.1-nano**. |
-| **Speaker Notes** | "These are the three findings the thesis stands on. A small fine-tuned open-source model not only catches up to but decisively beats a frontier proprietary model on this task. The zero-shot Llama baseline confirms that the gain comes from fine-tuning, not from anything in the prompt alone." |
 | **Recommended Visuals** | Single bar chart — three bars (MAE), colour-coded; small $R^2$ table on the right; the three headline percentages as large numbered call-outs at the bottom. |
 | **Time** | 1:30 |
+
+#### Speaker Notes
+
+This is the headline result the thesis stands on. Zero-shot Llama 3.2-3B is unusable: an MAE of 71.31 runs and an R² of minus 317 percent — worse than predicting the mean. GPT-4.1-nano in zero-shot mode is meaningfully better at MAE 30 and R² 14 percent, but it still applies a roughly linear projection that misses T20 acceleration in the death overs. The fine-tuned 3B Llama at step 800 reaches MAE 16.51 and R² 68.3 percent. That is a 76.8 percent reduction in MAE over zero-shot Llama, a 45 percent reduction over GPT-4.1-nano, and a 54-percentage-point R² gain. A small fine-tuned open-source model decisively beats a frontier proprietary model on this task.
+
+#### Key Message
+
+A fine-tuned 3-billion-parameter open-source LLM beats zero-shot GPT-4.1-nano by 45 % MAE on every metric reported.
+
+#### Potential Examiner Question
+
+> "Is the gap large enough to claim significance without multi-seed runs?"
+
+#### Suggested Response
+
+Yes, on effect-size grounds. A 45 % MAE reduction and a 54-percentage-point R² jump are well above any plausible single-seed noise floor reported for QLoRA in the literature. I do not claim statistical significance — I claim direction and magnitude — and I am explicit about the single-seed limitation in the next-but-one slide.
 
 ---
 
@@ -173,9 +323,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Move from *what happened* to *why it happened* — defend the interpretation. |
 | **Key Content** | (a) **Why fine-tuning wins:** general pre-training corpora encode cricket prose but not the conditional distribution `P(final | mid-innings state)`. Fine-tuning supplies exactly that map. (b) **Why frontier loses:** observed GPT-4.1-nano under-prediction at early states (e.g. 14/1 in 2 overs at par 160 → predicted 89, actual 160) — applies a linear projection, ignores T20 acceleration. (c) **Checkpoint study:** at n=200 metrics disagree (noise window); at n=500 step-800 wins on MAE / MSE / $R^2$ consistently → validates min-val-loss selection. (d) **Feature contribution:** RBSS and venue par score are the two engineered features that most enrich the prompt beyond raw counts. |
-| **Speaker Notes** | "I want to head off two likely questions. First: yes — the zero-shot Llama failure is partly an output-format problem, but even after charitable regex extraction the MAE remains far above the fine-tuned model. Second: the checkpoint reversal at n=200 vs n=500 is itself useful evidence that small temporal evaluation windows are noisy, which is why I deliberately re-ran at n=500." |
 | **Recommended Visuals** | Two-panel slide: left — `eval/loss` curve from W&B (already in repo) with the step-800 minimum marked; right — small bar showing checkpoint × n cell metrics. |
 | **Time** | 1:30 |
+
+#### Speaker Notes
+
+Two arguments live on this slide. First, why fine-tuning wins: pre-training corpora encode cricket prose but not the conditional distribution of final totals given mid-innings state; fine-tuning supplies exactly that map, which is why a smaller model learns a function the larger one cannot derive in zero-shot. The W&B eval-loss curve on the left makes the learning explicit, with the minimum at step 800 marked. Second, the checkpoint study: at n equals 200 the metrics disagree because the evaluation window is noisy at that scale; at n equals 500 the minimum-validation-loss checkpoint wins on MAE, MSE, and R² consistently. That validates a principled checkpoint-selection rule for PEFT in sports forecasting — a small but transferable methodological lesson.
+
+#### Key Message
+
+Fine-tuning supplies the conditional map P(final total | mid-innings state) that pre-training does not, and the minimum-validation-loss checkpoint is the right one to select at scale.
+
+#### Potential Examiner Question
+
+> "Is the zero-shot Llama failure just an output-format problem?"
+
+#### Suggested Response
+
+Partly — many outputs are non-integer or repeated tokens, and the regex extractor falls back to zero. But even after charitable extraction, the MAE remains far above the fine-tuned model. Fine-tuning is doing genuine predictive work, not merely fixing output format; the residual gap demonstrates the conditional-distribution argument empirically.
 
 ---
 
@@ -185,9 +350,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Pre-empt examiner critique by owning the boundaries honestly. |
 | **Key Content** | (a) **Scope** — international men's T20 only; no IPL/BBL/PSL; women's matches present in the archive but unused. (b) **Single training run** — no multi-seed variance estimate. (c) **Base model** — 3B only; 8B/70B untested. (d) **Validation subsample** — `eval/loss` computed on first 50 val rows (T4 time budget). (e) **Point prediction** — greedy decoding only; no uncertainty interval. (f) **Quantisation** — 4-bit NF4 inference; full-precision results not reported. (g) **Frontier eval** — n=200 only (API cost). (h) **Regex post-processing** — fallback-to-zero inflates zero-shot Llama MAE. |
-| **Speaker Notes** | "These are honest constraints — most are direct consequences of a free-tier hardware budget rather than methodological lapses. Several map straight onto the future-work slide, which keeps the research programme coherent." |
 | **Recommended Visuals** | Two-column list (Methodological | Scope) with a small severity dot (low / medium) beside each item. |
 | **Time** | 1:00 |
+
+#### Speaker Notes
+
+These are honest constraints, grouped as methodological and scope. On the methodological side: a single training run with no multi-seed variance estimate, a base model fixed at three billion parameters, validation loss computed on the first fifty rows only, point predictions without uncertainty intervals, and 4-bit quantised inference rather than full precision. On the scope side: international men's T20 only, no domestic leagues, women's matches present in the archive but unused, and frontier evaluation capped at n equals 200 because of API cost. Most are direct consequences of a free-tier hardware and API budget rather than methodological lapses, and several map cleanly onto the future-work agenda on the next slide.
+
+#### Key Message
+
+The limitations are mostly hardware-budget consequences and map cleanly onto a coherent future-research agenda.
+
+#### Potential Examiner Question
+
+> "What is the single biggest threat to validity?"
+
+#### Suggested Response
+
+The single training run with no multi-seed variance estimate. I report point estimates only and lean on effect-size magnitude — a 45 % MAE reduction is well above any plausible single-seed noise — rather than claiming statistical significance. Multi-seed replication is the first item on the future-work list.
 
 ---
 
@@ -197,9 +377,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Restate the contribution and project it forward. |
 | **Key Content** | Three conclusions (mirroring Ch. 6): C1 fine-tuning transforms unusable zero-shot into competitive predictor; C2 small fine-tuned beats frontier zero-shot for this structured numerical task; C3 min-val-loss checkpoint generalises better at scale. Future work chips: extend to domestic leagues, scale to 7B/8B/70B, second-innings chase prediction, uncertainty via sampled completions, feature ablation, live data feed. |
-| **Speaker Notes** | "The contributions are not just empirical numbers — they include a reproducible pipeline, a novel feature, and a deployment template. The future-work items are scoped so any one of them could be a follow-up MSc or short paper." |
 | **Recommended Visuals** | Left half — three numbered conclusion cards; right half — six future-work pills. |
 | **Time** | 1:00 |
+
+#### Speaker Notes
+
+Three conclusions close the thesis, mirroring chapter six. First, fine-tuning transforms an essentially unusable zero-shot Llama into a competitive predictor. Second, a small fine-tuned open-source model beats a frontier zero-shot model on this structured numerical task. Third, at evaluation scale the minimum-validation-loss checkpoint generalises better than the final checkpoint, validating a principled selection rule. The contribution set is therefore empirical, methodological, and practical at once: a pipeline, a novel feature, a prompt schema, a fine-tuned model, and a deployment template. The future-work items — domestic leagues, larger base models, second-innings prediction, sampled-completion uncertainty, feature ablation, live-feed integration — are each scoped tightly enough to be a follow-up MSc or short paper.
+
+#### Key Message
+
+Fine-tuning a small open-source LLM is a more effective and economical alternative to prompting a frontier API for structured numerical sports forecasting.
+
+#### Potential Examiner Question
+
+> "Which future-work item would you prioritise first?"
+
+#### Suggested Response
+
+Second-innings chase prediction. It reuses the same pipeline and prompt schema with one additional field — the chase target — has obvious commercial demand, and adds a richer conditional structure that genuinely tests the LLM's grasp of asymmetric in-game dynamics under run-rate pressure.
 
 ---
 
@@ -209,9 +404,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Show real-world impact and that the work is shipped, not just simulated. |
 | **Key Content** | (a) **Cricket boards / analytics teams** — fine-tune in-house at ~£0/run, on-prem, no API fees. (b) **MLOps** — Modal serverless GPU (~30 s cold / ~2 s warm), Gradio HF Space for prototype, React + Tailwind + Azure SWA (Bicep + GitHub Actions OIDC) for broadcast UI. (c) **Live demo URL** (Azure SWA). (d) Deployment de-risks any future commercial integration. |
-| **Speaker Notes** | "I built a three-tier inference stack to prove the model is deployable, not only trainable. The Azure dashboard is live; the Modal service is invocable from a single HTTP call. The same template generalises to any small-LLM sports product." |
 | **Recommended Visuals** | Architecture diagram — *Browser → Azure SWA (React) → Modal (FastAPI + LoRA + Llama) → HF Hub (weights cache)* — with a screenshot inset of the T20 Intelligence Console dashboard. |
 | **Time** | 0:45 |
+
+#### Speaker Notes
+
+The thesis is shipped, not just simulated. The deployment is three-tiered. The model itself runs as a Modal serverless GPU service — about thirty seconds cold, two seconds warm — invocable from a single HTTP call, with scale-to-zero billing. A Gradio space on Hugging Face provides a public prototype interface for one-off requests. The production-style dashboard is a React application on Tailwind, deployed to Azure Static Web Apps via Bicep with GitHub Actions OIDC — no long-lived secrets in the repository. The same template generalises to any small-LLM sports product, and the cost-engineered architecture means a research prototype can be exposed publicly without a meaningful recurring hosting bill. The QR code on the slide opens the live demo.
+
+#### Key Message
+
+A three-tier serverless stack proves the work is deployable, with a cost profile that can host a public demo at near-zero recurring cost.
+
+#### Potential Examiner Question
+
+> "What is the operational latency in production?"
+
+#### Suggested Response
+
+Approximately thirty seconds cold-start while Modal mounts the container and loads the LoRA adapter, then about two seconds per warm request. The persistent `@app.cls` service amortises load cost across requests; setting `MIN_CONTAINERS=1` keeps a warm container at fixed cost when sub-second latency is required.
 
 ---
 
@@ -221,9 +431,24 @@ Can a compact open-source LLM, trained with parameter-efficient fine-tuning on n
 |-------|-------|
 | **Purpose** | Demonstrate citation discipline; signal the works the examiner is most likely to probe. |
 | **Key Content** | 8–10 key references in IEEE-style numbered list: Hu *LoRA* 2022; Dettmers *QLoRA* 2023; Brown *GPT-3* 2020; Touvron *LLaMA* 2023; Hegselmann *TabLLM* 2023; Gruver *LLM time-series* 2023; Huckerby *LLM football* 2024; Duckworth & Lewis 1998; Bailey & Clarke 2004; Cricsheet 2024; Vaswani *Attention* 2017. Plus a *Full bibliography in thesis Chapter 2 / References* footer. |
-| **Speaker Notes** | "Full bibliography is in the thesis. These are the works most relevant to the methodological and empirical claims. Happy to take questions." |
 | **Recommended Visuals** | Plain two-column numbered list; small QR/URL to the thesis PDF and to the public deployment. |
 | **Time** | 0:30 |
+
+#### Speaker Notes
+
+The full bibliography is in the thesis; this slide lists the works most likely to be raised in questioning, organised by methodological lineage. Hu's LoRA and Dettmers' QLoRA underpin the parameter-efficient fine-tuning recipe. Brown's GPT-3, Touvron's Llama, and Vaswani's transformer are the technical foundations on the LLM side. Hegselmann's TabLLM, Gruver's time-series work, and Huckerby's football LLM are the closest application precedents. Duckworth–Lewis and Bailey–Clarke anchor the cricket-modelling literature. The QR code opens the thesis PDF and the deployment URL. Thank you for your attention — I am happy to take questions.
+
+#### Key Message
+
+This thesis sits at the intersection of the QLoRA technical lineage and the serialise-then-fine-tune application lineage, brought together for the first time in cricket analytics.
+
+#### Potential Examiner Question
+
+> "Which reference is most foundational to your method?"
+
+#### Suggested Response
+
+Dettmers et al., QLoRA 2023. The 4-bit NF4 plus double-quantisation plus LoRA recipe is what makes a 3-billion-parameter fine-tune fit into a free-tier 16 GB T4 at all. Without QLoRA, the entire training loop — and therefore the headline result — would be infeasible on the hardware budget I was working under.
 
 ---
 
