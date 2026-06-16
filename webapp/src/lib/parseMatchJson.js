@@ -43,7 +43,7 @@ export function parseMatchJson(raw) {
       batter:         num('remaining_batters'),
       all_rounder:    num('remaining_all_rounders'),
       // Gradio JSON uses "remaining_utility"; also accept "remaining_utility_player"
-      utility_player: num('remaining_utility') || num('remaining_utility_player'),
+      utility_player: d['remaining_utility'] != null ? num('remaining_utility') : num('remaining_utility_player'),
       bowler:         num('remaining_bowlers'),
       unknown:        num('remaining_unknown'),
     },
