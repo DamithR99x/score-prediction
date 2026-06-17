@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.4.18)  16 JUN 2026 15:19
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.4.18)  17 JUN 2026 15:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -769,8 +769,8 @@ LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <9> not available
 ] [4
 
 ]
-Underfull \hbox (badness 10000) in alignment at lines 222--222
-[][][][][] 
+Underfull \hbox (badness 5417) in paragraph at lines 222--222
+[]|\TU/lmss/m/n/7 Perera–Swartz / Markov
  []
 
 [5
